@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.states.DefaultState",
+    "javaInterfaces": ["org.serverless.workflow.interfaces.State"],
+    "description": "Default State",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "type": {
+            "enum": ["EVENT", "OPERATION", "SWITCH", "DELAY", "PARALLEL", "END"],
+            "description": "state type"
+        },
+        "start": {
+            "type": "boolean",
+            "default": false,
+            "description": "Is the start event"
+        }
+    },
+    "required": ["type", "start"]
+}

@@ -1,0 +1,16 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.states.EndState",
+    "javaInterfaces": ["org.serverless.workflow.interfaces.State"],
+    "description": "End State",
+    "extends": {
+        "$ref": "defaultstate.json"
+    },
+    "properties": {
+        "status": {
+            "enum": ["SUCCESS", "FAILURE"],
+            "description": "Specifies the workflow termination status"
+        }
+    },
+    "required": []
+}

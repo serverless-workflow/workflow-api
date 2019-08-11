@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.choices.NotChoice",
+    "javaInterfaces": ["org.serverless.workflow.interfaces.Choice"],
+    "description": "Not Choice",
+    "properties": {
+        "Not": {
+            "type": "object",
+            "$ref": "defaultchoice.json",
+            "description": "Single Choice"
+        },
+        "next-state": {
+            "type": "string",
+            "description": "Specifies the name of the next state to transition to if there is a value match"
+        }
+    },
+    "required": []
+}

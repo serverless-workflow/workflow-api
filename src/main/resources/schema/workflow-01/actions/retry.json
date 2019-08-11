@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.actions.Retry",
+    "description": "Retry Definition",
+    "properties": {
+        "match": {
+            "type": "string",
+            "description": "Specifies the matching value for the result"
+        },
+        "retry-interval": {
+            "type": "integer",
+            "description": "Specifies retry interval"
+        },
+        "max-retry": {
+            "type": "integer",
+            "description": "Specifies the max retry"
+        },
+        "next-state": {
+            "type": "string",
+            "description": "Name of the next state to transition to when exceeding max-retry limit"
+        }
+    },
+    "required": []
+}

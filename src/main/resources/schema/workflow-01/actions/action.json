@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.actions.Action",
+    "description": "Action Definition",
+    "properties": {
+        "function": {
+            "type": "string",
+            "description": "Specifies the function that must be invoked"
+        },
+        "timeout": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Specifies the time period waiting for the events in the EVENTS-EXPRESSION"
+        },
+        "retry": {
+            "type": "object",
+            "$ref": "retry.json",
+            "description": "Specifies how the result from a function is to be handled"
+        }
+    },
+    "required": ["event-expression", "action-model", "next-state"]
+}

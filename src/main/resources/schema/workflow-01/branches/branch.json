@@ -1,0 +1,20 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.branches.Branch",
+    "description": "Branch Definition",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Branch name"
+        },
+        "states": {
+            "type": "array",
+            "description": "State Definitions",
+            "items": {
+                "type": "object",
+                "existingJavaType": "org.serverless.workflow.interfaces.State"
+            }
+        }
+    },
+    "required": ["event-expression", "action-model", "next-state"]
+}

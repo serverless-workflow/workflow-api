@@ -1,0 +1,25 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.choices.DefaultChoice",
+    "javaInterfaces": ["org.serverless.workflow.interfaces.Choice"],
+    "description": "Default Choice",
+    "properties": {
+        "path": {
+            "type": "string",
+            "description": "JSON Path that selects the value of the input data to be matched"
+        },
+        "value": {
+            "type": "string",
+            "description": "Matching value"
+        },
+        "operator": {
+            "enum": ["EQ", "LT", "LTEQ", "GT", "GTEQ", "StrEQ", "StrLT", "StrLTEQ", "StrGT", "StrGTEQ"],
+            "description": "Specifies how the input data is compared with the values"
+        },
+        "next-state": {
+            "type": "string",
+            "description": "Specifies the name of the next state to transition to if there is a value match"
+        }
+    },
+    "required": []
+}

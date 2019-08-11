@@ -1,0 +1,23 @@
+{
+  "states" : [ {
+    "events" : [ {
+      "event-expression" : "testEventExpression",
+      "timeout" : "testTimeout",
+      "action-mode" : "SEQUENTIAL",
+      "actions" : [ {
+        "function" : "testFunction",
+        "timeout" : 5,
+        "retry" : {
+          "match" : "testMatch",
+          "retry-interval" : 2,
+          "max-retry" : 10,
+          "next-state" : "testNextRetryState"
+        }
+      } ],
+      "next-state" : "testNextState"
+    } ],
+    "name" : "eventState",
+    "type" : "EVENT",
+    "start" : true
+  } ]
+}

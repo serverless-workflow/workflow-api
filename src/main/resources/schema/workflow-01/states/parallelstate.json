@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.states.ParallelState",
+    "javaInterfaces": ["org.serverless.workflow.interfaces.State"],
+    "description": "Consists of a number of states that are executed in parallel",
+    "extends": {
+        "$ref": "defaultstate.json"
+    },
+    "properties": {
+        "branches": {
+            "type": "array",
+            "description": "Branch Definitions",
+            "items": {
+                "type": "object",
+                "$ref": "../branches/branch.json"
+            }
+        },
+        "next-state": {
+            "type": "string",
+            "description": "Specifies the name of the next state to transition to after all branches have completed execution"
+        }
+    },
+    "required": []
+}

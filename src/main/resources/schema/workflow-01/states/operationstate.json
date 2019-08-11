@@ -1,0 +1,28 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.states.OperationState",
+    "javaInterfaces": ["org.serverless.workflow.interfaces.State"],
+    "description": "his state allows one or more functions to run in sequence or in parallel without waiting for any event.",
+    "extends": {
+        "$ref": "defaultstate.json"
+    },
+    "properties": {
+        "action-mode": {
+            "enum": ["SEQUENTIAL", "PARALLEL"],
+            "description": "Specifies whether functions are executed in sequence or in parallel."
+        },
+        "actions": {
+            "type": "array",
+            "description": "Actions Definitions",
+            "items": {
+                "type": "object",
+                "$ref": "../actions/action.json"
+            }
+        },
+        "next-state": {
+            "type": "string",
+            "description": "Name of the next state to transition to after all the actions for the matching event have been successfully executed"
+        }
+    },
+    "required": []
+}

@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.states.DelayState",
+    "javaInterfaces": ["org.serverless.workflow.interfaces.State"],
+    "description": "This state is used to wait for events from event sources and then to invoke one or more functions to run in sequence or in parallel.",
+    "extends": {
+        "$ref": "defaultstate.json"
+    },
+    "properties": {
+        "time-delay": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Amount of time in seconds to delay in this state"
+        },
+        "next-state": {
+            "type": "string",
+            "description": "Name of the next state to transition to after all the actions for the matching event have been successfully executed"
+        }
+    },
+    "required": []
+}

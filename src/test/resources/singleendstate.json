@@ -1,0 +1,8 @@
+{
+    "states" : [ {
+        "status" : "SUCCESS",
+        "name" : "endstate",
+        "type" : "END",
+        "start" : false
+    } ]
+}

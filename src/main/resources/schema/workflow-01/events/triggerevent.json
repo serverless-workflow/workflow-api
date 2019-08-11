@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.events.TriggerEvent",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "CloudEvent name"
+        },
+        "source": {
+            "type": "string",
+            "description": "CloudEvent source UUID"
+        },
+        "eventID": {
+            "type": "string",
+            "description": "CloudEvent eventID"
+        },
+        "correlation-token": {
+            "type": "string",
+            "description": "Path string to an identity label field in the event message"
+        }
+    },
+    "required": ["name"]
+}

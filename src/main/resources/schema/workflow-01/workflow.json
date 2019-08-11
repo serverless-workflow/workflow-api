@@ -1,0 +1,28 @@
+{
+    "$id": "https://wg-serverless.org/workflow.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Workflow is a vendor-neutral specification for defining the format/primitives that the users can use to specify/describe their serverless application flow.",
+    "required": ["states"],
+    "type": "object",
+    "javaType": "org.serverless.workflow.Workflow",
+    "javaInterfaces": ["java.io.Serializable"],
+    "properties": {
+        "trigger-defs": {
+            "type": "array",
+            "description": "Trigger Definitions",
+            "items": {
+                "type": "object",
+                "$ref": "events/triggerevent.json"
+            }
+        },
+        "states": {
+            "type": "array",
+            "description": "State Definitions",
+            "items": {
+                "type": "object",
+                "existingJavaType": "org.serverless.workflow.interfaces.State"
+            }
+        }
+    },
+    "required": ["states"]
+}

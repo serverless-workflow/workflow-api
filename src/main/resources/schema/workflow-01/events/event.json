@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "javaType": "org.serverless.workflow.events.Event",
+    "description": "Event associated with a State",
+    "properties": {
+        "event-expression": {
+            "type": "string",
+            "description": "Boolean expression which consists of one or more Event operands and the Boolean operators"
+        },
+        "timeout": {
+            "type": "string",
+            "description": "Specifies the time period waiting for the events in the EVENTS-EXPRESSION"
+        },
+        "action-mode": {
+            "enum": ["SEQUENTIAL", "PARALLEL"],
+            "description": "Specifies whether functions are executed in sequence or in parallel"
+        },
+        "actions": {
+            "type": "array",
+            "description": "Action Definitions",
+            "items": {
+                "type": "object",
+                "$ref": "../actions/action.json"
+            }
+        },
+        "next-state": {
+            "type": "string",
+            "description": "Next state name"
+        }
+    },
+    "required": ["event-expression", "action-model", "next-state"]
+}
