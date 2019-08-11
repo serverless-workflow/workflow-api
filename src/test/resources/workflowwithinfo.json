@@ -1,0 +1,8 @@
+{
+  "id" : "testuid",
+  "name" : "testname",
+  "version" : "testversion",
+  "description" : "testdescription",
+  "owner" : "testOwner",
+  "states" : [ ]
+}

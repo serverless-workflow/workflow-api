@@ -9,11 +9,20 @@ import org.junit.jupiter.api.Test;
 import org.serverless.workflow.Workflow;
 import org.serverless.workflow.actions.Action;
 import org.serverless.workflow.actions.Retry;
+import org.serverless.workflow.branches.Branch;
+import org.serverless.workflow.choices.AndChoice;
+import org.serverless.workflow.choices.DefaultChoice;
 import org.serverless.workflow.events.Event;
+import org.serverless.workflow.events.TriggerEvent;
+import org.serverless.workflow.interfaces.Choice;
 import org.serverless.workflow.interfaces.State;
+import org.serverless.workflow.states.DelayState;
 import org.serverless.workflow.states.EndState;
 import org.serverless.workflow.states.EndState.Status;
 import org.serverless.workflow.states.EventState;
+import org.serverless.workflow.states.OperationState;
+import org.serverless.workflow.states.ParallelState;
+import org.serverless.workflow.states.SwitchState;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.servlerless.workflow.util.IsEqualJSON.*;
@@ -27,6 +36,31 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("emptyworkflow.json")));
+    }
+
+    @Test
+    public void simpleWorkflowWithInfo() {
+        Workflow workflow = new Workflow().withId("testuid")
+                .withDescription("testdescription")
+                .withName("testname")
+                .withVersion("testversion")
+                .withOwner("testOwner");
+
+        assertNotNull(toJsonString(workflow));
+        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("workflowwithinfo.json")));
+    }
+
+    @Test
+    public void triggerTest() {
+        Workflow workflow = new Workflow().withTriggerDefs(
+                Arrays.asList(
+                    new TriggerEvent().withName("testtriggerevent").withEventID("testeventid")
+                    .withCorrelationToken("testcorrelationtoken").withSource("testsource")
+                )
+        );
+
+        assertNotNull(toJsonString(workflow));
+        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singletriggerevent.json")));
     }
 
     @Test
@@ -45,7 +79,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     public void eventStateTest() {
 
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
-            add(new EventState().withName("eventState").withStart(true)
+            add(new EventState().withStart(true)
                         .withEvents(Arrays.asList(
                                 new Event().withEventExpression("testEventExpression").withTimeout("testTimeout")
                                         .withActionMode(Event.ActionMode.SEQUENTIAL)
@@ -63,6 +97,91 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singlestateevent.json")));
 
+
+    }
+
+    @Test
+    public void delayStateTest() {
+        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
+            add(new DelayState().withStart(false).withNextState("testNextState").withTimeDelay(5));
+        }});
+
+        assertNotNull(toJsonString(workflow));
+        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singledelaystate.json")));
+
+    }
+
+    @Test
+    public void operationStateTest() {
+        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
+            add(new OperationState().withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
+                        .withActions(Arrays.asList(
+                                new Action().withFunction("testFunction")
+                                        .withTimeout(5)
+                                        .withRetry( new Retry().withMatch("testMatch").withMaxRetry(10)
+                                                            .withRetryInterval(2)
+                                                            .withNextState("testNextRetryState"))
+                        )));
+        }});
+
+        assertNotNull(toJsonString(workflow));
+        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singleoperationstate.json")));
+
+    }
+
+    @Test
+    public void parallellStateTest() {
+        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
+            add(new ParallelState().withStart(true).withNextState("testnextstate")
+                        .withBranches(Arrays.asList(
+                                new Branch().withName("firsttestbranch").withStates(
+                                        new ArrayList<State>() {{
+                                            add(new OperationState().withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
+                                                        .withActions(Arrays.asList(
+                                                                new Action().withFunction("testFunction")
+                                                                        .withTimeout(5)
+                                                                        .withRetry( new Retry().withMatch("testMatch").withMaxRetry(10)
+                                                                                            .withRetryInterval(2)
+                                                                                            .withNextState("testNextRetryState"))
+                                                        )));
+                                        }}
+                                ),
+                                new Branch().withName("secondtestbranch").withStates(
+                                        new ArrayList<State>() {{
+                                            add(new DelayState().withStart(false).withNextState("testNextState").withTimeDelay(5));
+                                        }}
+                                )
+                        )));
+        }});
+
+        assertNotNull(toJsonString(workflow));
+        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singleparallelstate.json")));
+
+    }
+
+    @Test
+    public void switchStateTest() {
+        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
+            add(
+                    new SwitchState().withDefault("defaultteststate").withStart(false).withChoices(
+                            new ArrayList<Choice>() {{
+                                add(
+                                        new AndChoice().withNextState("testnextstate").withAnd(
+                                                Arrays.asList(
+                                                        new DefaultChoice().withNextState("testnextstate")
+                                                        .withOperator(DefaultChoice.Operator.EQ)
+                                                        .withPath("testpath")
+                                                        .withValue("testvalue")
+                                                )
+                                        )
+                                );
+                            }}
+                    )
+            );
+        }});
+
+        assertNotNull(toJsonString(workflow));
+        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singlewitchstate.json")));
 
     }
 }

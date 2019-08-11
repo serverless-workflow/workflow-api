@@ -1,0 +1,19 @@
+{
+  "states" : [ {
+    "action-mode" : "SEQUENTIAL",
+    "actions" : [ {
+      "function" : "testFunction",
+      "timeout" : 5,
+      "retry" : {
+        "match" : "testMatch",
+        "retry-interval" : 2,
+        "max-retry" : 10,
+        "next-state" : "testNextRetryState"
+      }
+    } ],
+    "next-state" : "testnextstate",
+    "name" : "operationstate",
+    "type" : "OPERATION",
+    "start" : true
+  } ]
+}

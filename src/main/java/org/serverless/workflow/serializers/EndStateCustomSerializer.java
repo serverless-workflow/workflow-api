@@ -25,7 +25,7 @@ public class EndStateCustomSerializer extends StdSerializer<EndState> {
         // set defaults for end state
         endState.setStart(false);
         endState.setType(DefaultState.Type.END);
-        if(endState.getName() == null) {
+        if(endState.getName() == null || endState.getName().length() < 1) {
             endState.setName("endstate");
         }
 

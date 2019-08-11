@@ -1,0 +1,9 @@
+{
+  "states" : [ {
+    "time-delay" : 5,
+    "next-state" : "testNextState",
+    "name" : "delaystate",
+    "type" : "DELAY",
+    "start" : false
+  } ]
+}

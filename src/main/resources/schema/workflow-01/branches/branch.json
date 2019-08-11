@@ -16,5 +16,5 @@
             }
         }
     },
-    "required": ["event-expression", "action-model", "next-state"]
+    "required": ["name"]
 }

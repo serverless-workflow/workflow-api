@@ -16,7 +16,7 @@
       } ],
       "next-state" : "testNextState"
     } ],
-    "name" : "eventState",
+    "name" : "eventstate",
     "type" : "EVENT",
     "start" : true
   } ]

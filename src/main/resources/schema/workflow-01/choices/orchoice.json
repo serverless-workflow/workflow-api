@@ -17,5 +17,5 @@
             "description": "Specifies the name of the next state to transition to if there is a value match"
         }
     },
-    "required": []
+    "required": ["Or"]
 }

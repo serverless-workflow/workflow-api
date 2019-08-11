@@ -1,0 +1,37 @@
+{
+  "states" : [ {
+    "branches" : [ {
+      "name" : "firsttestbranch",
+      "states" : [ {
+        "action-mode" : "SEQUENTIAL",
+        "actions" : [ {
+          "function" : "testFunction",
+          "timeout" : 5,
+          "retry" : {
+            "match" : "testMatch",
+            "retry-interval" : 2,
+            "max-retry" : 10,
+            "next-state" : "testNextRetryState"
+          }
+        } ],
+        "next-state" : "testnextstate",
+        "name" : "operationstate",
+        "type" : "OPERATION",
+        "start" : true
+      } ]
+    }, {
+      "name" : "secondtestbranch",
+      "states" : [ {
+        "time-delay" : 5,
+        "next-state" : "testNextState",
+        "name" : "delaystate",
+        "type" : "DELAY",
+        "start" : false
+      } ]
+    } ],
+    "next-state" : "testnextstate",
+    "name" : "parallelstate",
+    "type" : "PARALLEL",
+    "start" : true
+  } ]
+}

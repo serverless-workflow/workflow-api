@@ -7,6 +7,26 @@
     "javaType": "org.serverless.workflow.Workflow",
     "javaInterfaces": ["java.io.Serializable"],
     "properties": {
+        "id": {
+            "type": "string",
+            "description": "Workflow unique id"
+        },
+        "name": {
+            "type": "string",
+            "description": "Workflow name"
+        },
+        "description": {
+            "type": "string",
+            "description": "Workflow description"
+        },
+        "version": {
+            "type": "string",
+            "description": "Workflow version"
+        },
+        "owner": {
+            "type": "string",
+            "description": "Workflow owner"
+        },
         "trigger-defs": {
             "type": "array",
             "description": "Trigger Definitions",

@@ -24,6 +24,9 @@ public class EventStateCustomSerializer  extends StdSerializer<EventState> {
 
         // set defaults for end state
         eventState.setType(DefaultState.Type.EVENT);
+        if(eventState.getName() == null || eventState.getName().length() < 1) {
+            eventState.setName("eventstate");
+        }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider, SimpleType.construct(EventState.class)).serialize(eventState, gen, provider);

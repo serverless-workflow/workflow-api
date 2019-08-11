@@ -28,5 +28,5 @@
             "description": "Next state name"
         }
     },
-    "required": ["event-expression", "action-model", "next-state"]
+    "required": []
 }

@@ -18,5 +18,5 @@
             "description": "Specifies how the result from a function is to be handled"
         }
     },
-    "required": ["event-expression", "action-model", "next-state"]
+    "required": []
 }
