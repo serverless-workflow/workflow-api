@@ -26,6 +26,9 @@
         "next-state": {
             "type": "string",
             "description": "Next state name"
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": []

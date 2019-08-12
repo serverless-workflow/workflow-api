@@ -20,6 +20,9 @@ package org.servlerless.workflow;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.serverless.workflow.Workflow;
@@ -66,6 +69,25 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
                    equalToJSONInFile(getResourcePathFor("workflowwithinfo.json")));
+    }
+
+    @Test
+    public void testSimpleWorkflowWithInfoAndMetadata() {
+        Workflow workflow = new Workflow().withId("testuid")
+                .withDescription("testdescription")
+                .withName("testname")
+                .withVersion("testversion")
+                .withOwner("testOwner")
+                .withMetadata(
+                        Stream.of(new Object[][] {
+                                { "key1", "value1" },
+                                { "key2", "value2" },
+                        }).collect(Collectors.toMap(data -> (String) data[0], data -> (String) data[1]))
+                );
+
+        assertNotNull(toJsonString(workflow));
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("workflowwithinfoandmetadata.json")));
     }
 
     @Test

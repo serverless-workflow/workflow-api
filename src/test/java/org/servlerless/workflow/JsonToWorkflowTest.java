@@ -78,6 +78,32 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     }
 
     @Test
+    public void testSimpleWorkflowWithInfoAndMetadata() {
+
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("workflowwithinfoandmetadata.json")));
+        assertNotNull(workflow);
+        assertThat(workflow.getTriggerDefs().size(),
+                   is(0));
+        assertNotNull(workflow.getStates());
+        assertThat(workflow.getStates().size(),
+                   is(0));
+
+        assertEquals("testuid",
+                     workflow.getId());
+        assertEquals("testname",
+                     workflow.getName());
+        assertEquals("testversion",
+                     workflow.getVersion());
+        assertEquals("testdescription",
+                     workflow.getDescription());
+
+        assertNotNull(workflow.getMetadata());
+        assertEquals(2, workflow.getMetadata().size());
+        assertEquals("value1", workflow.getMetadata().get("key1"));
+        assertEquals("value2", workflow.getMetadata().get("key2"));
+    }
+
+    @Test
     public void testTrigger() {
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("singletriggerevent.json")));
         assertNotNull(workflow);

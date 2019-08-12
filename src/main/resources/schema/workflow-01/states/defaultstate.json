@@ -15,6 +15,9 @@
             "type": "boolean",
             "default": false,
             "description": "Is the start event"
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": ["type", "start"]

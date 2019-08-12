@@ -1,0 +1,12 @@
+{
+  "id" : "testuid",
+  "name" : "testname",
+  "version" : "testversion",
+  "description" : "testdescription",
+  "owner" : "testOwner",
+  "states" : [ ],
+  "metadata" : {
+    "key1": "value1",
+    "key2": "value2"
+  }
+}

@@ -17,6 +17,13 @@
         "correlation-token": {
             "type": "string",
             "description": "Path string to an identity label field in the event message"
+        },
+        "message": {
+            "type": "string",
+            "description": "Trigger event message"
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": ["name"]

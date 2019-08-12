@@ -15,6 +15,9 @@
         "next-state": {
             "type": "string",
             "description": "Name of the next state to transition to after all the actions for the matching event have been successfully executed"
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": []

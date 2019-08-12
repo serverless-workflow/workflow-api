@@ -18,6 +18,9 @@
         "next-state": {
             "type": "string",
             "description": "Name of the next state to transition to when exceeding max-retry limit"
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": []

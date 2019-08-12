@@ -14,6 +14,9 @@
                 "type": "object",
                 "$ref": "../events/event.json"
             }
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": []

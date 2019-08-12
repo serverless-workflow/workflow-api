@@ -10,6 +10,9 @@
         "status": {
             "enum": ["SUCCESS", "FAILURE"],
             "description": "Specifies the workflow termination status"
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": []

@@ -14,6 +14,9 @@
                 "type": "object",
                 "existingJavaType": "org.serverless.workflow.interfaces.State"
             }
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": ["name"]

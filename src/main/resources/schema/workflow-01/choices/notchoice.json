@@ -12,6 +12,9 @@
         "next-state": {
             "type": "string",
             "description": "Specifies the name of the next state to transition to if there is a value match"
+        },
+        "metadata": {
+            "$ref": "../metadata/metadata.json"
         }
     },
     "required": ["Not"]

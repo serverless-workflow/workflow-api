@@ -27,6 +27,9 @@
             "type": "string",
             "description": "Workflow owner"
         },
+        "metadata": {
+            "$ref": "metadata/metadata.json"
+        },
         "trigger-defs": {
             "type": "array",
             "description": "Trigger Definitions",
