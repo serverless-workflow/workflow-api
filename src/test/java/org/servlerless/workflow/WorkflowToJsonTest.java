@@ -31,7 +31,7 @@ import static org.servlerless.workflow.util.IsEqualJSON.*;
 public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
-    public void emptyWorkflowTest() {
+    public void testEmptyWorkflow() {
         Workflow workflow = new Workflow();
 
         assertNotNull(toJsonString(workflow));
@@ -39,7 +39,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void simpleWorkflowWithInfo() {
+    public void testSimpleWorkflowWithInfo() {
         Workflow workflow = new Workflow().withId("testuid")
                 .withDescription("testdescription")
                 .withName("testname")
@@ -51,7 +51,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void triggerTest() {
+    public void testTrigger() {
         Workflow workflow = new Workflow().withTriggerDefs(
                 Arrays.asList(
                     new TriggerEvent().withName("testtriggerevent").withEventID("testeventid")
@@ -64,7 +64,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void endStateTest() {
+    public void testEndState() {
 
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
             add(new EndState().withStatus(Status.SUCCESS));
@@ -76,7 +76,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void eventStateTest() {
+    public void testEventState() {
 
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
             add(new EventState().withStart(true)
@@ -101,7 +101,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void delayStateTest() {
+    public void testDelayState() {
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
             add(new DelayState().withStart(false).withNextState("testNextState").withTimeDelay(5));
         }});
@@ -112,7 +112,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void operationStateTest() {
+    public void testOperationState() {
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
             add(new OperationState().withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
                         .withActions(Arrays.asList(
@@ -130,7 +130,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void parallellStateTest() {
+    public void testParallellState() {
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
             add(new ParallelState().withStart(true).withNextState("testnextstate")
                         .withBranches(Arrays.asList(
@@ -160,7 +160,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void switchStateTest() {
+    public void testSwitchState() {
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
             add(
                     new SwitchState().withDefault("defaultteststate").withStart(false).withChoices(
@@ -181,7 +181,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         }});
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singlewitchstate.json")));
+        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singleswitchstateAndChoice.json")));
 
     }
 }

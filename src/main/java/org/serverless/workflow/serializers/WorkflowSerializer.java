@@ -1,7 +1,6 @@
 package org.serverless.workflow.serializers;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -10,12 +9,12 @@ import org.serverless.workflow.Workflow;
 import org.serverless.workflow.events.TriggerEvent;
 import org.serverless.workflow.interfaces.State;
 
-public class WorkflowCustomSerializer extends StdSerializer<Workflow> {
-    public WorkflowCustomSerializer() {
+public class WorkflowSerializer extends StdSerializer<Workflow> {
+    public WorkflowSerializer() {
         this(Workflow.class);
     }
 
-    protected WorkflowCustomSerializer(Class<Workflow> t) {
+    protected WorkflowSerializer(Class<Workflow> t) {
         super(t);
     }
 

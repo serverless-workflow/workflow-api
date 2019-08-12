@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.type.SimpleType;
 import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.EventState;
 
-public class EventStateCustomSerializer  extends StdSerializer<EventState> {
-    public EventStateCustomSerializer() {
+public class EventStateSerializer extends StdSerializer<EventState> {
+    public EventStateSerializer() {
         this(EventState.class);
     }
 
-    protected EventStateCustomSerializer(Class<EventState> t) {
+    protected EventStateSerializer(Class<EventState> t) {
         super(t);
     }
 

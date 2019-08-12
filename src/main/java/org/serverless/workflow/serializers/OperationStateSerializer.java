@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.type.SimpleType;
 import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.OperationState;
 
-public class OperationStateCustomSerializer extends StdSerializer<OperationState> {
-    public OperationStateCustomSerializer() {
+public class OperationStateSerializer extends StdSerializer<OperationState> {
+    public OperationStateSerializer() {
         this(OperationState.class);
     }
 
-    protected OperationStateCustomSerializer(Class<OperationState> t) {
+    protected OperationStateSerializer(Class<OperationState> t) {
         super(t);
     }
 

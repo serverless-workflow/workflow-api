@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.type.SimpleType;
 import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.ParallelState;
 
-public class ParallelStateCustomSerializer extends StdSerializer<ParallelState> {
-    public ParallelStateCustomSerializer() {
+public class ParallelStateSerializer extends StdSerializer<ParallelState> {
+    public ParallelStateSerializer() {
         this(ParallelState.class);
     }
 
-    protected ParallelStateCustomSerializer(Class<ParallelState> t) {
+    protected ParallelStateSerializer(Class<ParallelState> t) {
         super(t);
     }
 

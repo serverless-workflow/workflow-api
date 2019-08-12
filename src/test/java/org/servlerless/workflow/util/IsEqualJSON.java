@@ -8,13 +8,6 @@ import org.skyscreamer.jsonassert.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * A Matcher for comparing JSON. Example usage:
- * 
- * <pre>
- * assertThat(new String[] { "foo", "bar" }, equalToJSON("[\"foo\", \"bar\"]"));
- * </pre>
- */
 public class IsEqualJSON extends DiagnosingMatcher<Object> {
 
     private final String expectedJSON;
@@ -25,11 +18,6 @@ public class IsEqualJSON extends DiagnosingMatcher<Object> {
         this.jsonCompareMode = JSONCompareMode.STRICT;
     }
 
-    /**
-     * Changes this matcher's JSON compare mode to lenient.
-     * 
-     * @return this matcher
-     */
     public IsEqualJSON leniently() {
         jsonCompareMode = JSONCompareMode.LENIENT;
         return this;
@@ -53,12 +41,6 @@ public class IsEqualJSON extends DiagnosingMatcher<Object> {
         }
     }
 
-    /**
-     * Converts the specified object into a JSON string.
-     * 
-     * @param o the object to convert
-     * @return the JSON string
-     */
     private static String toJSONString(final Object o) {
         try {
             return o instanceof String ? (String) o : new ObjectMapper().writeValueAsString(o);
@@ -67,12 +49,6 @@ public class IsEqualJSON extends DiagnosingMatcher<Object> {
         }
     }
 
-    /**
-     * Reads the specified file into a string.
-     * 
-     * @param path the path to read
-     * @return the contents of the file
-     */
     private static String getFileContents(final Path path) {
         try {
             return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
@@ -81,50 +57,16 @@ public class IsEqualJSON extends DiagnosingMatcher<Object> {
         }
     }
 
-    /**
-     * Creates a matcher that matches when the examined object is equal to the
-     * specified JSON string. For example:
-     * 
-     * <pre>
-     * assertThat(new String[] { "foo", "bar" }, equalToJSON("[\"foo\", \"bar\"]"));
-     * </pre>
-     *
-     * @param expectedJSON the expected JSON string
-     * @return the JSON matcher
-     */
     @Factory
     public static IsEqualJSON equalToJSON(final String expectedJSON) {
         return new IsEqualJSON(expectedJSON);
     }
 
-    /**
-     * Creates a matcher that matches when the examined object is equal to the JSON
-     * in the specified file. For example:
-     * 
-     * <pre>
-     * assertThat(new String[] {"foo", "bar"},
-     *            equalToJSONInFile(Paths.get("/tmp/foo.json"));
-     * </pre>
-     *
-     * @param expectedJSON the path containing the expected JSON
-     * @return the JSON matcher
-     */
     @Factory
     public static IsEqualJSON equalToJSONInFile(final Path expectedPath) {
         return equalToJSON(getFileContents(expectedPath));
     }
 
-    /**
-     * Creates a matcher that matches when the examined object is equal to the JSON
-     * contained in the file with the specified name. For example:
-     * 
-     * <pre>
-     * assertThat(new String[] { "foo", "bar" }, equalToJSONInFile("/tmp/foo.json"));
-     * </pre>
-     *
-     * @param expectedJSON the name of the file containing the expected JSON
-     * @return the JSON matcher
-     */
     @Factory
     public static IsEqualJSON equalToJSONInFile(final String expectedFileName) {
         return equalToJSONInFile(Paths.get(expectedFileName));

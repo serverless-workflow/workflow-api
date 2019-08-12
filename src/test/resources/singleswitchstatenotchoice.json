@@ -1,0 +1,17 @@
+{
+  "states" : [ {
+    "choices" : [ {
+      "Not" : {
+        "path" : "testpath",
+        "value" : "testvalue",
+        "operator" : "EQ",
+        "next-state" : "testnextstate"
+      },
+      "next-state" : "testnextstate"
+    } ],
+    "default" : "defaultteststate",
+    "name" : "switchstate",
+    "type" : "SWITCH",
+    "start" : false
+  } ]
+}

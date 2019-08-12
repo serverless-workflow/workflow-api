@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.type.SimpleType;
 import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.SwitchState;
 
-public class SwitchStateCustomSerializer extends StdSerializer<SwitchState> {
-    public SwitchStateCustomSerializer() {
+public class SwitchStateSerializer extends StdSerializer<SwitchState> {
+    public SwitchStateSerializer() {
         this(SwitchState.class);
     }
 
-    protected SwitchStateCustomSerializer(Class<SwitchState> t) {
+    protected SwitchStateSerializer(Class<SwitchState> t) {
         super(t);
     }
 

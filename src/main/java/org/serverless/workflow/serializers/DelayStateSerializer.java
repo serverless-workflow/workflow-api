@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.type.SimpleType;
 import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.DelayState;
 
-public class DelayStateCustomSerializer extends StdSerializer<DelayState> {
-    public DelayStateCustomSerializer() {
+public class DelayStateSerializer extends StdSerializer<DelayState> {
+    public DelayStateSerializer() {
         this(DelayState.class);
     }
 
-    protected DelayStateCustomSerializer(Class<DelayState> t) {
+    protected DelayStateSerializer(Class<DelayState> t) {
         super(t);
     }
 

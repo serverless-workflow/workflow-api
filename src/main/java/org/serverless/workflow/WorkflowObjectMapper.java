@@ -3,13 +3,17 @@ package org.serverless.workflow;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.serverless.workflow.serializers.DelayStateCustomSerializer;
-import org.serverless.workflow.serializers.EndStateCustomSerializer;
-import org.serverless.workflow.serializers.EventStateCustomSerializer;
-import org.serverless.workflow.serializers.OperationStateCustomSerializer;
-import org.serverless.workflow.serializers.ParallelStateCustomSerializer;
-import org.serverless.workflow.serializers.SwitchStateCustomSerializer;
-import org.serverless.workflow.serializers.WorkflowCustomSerializer;
+import org.serverless.workflow.deserializers.ChoiceDeserializer;
+import org.serverless.workflow.deserializers.StateDeserializer;
+import org.serverless.workflow.interfaces.Choice;
+import org.serverless.workflow.interfaces.State;
+import org.serverless.workflow.serializers.DelayStateSerializer;
+import org.serverless.workflow.serializers.EndStateSerializer;
+import org.serverless.workflow.serializers.EventStateSerializer;
+import org.serverless.workflow.serializers.OperationStateSerializer;
+import org.serverless.workflow.serializers.ParallelStateSerializer;
+import org.serverless.workflow.serializers.SwitchStateSerializer;
+import org.serverless.workflow.serializers.WorkflowSerializer;
 
 public class WorkflowObjectMapper extends ObjectMapper {
     public WorkflowObjectMapper()
@@ -17,14 +21,19 @@ public class WorkflowObjectMapper extends ObjectMapper {
         super();
         configure(SerializationFeature.INDENT_OUTPUT, true);
 
+        // serializers
         SimpleModule module = new SimpleModule("workflow-module");
-        module.addSerializer(new WorkflowCustomSerializer());
-        module.addSerializer(new EndStateCustomSerializer());
-        module.addSerializer(new EventStateCustomSerializer());
-        module.addSerializer(new DelayStateCustomSerializer());
-        module.addSerializer(new OperationStateCustomSerializer());
-        module.addSerializer(new ParallelStateCustomSerializer());
-        module.addSerializer(new SwitchStateCustomSerializer());
+        module.addSerializer(new WorkflowSerializer());
+        module.addSerializer(new EndStateSerializer());
+        module.addSerializer(new EventStateSerializer());
+        module.addSerializer(new DelayStateSerializer());
+        module.addSerializer(new OperationStateSerializer());
+        module.addSerializer(new ParallelStateSerializer());
+        module.addSerializer(new SwitchStateSerializer());
+
+        // deserializers
+        module.addDeserializer(State.class, new StateDeserializer());
+        module.addDeserializer(Choice.class, new ChoiceDeserializer());
 
         registerModule(module);
     }

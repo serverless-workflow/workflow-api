@@ -1,6 +1,9 @@
 package org.servlerless.workflow;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,11 +30,14 @@ public class BaseWorkflowTest {
         return absolutePath + File.separator + file;
     }
 
+    public Path getResourcePath(String file) {
+        return Paths.get(absolutePath + File.separator + file);
+    }
+
     public String toJsonString(Workflow workflow) {
         try {
             return objectMapper.writeValueAsString(workflow);
         } catch (JsonProcessingException e) {
-            System.out.println("*********** ERROR: " + e.getMessage());
             return null;
         }
 
@@ -50,6 +56,14 @@ public class BaseWorkflowTest {
             return objectMapper.readTree(json);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public static String getFileContents(final Path path) {
+        try {
+            return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
