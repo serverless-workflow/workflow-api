@@ -15,6 +15,7 @@ import org.serverless.workflow.choices.OrChoice;
 import org.serverless.workflow.interfaces.Choice;
 
 public class ChoiceDeserializer extends StdDeserializer<Choice> {
+
     public ChoiceDeserializer() {
         this(null);
     }
@@ -24,20 +25,25 @@ public class ChoiceDeserializer extends StdDeserializer<Choice> {
     }
 
     @Override
-    public Choice deserialize(JsonParser jp, DeserializationContext ctxt)
+    public Choice deserialize(JsonParser jp,
+                              DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
 
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode node = jp.getCodec().readTree(jp);
 
-        if(node.get("And") != null) {
-            return mapper.treeToValue(node, AndChoice.class);
-        } else if(node.get("Not") != null) {
-            return mapper.treeToValue(node, NotChoice.class);
-        } else if(node.get("Or") != null) {
-            return mapper.treeToValue(node, OrChoice.class);
+        if (node.get("And") != null) {
+            return mapper.treeToValue(node,
+                                      AndChoice.class);
+        } else if (node.get("Not") != null) {
+            return mapper.treeToValue(node,
+                                      NotChoice.class);
+        } else if (node.get("Or") != null) {
+            return mapper.treeToValue(node,
+                                      OrChoice.class);
         } else {
-            return mapper.treeToValue(node, DefaultChoice.class);
+            return mapper.treeToValue(node,
+                                      DefaultChoice.class);
         }
     }
 }

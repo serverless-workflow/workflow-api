@@ -11,6 +11,7 @@ import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.EventState;
 
 public class EventStateSerializer extends StdSerializer<EventState> {
+
     public EventStateSerializer() {
         this(EventState.class);
     }
@@ -20,15 +21,20 @@ public class EventStateSerializer extends StdSerializer<EventState> {
     }
 
     @Override
-    public void serialize(EventState eventState, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(EventState eventState,
+                          JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
 
         // set defaults for end state
         eventState.setType(DefaultState.Type.EVENT);
-        if(eventState.getName() == null || eventState.getName().length() < 1) {
+        if (eventState.getName() == null || eventState.getName().length() < 1) {
             eventState.setName("eventstate");
         }
 
         // serialize after setting default bean values...
-        BeanSerializerFactory.instance.createSerializer(provider, SimpleType.construct(EventState.class)).serialize(eventState, gen, provider);
+        BeanSerializerFactory.instance.createSerializer(provider,
+                                                        SimpleType.construct(EventState.class)).serialize(eventState,
+                                                                                                          gen,
+                                                                                                          provider);
     }
 }

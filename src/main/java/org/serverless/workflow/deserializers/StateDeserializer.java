@@ -18,6 +18,7 @@ import org.serverless.workflow.states.ParallelState;
 import org.serverless.workflow.states.SwitchState;
 
 public class StateDeserializer extends StdDeserializer<State> {
+
     public StateDeserializer() {
         this(null);
     }
@@ -27,7 +28,8 @@ public class StateDeserializer extends StdDeserializer<State> {
     }
 
     @Override
-    public State deserialize(JsonParser jp, DeserializationContext ctxt)
+    public State deserialize(JsonParser jp,
+                             DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
 
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
@@ -35,20 +37,27 @@ public class StateDeserializer extends StdDeserializer<State> {
         String type = node.get("type").asText();
 
         // based on statetype return the specific state impl
-        if(type.equals("EVENT")) {
-            return mapper.treeToValue(node, EventState.class);
-        } else if(type.equalsIgnoreCase("OPERATION")) {
-            return mapper.treeToValue(node, OperationState.class);
-        } else if(type.equalsIgnoreCase("SWITCH")) {
-            return mapper.treeToValue(node, SwitchState.class);
-        } else if(type.equalsIgnoreCase("DELAY")) {
-            return mapper.treeToValue(node, DelayState.class);
-        } else if(type.equalsIgnoreCase("PARALLEL")) {
-            return mapper.treeToValue(node, ParallelState.class);
-        } else if(type.equalsIgnoreCase("END")) {
-            return mapper.treeToValue(node, EndState.class);
+        if (type.equals("EVENT")) {
+            return mapper.treeToValue(node,
+                                      EventState.class);
+        } else if (type.equalsIgnoreCase("OPERATION")) {
+            return mapper.treeToValue(node,
+                                      OperationState.class);
+        } else if (type.equalsIgnoreCase("SWITCH")) {
+            return mapper.treeToValue(node,
+                                      SwitchState.class);
+        } else if (type.equalsIgnoreCase("DELAY")) {
+            return mapper.treeToValue(node,
+                                      DelayState.class);
+        } else if (type.equalsIgnoreCase("PARALLEL")) {
+            return mapper.treeToValue(node,
+                                      ParallelState.class);
+        } else if (type.equalsIgnoreCase("END")) {
+            return mapper.treeToValue(node,
+                                      EndState.class);
         } else {
-            return mapper.treeToValue(node, DefaultState.class);
+            return mapper.treeToValue(node,
+                                      DefaultState.class);
         }
     }
 }

@@ -11,6 +11,7 @@ import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.DelayState;
 
 public class DelayStateSerializer extends StdSerializer<DelayState> {
+
     public DelayStateSerializer() {
         this(DelayState.class);
     }
@@ -20,15 +21,20 @@ public class DelayStateSerializer extends StdSerializer<DelayState> {
     }
 
     @Override
-    public void serialize(DelayState delayState, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(DelayState delayState,
+                          JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
 
         // set defaults for delay state
         delayState.setType(DefaultState.Type.DELAY);
-        if(delayState.getName() == null || delayState.getName().length() < 1) {
+        if (delayState.getName() == null || delayState.getName().length() < 1) {
             delayState.setName("delaystate");
         }
 
         // serialize after setting default bean values...
-        BeanSerializerFactory.instance.createSerializer(provider, SimpleType.construct(DelayState.class)).serialize(delayState, gen, provider);
+        BeanSerializerFactory.instance.createSerializer(provider,
+                                                        SimpleType.construct(DelayState.class)).serialize(delayState,
+                                                                                                          gen,
+                                                                                                          provider);
     }
 }

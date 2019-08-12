@@ -16,10 +16,11 @@ import org.serverless.workflow.serializers.SwitchStateSerializer;
 import org.serverless.workflow.serializers.WorkflowSerializer;
 
 public class WorkflowObjectMapper extends ObjectMapper {
-    public WorkflowObjectMapper()
-    {
+
+    public WorkflowObjectMapper() {
         super();
-        configure(SerializationFeature.INDENT_OUTPUT, true);
+        configure(SerializationFeature.INDENT_OUTPUT,
+                  true);
 
         // serializers
         SimpleModule module = new SimpleModule("workflow-module");
@@ -32,8 +33,10 @@ public class WorkflowObjectMapper extends ObjectMapper {
         module.addSerializer(new SwitchStateSerializer());
 
         // deserializers
-        module.addDeserializer(State.class, new StateDeserializer());
-        module.addDeserializer(Choice.class, new ChoiceDeserializer());
+        module.addDeserializer(State.class,
+                               new StateDeserializer());
+        module.addDeserializer(Choice.class,
+                               new ChoiceDeserializer());
 
         registerModule(module);
     }

@@ -11,6 +11,7 @@ import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.SwitchState;
 
 public class SwitchStateSerializer extends StdSerializer<SwitchState> {
+
     public SwitchStateSerializer() {
         this(SwitchState.class);
     }
@@ -20,15 +21,20 @@ public class SwitchStateSerializer extends StdSerializer<SwitchState> {
     }
 
     @Override
-    public void serialize(SwitchState switchState, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(SwitchState switchState,
+                          JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
 
         // set defaults for end state
         switchState.setType(DefaultState.Type.SWITCH);
-        if(switchState.getName() == null || switchState.getName().length() < 1) {
+        if (switchState.getName() == null || switchState.getName().length() < 1) {
             switchState.setName("switchstate");
         }
 
         // serialize after setting default bean values...
-        BeanSerializerFactory.instance.createSerializer(provider, SimpleType.construct(SwitchState.class)).serialize(switchState, gen, provider);
+        BeanSerializerFactory.instance.createSerializer(provider,
+                                                        SimpleType.construct(SwitchState.class)).serialize(switchState,
+                                                                                                           gen,
+                                                                                                           provider);
     }
 }

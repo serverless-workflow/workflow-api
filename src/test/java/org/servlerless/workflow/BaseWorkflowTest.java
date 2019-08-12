@@ -9,16 +9,16 @@ import java.nio.file.Paths;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.serverless.workflow.Workflow;
 import org.serverless.workflow.WorkflowObjectMapper;
 
 public class BaseWorkflowTest {
+
     private static WorkflowObjectMapper objectMapper;
-    Path resourceDirectory = Paths.get("src", "test", "resources");
+    Path resourceDirectory = Paths.get("src",
+                                       "test",
+                                       "resources");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
 
     @BeforeAll
@@ -40,12 +40,12 @@ public class BaseWorkflowTest {
         } catch (JsonProcessingException e) {
             return null;
         }
-
     }
 
     public Workflow toWorkflow(String json) {
         try {
-            return objectMapper.readValue(json, Workflow.class);
+            return objectMapper.readValue(json,
+                                          Workflow.class);
         } catch (Exception e) {
             return null;
         }
@@ -61,7 +61,8 @@ public class BaseWorkflowTest {
 
     public static String getFileContents(final Path path) {
         try {
-            return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            return new String(Files.readAllBytes(path),
+                              StandardCharsets.UTF_8);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }

@@ -3,8 +3,6 @@ package org.servlerless.workflow;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.Test;
 import org.serverless.workflow.Workflow;
 import org.serverless.workflow.actions.Action;
@@ -25,8 +23,8 @@ import org.serverless.workflow.states.ParallelState;
 import org.serverless.workflow.states.SwitchState;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.servlerless.workflow.util.IsEqualJSON.*;
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.servlerless.workflow.util.IsEqualJSON.equalToJSONInFile;
 
 public class WorkflowToJsonTest extends BaseWorkflowTest {
 
@@ -35,7 +33,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         Workflow workflow = new Workflow();
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("emptyworkflow.json")));
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("emptyworkflow.json")));
     }
 
     @Test
@@ -47,20 +46,22 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                 .withOwner("testOwner");
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("workflowwithinfo.json")));
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("workflowwithinfo.json")));
     }
 
     @Test
     public void testTrigger() {
         Workflow workflow = new Workflow().withTriggerDefs(
                 Arrays.asList(
-                    new TriggerEvent().withName("testtriggerevent").withEventID("testeventid")
-                    .withCorrelationToken("testcorrelationtoken").withSource("testsource")
+                        new TriggerEvent().withName("testtriggerevent").withEventID("testeventid")
+                                .withCorrelationToken("testcorrelationtoken").withSource("testsource")
                 )
         );
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singletriggerevent.json")));
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("singletriggerevent.json")));
     }
 
     @Test
@@ -71,8 +72,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         }});
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singleendstate.json")));
-
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("singleendstate.json")));
     }
 
     @Test
@@ -87,17 +88,16 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                                         .withActions(Arrays.asList(
                                                 new Action().withFunction("testFunction")
                                                         .withTimeout(5)
-                                                        .withRetry( new Retry().withMatch("testMatch").withMaxRetry(10)
-                                                                            .withRetryInterval(2)
-                                                                            .withNextState("testNextRetryState"))
+                                                        .withRetry(new Retry().withMatch("testMatch").withMaxRetry(10)
+                                                                           .withRetryInterval(2)
+                                                                           .withNextState("testNextRetryState"))
                                         ))
                         )));
         }});
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singlestateevent.json")));
-
-
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("singlestateevent.json")));
     }
 
     @Test
@@ -107,8 +107,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         }});
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singledelaystate.json")));
-
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("singledelaystate.json")));
     }
 
     @Test
@@ -118,15 +118,15 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                         .withActions(Arrays.asList(
                                 new Action().withFunction("testFunction")
                                         .withTimeout(5)
-                                        .withRetry( new Retry().withMatch("testMatch").withMaxRetry(10)
-                                                            .withRetryInterval(2)
-                                                            .withNextState("testNextRetryState"))
+                                        .withRetry(new Retry().withMatch("testMatch").withMaxRetry(10)
+                                                           .withRetryInterval(2)
+                                                           .withNextState("testNextRetryState"))
                         )));
         }});
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singleoperationstate.json")));
-
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("singleoperationstate.json")));
     }
 
     @Test
@@ -140,9 +140,9 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                                                         .withActions(Arrays.asList(
                                                                 new Action().withFunction("testFunction")
                                                                         .withTimeout(5)
-                                                                        .withRetry( new Retry().withMatch("testMatch").withMaxRetry(10)
-                                                                                            .withRetryInterval(2)
-                                                                                            .withNextState("testNextRetryState"))
+                                                                        .withRetry(new Retry().withMatch("testMatch").withMaxRetry(10)
+                                                                                           .withRetryInterval(2)
+                                                                                           .withNextState("testNextRetryState"))
                                                         )));
                                         }}
                                 ),
@@ -155,8 +155,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         }});
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singleparallelstate.json")));
-
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("singleparallelstate.json")));
     }
 
     @Test
@@ -169,9 +169,9 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                                         new AndChoice().withNextState("testnextstate").withAnd(
                                                 Arrays.asList(
                                                         new DefaultChoice().withNextState("testnextstate")
-                                                        .withOperator(DefaultChoice.Operator.EQ)
-                                                        .withPath("testpath")
-                                                        .withValue("testvalue")
+                                                                .withOperator(DefaultChoice.Operator.EQ)
+                                                                .withPath("testpath")
+                                                                .withValue("testvalue")
                                                 )
                                         )
                                 );
@@ -181,7 +181,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         }});
 
         assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow), equalToJSONInFile(getResourcePathFor("singleswitchstateAndChoice.json")));
-
+        assertThat(toJsonString(workflow),
+                   equalToJSONInFile(getResourcePathFor("singleswitchstateAndChoice.json")));
     }
 }

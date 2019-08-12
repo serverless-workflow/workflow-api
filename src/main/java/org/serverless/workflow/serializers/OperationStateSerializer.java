@@ -11,6 +11,7 @@ import org.serverless.workflow.states.DefaultState;
 import org.serverless.workflow.states.OperationState;
 
 public class OperationStateSerializer extends StdSerializer<OperationState> {
+
     public OperationStateSerializer() {
         this(OperationState.class);
     }
@@ -20,15 +21,20 @@ public class OperationStateSerializer extends StdSerializer<OperationState> {
     }
 
     @Override
-    public void serialize(OperationState operationState, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(OperationState operationState,
+                          JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
 
         // set defaults for delay state
         operationState.setType(DefaultState.Type.OPERATION);
-        if(operationState.getName() == null || operationState.getName().length() < 1) {
+        if (operationState.getName() == null || operationState.getName().length() < 1) {
             operationState.setName("operationstate");
         }
 
         // serialize after setting default bean values...
-        BeanSerializerFactory.instance.createSerializer(provider, SimpleType.construct(OperationState.class)).serialize(operationState, gen, provider);
+        BeanSerializerFactory.instance.createSerializer(provider,
+                                                        SimpleType.construct(OperationState.class)).serialize(operationState,
+                                                                                                              gen,
+                                                                                                              provider);
     }
 }
