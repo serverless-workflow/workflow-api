@@ -1,7 +1,7 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.states.ParallelState",
-    "javaInterfaces": ["org.serverless.workflow.interfaces.State"],
+    "javaType": "org.serverless.workflow.api.states.ParallelState",
+    "javaInterfaces": ["org.serverless.workflow.api.interfaces.State"],
     "description": "Consists of a number of states that are executed in parallel",
     "extends": {
         "$ref": "defaultstate.json"

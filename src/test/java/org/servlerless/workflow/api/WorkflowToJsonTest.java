@@ -16,36 +16,35 @@
  *
  */
 
-package org.servlerless.workflow;
+package org.servlerless.workflow.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
-import org.serverless.workflow.Workflow;
-import org.serverless.workflow.actions.Action;
-import org.serverless.workflow.actions.Retry;
-import org.serverless.workflow.branches.Branch;
-import org.serverless.workflow.choices.AndChoice;
-import org.serverless.workflow.choices.DefaultChoice;
-import org.serverless.workflow.events.Event;
-import org.serverless.workflow.events.TriggerEvent;
-import org.serverless.workflow.interfaces.Choice;
-import org.serverless.workflow.interfaces.State;
-import org.serverless.workflow.states.DelayState;
-import org.serverless.workflow.states.EndState;
-import org.serverless.workflow.states.EndState.Status;
-import org.serverless.workflow.states.EventState;
-import org.serverless.workflow.states.OperationState;
-import org.serverless.workflow.states.ParallelState;
-import org.serverless.workflow.states.SwitchState;
+import org.serverless.workflow.api.Workflow;
+import org.serverless.workflow.api.actions.Action;
+import org.serverless.workflow.api.actions.Retry;
+import org.serverless.workflow.api.branches.Branch;
+import org.serverless.workflow.api.choices.AndChoice;
+import org.serverless.workflow.api.choices.DefaultChoice;
+import org.serverless.workflow.api.events.Event;
+import org.serverless.workflow.api.events.TriggerEvent;
+import org.serverless.workflow.api.interfaces.Choice;
+import org.serverless.workflow.api.interfaces.State;
+import org.serverless.workflow.api.states.DelayState;
+import org.serverless.workflow.api.states.EndState;
+import org.serverless.workflow.api.states.EndState.Status;
+import org.serverless.workflow.api.states.EventState;
+import org.serverless.workflow.api.states.OperationState;
+import org.serverless.workflow.api.states.ParallelState;
+import org.serverless.workflow.api.states.SwitchState;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.servlerless.workflow.util.IsEqualJSON.equalToJSONInFile;
+import static org.servlerless.workflow.api.util.IsEqualJSON.equalToJSONInFile;
 
 public class WorkflowToJsonTest extends BaseWorkflowTest {
 

@@ -16,7 +16,7 @@
  *
  */
 
-package org.serverless.workflow.serializers;
+package org.serverless.workflow.api.serializers;
 
 import java.io.IOException;
 
@@ -25,34 +25,34 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.type.SimpleType;
-import org.serverless.workflow.states.DefaultState;
-import org.serverless.workflow.states.SwitchState;
+import org.serverless.workflow.api.states.DefaultState;
+import org.serverless.workflow.api.states.OperationState;
 
-public class SwitchStateSerializer extends StdSerializer<SwitchState> {
+public class OperationStateSerializer extends StdSerializer<OperationState> {
 
-    public SwitchStateSerializer() {
-        this(SwitchState.class);
+    public OperationStateSerializer() {
+        this(OperationState.class);
     }
 
-    protected SwitchStateSerializer(Class<SwitchState> t) {
+    protected OperationStateSerializer(Class<OperationState> t) {
         super(t);
     }
 
     @Override
-    public void serialize(SwitchState switchState,
+    public void serialize(OperationState operationState,
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-        // set defaults for end state
-        switchState.setType(DefaultState.Type.SWITCH);
-        if (switchState.getName() == null || switchState.getName().length() < 1) {
-            switchState.setName("switchstate");
+        // set defaults for delay state
+        operationState.setType(DefaultState.Type.OPERATION);
+        if (operationState.getName() == null || operationState.getName().length() < 1) {
+            operationState.setName("operationstate");
         }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
-                                                        SimpleType.construct(SwitchState.class)).serialize(switchState,
-                                                                                                           gen,
-                                                                                                           provider);
+                                                        SimpleType.construct(OperationState.class)).serialize(operationState,
+                                                                                                              gen,
+                                                                                                              provider);
     }
 }

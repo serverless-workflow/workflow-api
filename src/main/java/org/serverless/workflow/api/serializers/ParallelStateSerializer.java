@@ -16,7 +16,7 @@
  *
  */
 
-package org.serverless.workflow.serializers;
+package org.serverless.workflow.api.serializers;
 
 import java.io.IOException;
 
@@ -25,34 +25,34 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.type.SimpleType;
-import org.serverless.workflow.states.DefaultState;
-import org.serverless.workflow.states.OperationState;
+import org.serverless.workflow.api.states.DefaultState;
+import org.serverless.workflow.api.states.ParallelState;
 
-public class OperationStateSerializer extends StdSerializer<OperationState> {
+public class ParallelStateSerializer extends StdSerializer<ParallelState> {
 
-    public OperationStateSerializer() {
-        this(OperationState.class);
+    public ParallelStateSerializer() {
+        this(ParallelState.class);
     }
 
-    protected OperationStateSerializer(Class<OperationState> t) {
+    protected ParallelStateSerializer(Class<ParallelState> t) {
         super(t);
     }
 
     @Override
-    public void serialize(OperationState operationState,
+    public void serialize(ParallelState parallelState,
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-        // set defaults for delay state
-        operationState.setType(DefaultState.Type.OPERATION);
-        if (operationState.getName() == null || operationState.getName().length() < 1) {
-            operationState.setName("operationstate");
+        // set defaults for end state
+        parallelState.setType(DefaultState.Type.PARALLEL);
+        if (parallelState.getName() == null || parallelState.getName().length() < 1) {
+            parallelState.setName("parallelstate");
         }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
-                                                        SimpleType.construct(OperationState.class)).serialize(operationState,
-                                                                                                              gen,
-                                                                                                              provider);
+                                                        SimpleType.construct(ParallelState.class)).serialize(parallelState,
+                                                                                                             gen,
+                                                                                                             provider);
     }
 }

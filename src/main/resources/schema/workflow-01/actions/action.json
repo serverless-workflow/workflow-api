@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.actions.Action",
+    "javaType": "org.serverless.workflow.api.actions.Action",
     "description": "Action Definition",
     "properties": {
         "function": {

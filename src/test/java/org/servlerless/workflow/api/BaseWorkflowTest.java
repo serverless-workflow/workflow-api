@@ -16,7 +16,7 @@
  *
  */
 
-package org.servlerless.workflow;
+package org.servlerless.workflow.api;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +28,8 @@ import java.nio.file.Paths;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeAll;
-import org.serverless.workflow.Workflow;
-import org.serverless.workflow.WorkflowObjectMapper;
+import org.serverless.workflow.api.Workflow;
+import org.serverless.workflow.api.WorkflowObjectMapper;
 
 public class BaseWorkflowTest {
 

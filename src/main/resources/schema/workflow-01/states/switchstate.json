@@ -1,7 +1,7 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.states.SwitchState",
-    "javaInterfaces": ["org.serverless.workflow.interfaces.State"],
+    "javaType": "org.serverless.workflow.api.states.SwitchState",
+    "javaInterfaces": ["org.serverless.workflow.api.interfaces.State"],
     "description": "Allows one or more functions to run in sequence or in parallel without waiting for any event.",
     "extends": {
         "$ref": "defaultstate.json"
@@ -12,7 +12,7 @@
             "description": "Defines an ordered set of Match Rules against the input data to this state",
             "items": {
                 "type": "object",
-                "existingJavaType": "org.serverless.workflow.interfaces.Choice"
+                "existingJavaType": "org.serverless.workflow.api.interfaces.Choice"
             }
         },
         "default": {

@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.actions.Retry",
+    "javaType": "org.serverless.workflow.api.actions.Retry",
     "description": "Retry Definition",
     "properties": {
         "match": {

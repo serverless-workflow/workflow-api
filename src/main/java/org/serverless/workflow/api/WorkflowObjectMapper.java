@@ -16,22 +16,22 @@
  *
  */
 
-package org.serverless.workflow;
+package org.serverless.workflow.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.serverless.workflow.deserializers.ChoiceDeserializer;
-import org.serverless.workflow.deserializers.StateDeserializer;
-import org.serverless.workflow.interfaces.Choice;
-import org.serverless.workflow.interfaces.State;
-import org.serverless.workflow.serializers.DelayStateSerializer;
-import org.serverless.workflow.serializers.EndStateSerializer;
-import org.serverless.workflow.serializers.EventStateSerializer;
-import org.serverless.workflow.serializers.OperationStateSerializer;
-import org.serverless.workflow.serializers.ParallelStateSerializer;
-import org.serverless.workflow.serializers.SwitchStateSerializer;
-import org.serverless.workflow.serializers.WorkflowSerializer;
+import org.serverless.workflow.api.deserializers.ChoiceDeserializer;
+import org.serverless.workflow.api.deserializers.StateDeserializer;
+import org.serverless.workflow.api.interfaces.Choice;
+import org.serverless.workflow.api.interfaces.State;
+import org.serverless.workflow.api.serializers.DelayStateSerializer;
+import org.serverless.workflow.api.serializers.EndStateSerializer;
+import org.serverless.workflow.api.serializers.EventStateSerializer;
+import org.serverless.workflow.api.serializers.OperationStateSerializer;
+import org.serverless.workflow.api.serializers.ParallelStateSerializer;
+import org.serverless.workflow.api.serializers.SwitchStateSerializer;
+import org.serverless.workflow.api.serializers.WorkflowSerializer;
 
 public class WorkflowObjectMapper extends ObjectMapper {
 

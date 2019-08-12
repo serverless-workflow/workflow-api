@@ -16,7 +16,7 @@
  *
  */
 
-package org.servlerless.workflow.util;
+package org.servlerless.workflow.api.util;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

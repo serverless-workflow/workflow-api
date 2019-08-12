@@ -16,7 +16,7 @@
  *
  */
 
-package org.serverless.workflow.deserializers;
+package org.serverless.workflow.api.deserializers;
 
 import java.io.IOException;
 
@@ -26,11 +26,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.serverless.workflow.choices.AndChoice;
-import org.serverless.workflow.choices.DefaultChoice;
-import org.serverless.workflow.choices.NotChoice;
-import org.serverless.workflow.choices.OrChoice;
-import org.serverless.workflow.interfaces.Choice;
+import org.serverless.workflow.api.choices.AndChoice;
+import org.serverless.workflow.api.choices.DefaultChoice;
+import org.serverless.workflow.api.choices.NotChoice;
+import org.serverless.workflow.api.choices.OrChoice;
+import org.serverless.workflow.api.interfaces.Choice;
 
 public class ChoiceDeserializer extends StdDeserializer<Choice> {
 

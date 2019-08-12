@@ -16,23 +16,23 @@
  *
  */
 
-package org.servlerless.workflow;
+package org.servlerless.workflow.api;
 
 import org.junit.jupiter.api.Test;
-import org.serverless.workflow.Workflow;
-import org.serverless.workflow.actions.Action;
-import org.serverless.workflow.branches.Branch;
-import org.serverless.workflow.choices.AndChoice;
-import org.serverless.workflow.choices.NotChoice;
-import org.serverless.workflow.choices.OrChoice;
-import org.serverless.workflow.events.Event;
-import org.serverless.workflow.states.DefaultState;
-import org.serverless.workflow.states.DelayState;
-import org.serverless.workflow.states.EndState;
-import org.serverless.workflow.states.EventState;
-import org.serverless.workflow.states.OperationState;
-import org.serverless.workflow.states.ParallelState;
-import org.serverless.workflow.states.SwitchState;
+import org.serverless.workflow.api.Workflow;
+import org.serverless.workflow.api.actions.Action;
+import org.serverless.workflow.api.branches.Branch;
+import org.serverless.workflow.api.choices.AndChoice;
+import org.serverless.workflow.api.choices.NotChoice;
+import org.serverless.workflow.api.choices.OrChoice;
+import org.serverless.workflow.api.events.Event;
+import org.serverless.workflow.api.states.DefaultState;
+import org.serverless.workflow.api.states.DelayState;
+import org.serverless.workflow.api.states.EndState;
+import org.serverless.workflow.api.states.EventState;
+import org.serverless.workflow.api.states.OperationState;
+import org.serverless.workflow.api.states.ParallelState;
+import org.serverless.workflow.api.states.SwitchState;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -16,7 +16,7 @@
  *
  */
 
-package org.serverless.workflow.serializers;
+package org.serverless.workflow.api.serializers;
 
 import java.io.IOException;
 
@@ -25,34 +25,34 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.type.SimpleType;
-import org.serverless.workflow.states.DefaultState;
-import org.serverless.workflow.states.ParallelState;
+import org.serverless.workflow.api.states.DefaultState;
+import org.serverless.workflow.api.states.EventState;
 
-public class ParallelStateSerializer extends StdSerializer<ParallelState> {
+public class EventStateSerializer extends StdSerializer<EventState> {
 
-    public ParallelStateSerializer() {
-        this(ParallelState.class);
+    public EventStateSerializer() {
+        this(EventState.class);
     }
 
-    protected ParallelStateSerializer(Class<ParallelState> t) {
+    protected EventStateSerializer(Class<EventState> t) {
         super(t);
     }
 
     @Override
-    public void serialize(ParallelState parallelState,
+    public void serialize(EventState eventState,
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
         // set defaults for end state
-        parallelState.setType(DefaultState.Type.PARALLEL);
-        if (parallelState.getName() == null || parallelState.getName().length() < 1) {
-            parallelState.setName("parallelstate");
+        eventState.setType(DefaultState.Type.EVENT);
+        if (eventState.getName() == null || eventState.getName().length() < 1) {
+            eventState.setName("eventstate");
         }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
-                                                        SimpleType.construct(ParallelState.class)).serialize(parallelState,
-                                                                                                             gen,
-                                                                                                             provider);
+                                                        SimpleType.construct(EventState.class)).serialize(eventState,
+                                                                                                          gen,
+                                                                                                          provider);
     }
 }

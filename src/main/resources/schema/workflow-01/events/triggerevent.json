@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.events.TriggerEvent",
+    "javaType": "org.serverless.workflow.api.events.TriggerEvent",
     "properties": {
         "name": {
             "type": "string",

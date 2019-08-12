@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.branches.Branch",
+    "javaType": "org.serverless.workflow.api.branches.Branch",
     "description": "Branch Definition",
     "properties": {
         "name": {
@@ -12,7 +12,7 @@
             "description": "State Definitions",
             "items": {
                 "type": "object",
-                "existingJavaType": "org.serverless.workflow.interfaces.State"
+                "existingJavaType": "org.serverless.workflow.api.interfaces.State"
             }
         },
         "metadata": {

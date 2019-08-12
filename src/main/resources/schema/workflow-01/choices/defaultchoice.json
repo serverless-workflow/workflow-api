@@ -1,7 +1,7 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.choices.DefaultChoice",
-    "javaInterfaces": ["org.serverless.workflow.interfaces.Choice"],
+    "javaType": "org.serverless.workflow.api.choices.DefaultChoice",
+    "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
     "description": "Default Choice",
     "properties": {
         "path": {

@@ -16,7 +16,7 @@
  *
  */
 
-package org.serverless.workflow.deserializers;
+package org.serverless.workflow.api.deserializers;
 
 import java.io.IOException;
 
@@ -26,14 +26,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.serverless.workflow.interfaces.State;
-import org.serverless.workflow.states.DefaultState;
-import org.serverless.workflow.states.DelayState;
-import org.serverless.workflow.states.EndState;
-import org.serverless.workflow.states.EventState;
-import org.serverless.workflow.states.OperationState;
-import org.serverless.workflow.states.ParallelState;
-import org.serverless.workflow.states.SwitchState;
+import org.serverless.workflow.api.interfaces.State;
+import org.serverless.workflow.api.states.DefaultState;
+import org.serverless.workflow.api.states.DelayState;
+import org.serverless.workflow.api.states.EndState;
+import org.serverless.workflow.api.states.EventState;
+import org.serverless.workflow.api.states.OperationState;
+import org.serverless.workflow.api.states.ParallelState;
+import org.serverless.workflow.api.states.SwitchState;
 
 public class StateDeserializer extends StdDeserializer<State> {
 

@@ -1,7 +1,7 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.choices.OrChoice",
-    "javaInterfaces": ["org.serverless.workflow.interfaces.Choice"],
+    "javaType": "org.serverless.workflow.api.choices.OrChoice",
+    "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
     "description": "Or Choice",
     "properties": {
         "Or": {

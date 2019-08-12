@@ -4,7 +4,7 @@
     "description": "Workflow is a vendor-neutral specification for defining the format/primitives that the users can use to specify/describe their serverless application flow.",
     "required": ["states"],
     "type": "object",
-    "javaType": "org.serverless.workflow.Workflow",
+    "javaType": "org.serverless.workflow.api.Workflow",
     "javaInterfaces": ["java.io.Serializable"],
     "properties": {
         "id": {
@@ -43,7 +43,7 @@
             "description": "State Definitions",
             "items": {
                 "type": "object",
-                "existingJavaType": "org.serverless.workflow.interfaces.State"
+                "existingJavaType": "org.serverless.workflow.api.interfaces.State"
             }
         }
     },

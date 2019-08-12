@@ -16,7 +16,7 @@
  *
  */
 
-package org.serverless.workflow.interfaces;
+package org.serverless.workflow.api.interfaces;
 
 public interface State {
 

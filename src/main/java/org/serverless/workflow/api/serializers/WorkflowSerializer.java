@@ -16,16 +16,17 @@
  *
  */
 
-package org.serverless.workflow.serializers;
+package org.serverless.workflow.api.serializers;
 
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.serverless.workflow.Workflow;
-import org.serverless.workflow.events.TriggerEvent;
-import org.serverless.workflow.interfaces.State;
+import org.serverless.workflow.api.Workflow;
+import org.serverless.workflow.api.Workflow;
+import org.serverless.workflow.api.events.TriggerEvent;
+import org.serverless.workflow.api.interfaces.State;
 
 public class WorkflowSerializer extends StdSerializer<Workflow> {
 

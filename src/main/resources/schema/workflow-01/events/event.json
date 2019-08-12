@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "javaType": "org.serverless.workflow.events.Event",
+    "javaType": "org.serverless.workflow.api.events.Event",
     "description": "Event associated with a State",
     "properties": {
         "event-expression": {
