@@ -69,7 +69,7 @@ You can use this project to read it into the workflow api:
 
 ```java
 ObjectMapper objectMapper = new WorkflowObjectMapper();
-Workflow workflow = objectMapper..readValue(json,Workflow.class);
+Workflow workflow = objectMapper.readValue(json,Workflow.class);
 
 ...
 
