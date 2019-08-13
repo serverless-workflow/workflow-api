@@ -58,25 +58,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void testSimpleWorkflowWithInfo() {
-        Workflow workflow = new Workflow().withId("testuid")
-                .withDescription("testdescription")
-                .withName("testname")
-                .withVersion("testversion")
-                .withOwner("testOwner");
-
-        assertNotNull(toJsonString(workflow));
-        assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("workflowwithinfo.json")));
-    }
-
-    @Test
-    public void testSimpleWorkflowWithInfoAndMetadata() {
-        Workflow workflow = new Workflow().withId("testuid")
-                .withDescription("testdescription")
-                .withName("testname")
-                .withVersion("testversion")
-                .withOwner("testOwner")
+    public void testSimpleWorkflowWithMetadata() {
+        Workflow workflow = new Workflow()
                 .withMetadata(
                         Stream.of(new Object[][] {
                                 { "key1", "value1" },
@@ -86,7 +69,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("workflowwithinfoandmetadata.json")));
+                   equalToJSONInFile(getResourcePathFor("workflowwithmetadata.json")));
     }
 
     @Test
