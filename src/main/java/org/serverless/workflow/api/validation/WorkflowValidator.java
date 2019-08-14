@@ -104,7 +104,7 @@ public class WorkflowValidator {
             if (workflow != null) {
                 // make sure we have at least one state
                 if (workflow.getStates() == null || workflow.getStates().size() < 1) {
-                    addValidationError("No states present.",
+                    addValidationError("No states found.",
                                        ValidationError.WORKFLOW_VALIDATION);
                 }
 

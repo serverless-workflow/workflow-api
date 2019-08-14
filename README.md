@@ -147,4 +147,37 @@ This will produce a workflow JSON with a single Switch State:
 }
 ```
 
+#### Workflow Validation
+Workflow controller can help you get both JSON schema and workflow model validation errors. 
+For example if we have a bare valid workflow definition without any states:
+
+```json
+{
+  "states" : []
+}
+```
+
+we can get validation errors:
+
+```java
+    WorkflowController controller = new WorkflowController(json);
+    assertTrue(controller.isValid());
+    
+    List<ValidationError> validationErrors = controller.getValidationErrors();
+    
+    assertEqual(2, validationErrors.size());
+```
+
+the two validation errors should be "No states found" and "No start state found"
+
+If we give invalid workflow json, for example just:
+
+```json
+{
+  
+}
+```
+We should get the json schema validation error: "#: required key [states] not found"
+as the workflow json schema defines the states node as required. 
+
 ### More to come soon!

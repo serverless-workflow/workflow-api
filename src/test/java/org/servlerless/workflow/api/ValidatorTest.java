@@ -43,7 +43,7 @@ public class ValidatorTest extends BaseWorkflowTest {
         validator = validator.forWorkflow(workflow);
         assertEquals(3, validator.validate().size());
         assertEquals("#: required key [states] not found", validator.validate().get(0).getMessage());
-        assertEquals("No states present.", validator.validate().get(1).getMessage());
+        assertEquals("No states found.", validator.validate().get(1).getMessage());
         assertEquals("No start state found.", validator.validate().get(2).getMessage());
 
     }
@@ -59,7 +59,7 @@ public class ValidatorTest extends BaseWorkflowTest {
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
         validator = validator.forWorkflow(workflow);
         assertEquals(2, validator.validate().size());
-        assertEquals("No states present.", validator.validate().get(0).getMessage());
+        assertEquals("No states found.", validator.validate().get(0).getMessage());
         assertEquals("No start state found.", validator.validate().get(1).getMessage());
     }
 
@@ -76,7 +76,7 @@ public class ValidatorTest extends BaseWorkflowTest {
         validator = validator.forWorkflow(workflow);
         assertEquals(3, validator.validate().size());
         assertEquals("#/trigger-defs/0: required key [name] not found", validator.validate().get(0).getMessage());
-        assertEquals("No states present.", validator.validate().get(1).getMessage());
+        assertEquals("No states found.", validator.validate().get(1).getMessage());
         assertEquals("No start state found.", validator.validate().get(2).getMessage());
     }
 }
