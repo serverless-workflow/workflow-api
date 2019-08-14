@@ -2,7 +2,6 @@
     "$id": "https://wg-serverless.org/workflow.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "description": "Workflow is a vendor-neutral specification for defining the format/primitives that the users can use to specify/describe their serverless application flow.",
-    "required": ["states"],
     "type": "object",
     "javaType": "org.serverless.workflow.api.Workflow",
     "javaInterfaces": ["java.io.Serializable"],

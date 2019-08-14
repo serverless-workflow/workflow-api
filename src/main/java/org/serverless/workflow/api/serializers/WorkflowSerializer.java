@@ -63,8 +63,9 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
             gen.writeEndArray();
         }
 
-        if(workflow.getMetadata() != null && workflow.getMetadata().size() > 0) {
-            gen.writeObjectField("metadata", workflow.getMetadata());
+        if (workflow.getMetadata() != null && workflow.getMetadata().size() > 0) {
+            gen.writeObjectField("metadata",
+                                 workflow.getMetadata());
         }
 
         gen.writeEndObject();

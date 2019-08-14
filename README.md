@@ -7,7 +7,8 @@ This project provides:
 * JSON Schema (https://json-schema.org/) for the Serverless Workflow specification
 * Java api generated from the Serverless Workflow JSON Schema
 * Jackson Marshalling and Unmarshalling of the object model to/from JSON
-* Workflow Jackson ObjectMapper with custom serializers and deserializers for the Workflow spec
+* Workflow Validation (both schema validation and model validation rules)
+* WorkflowController class for convenience
 
 
 ### Getting Started
@@ -68,10 +69,12 @@ Given serverless workflow JSON which represents a workflow with a single Event S
 You can use this project to read it into the workflow api:
 
 ```java
-ObjectMapper objectMapper = new WorkflowObjectMapper();
-Workflow workflow = objectMapper.readValue(json,Workflow.class);
+WorkflowController controller = new WorkflowController(json);
+assertTrue(controller.isValid());
 
 ...
+
+Workflow workflow = controller.getWorkflow();
 
 EventState eventState = (EventState) workflow.getStates().get(0);
 assertEquals("testEventExpression", event.getEventExpression());
@@ -109,8 +112,17 @@ Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
     );
 }});
 
+// you can use the workflow objectmapper:
 ObjectMapper objectMapper = new WorkflowObjectMapper();
 String workflowStr = objectMapper.writeValueAsString(workflow);
+
+// or you can use the workflow controller too:
+WorkflowController controller = new WorkflowController(workflow);
+assertTrue(controller.isValid());
+
+String jsonString = controller.toJsonString();
+
+JsonNode jsonNode = controller.toJson();
 
 ```
 This will produce a workflow JSON with a single Switch State:

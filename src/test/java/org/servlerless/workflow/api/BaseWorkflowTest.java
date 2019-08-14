@@ -29,12 +29,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeAll;
 import org.serverless.workflow.api.Workflow;
-import org.serverless.workflow.api.WorkflowObjectMapper;
+import org.serverless.workflow.api.mapper.WorkflowObjectMapper;
 
 public class BaseWorkflowTest {
 
     private static WorkflowObjectMapper objectMapper;
-    Path resourceDirectory = Paths.get("src",
+    private Path resourceDirectory = Paths.get("src",
                                        "test",
                                        "resources");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();

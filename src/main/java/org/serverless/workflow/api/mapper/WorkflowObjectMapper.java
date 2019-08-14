@@ -16,7 +16,7 @@
  *
  */
 
-package org.serverless.workflow.api;
+package org.serverless.workflow.api.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

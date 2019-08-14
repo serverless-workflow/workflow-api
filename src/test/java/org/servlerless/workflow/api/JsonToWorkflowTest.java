@@ -46,7 +46,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testEmptyWorkflow() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("emptyworkflow.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
 
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
@@ -59,7 +59,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testSimpleWorkflowWithMetadata() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("workflowwithmetadata.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/workflowwithmetadata.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
@@ -75,7 +75,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
 
     @Test
     public void testTrigger() {
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("singletriggerevent.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singletriggerevent.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(1));
@@ -96,7 +96,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testEndState() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("singleendstate.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singleendstate.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
@@ -118,7 +118,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testEventState() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("singlestateevent.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singlestateevent.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
@@ -160,7 +160,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testDelayState() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("singledelaystate.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singledelaystate.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
@@ -181,7 +181,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testOperationState() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("singleoperationstate.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singleoperationstate.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
@@ -213,7 +213,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testParallellState() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("singleparallelstate.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singleparallelstate.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
@@ -267,7 +267,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testSwitchState() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("singleswitchstateandchoice.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singleswitchstateandchoice.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
@@ -289,12 +289,12 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
                    is(1));
         assertTrue(switchState.getChoices().get(0) instanceof AndChoice);
 
-        workflow = toWorkflow(getFileContents(getResourcePath("singleswitchstatenotchoice.json")));
+        workflow = toWorkflow(getFileContents(getResourcePath("basic/singleswitchstatenotchoice.json")));
         assertNotNull(workflow);
         switchState = (SwitchState) workflow.getStates().get(0);
         assertTrue(switchState.getChoices().get(0) instanceof NotChoice);
 
-        workflow = toWorkflow(getFileContents(getResourcePath("singleswitchstateorchoice.json")));
+        workflow = toWorkflow(getFileContents(getResourcePath("basic/singleswitchstateorchoice.json")));
         assertNotNull(workflow);
         switchState = (SwitchState) workflow.getStates().get(0);
         assertTrue(switchState.getChoices().get(0) instanceof OrChoice);

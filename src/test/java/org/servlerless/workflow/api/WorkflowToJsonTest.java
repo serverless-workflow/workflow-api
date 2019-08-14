@@ -54,7 +54,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("emptyworkflow.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/emptyworkflow.json")));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("workflowwithmetadata.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/workflowwithmetadata.json")));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("singletriggerevent.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singletriggerevent.json")));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("singleendstate.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singleendstate.json")));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("singlestateevent.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singlestateevent.json")));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("singledelaystate.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singledelaystate.json")));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("singleoperationstate.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singleoperationstate.json")));
     }
 
     @Test
@@ -178,7 +178,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("singleparallelstate.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singleparallelstate.json")));
     }
 
     @Test
@@ -204,6 +204,6 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("singleswitchstateAndChoice.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singleswitchstateAndChoice.json")));
     }
 }
