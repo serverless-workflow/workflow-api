@@ -32,6 +32,7 @@ import org.serverless.workflow.api.choices.AndChoice;
 import org.serverless.workflow.api.choices.DefaultChoice;
 import org.serverless.workflow.api.events.Event;
 import org.serverless.workflow.api.events.TriggerEvent;
+import org.serverless.workflow.api.functions.Function;
 import org.serverless.workflow.api.interfaces.Choice;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.states.DelayState;
@@ -108,7 +109,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                                         .withActionMode(Event.ActionMode.SEQUENTIAL)
                                         .withNextState("testNextState")
                                         .withActions(Arrays.asList(
-                                                new Action().withFunction("testFunction")
+                                                new Action().withFunction(new Function().withName("testFunction"))
                                                         .withTimeout(5)
                                                         .withRetry(new Retry().withMatch("testMatch").withMaxRetry(10)
                                                                            .withRetryInterval(2)
@@ -138,7 +139,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
         Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
             add(new OperationState().withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
                         .withActions(Arrays.asList(
-                                new Action().withFunction("testFunction")
+                                new Action().withFunction(new Function().withName("testFunction"))
                                         .withTimeout(5)
                                         .withRetry(new Retry().withMatch("testMatch").withMaxRetry(10)
                                                            .withRetryInterval(2)
@@ -160,7 +161,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                                         new ArrayList<State>() {{
                                             add(new OperationState().withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
                                                         .withActions(Arrays.asList(
-                                                                new Action().withFunction("testFunction")
+                                                                new Action().withFunction(new Function().withName("testFunction"))
                                                                         .withTimeout(5)
                                                                         .withRetry(new Retry().withMatch("testMatch").withMaxRetry(10)
                                                                                            .withRetryInterval(2)

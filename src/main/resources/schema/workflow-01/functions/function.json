@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.functions.Function",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "function name"
+    },
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
+    }
+  },
+  "required": ["name"]
+}

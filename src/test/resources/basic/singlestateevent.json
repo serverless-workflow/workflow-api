@@ -5,7 +5,9 @@
       "timeout" : "testTimeout",
       "action-mode" : "SEQUENTIAL",
       "actions" : [ {
-        "function" : "testFunction",
+        "function" : {
+          "name": "testFunction"
+        },
         "timeout" : 5,
         "retry" : {
           "match" : "testMatch",

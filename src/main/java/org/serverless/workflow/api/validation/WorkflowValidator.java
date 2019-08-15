@@ -31,6 +31,7 @@ import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.schemaclient.ResourceSchemaClient;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
+import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.ParallelState;
@@ -108,8 +109,9 @@ public class WorkflowValidator {
                                        ValidationError.WORKFLOW_VALIDATION);
                 }
 
-                // make sure we have at least one start state
+                // make sure we have at least one start state and one end state
                 final Boolean[] foundStartState = {false};
+                final Boolean[] foundEndState = {false};
                 if (workflow.getStates() != null) {
                     workflow.getStates().stream().forEach(s -> {
                         if (s instanceof EventState) {
@@ -149,10 +151,21 @@ public class WorkflowValidator {
                             }
                         }
                     });
+
+                    workflow.getStates().stream().forEach(s -> {
+                        if (s instanceof EndState) {
+                            foundEndState[0] = true;
+                        }
+                    });
                 }
 
                 if (!foundStartState[0].booleanValue()) {
                     addValidationError("No start state found.",
+                                       ValidationError.WORKFLOW_VALIDATION);
+                }
+
+                if(!foundEndState[0].booleanValue()) {
+                    addValidationError("No end state found.",
                                        ValidationError.WORKFLOW_VALIDATION);
                 }
             }

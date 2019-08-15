@@ -150,7 +150,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
         assertEquals(1,
                      event.getActions().size());
         assertEquals("testFunction",
-                     event.getActions().get(0).getFunction());
+                     event.getActions().get(0).getFunction().getName());
         assertNotNull(event.getActions().get(0).getRetry());
 
         assertEquals("testMatch",
@@ -204,7 +204,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
 
         Action action = operationState.getActions().get(0);
         assertEquals("testFunction",
-                     action.getFunction());
+                     action.getFunction().getName());
         assertNotNull(action.getRetry());
         assertEquals("testMatch",
                      action.getRetry().getMatch());
@@ -247,7 +247,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
         assertEquals(1,
                      ((OperationState) branch1.getStates().get(0)).getActions().size());
         assertEquals("testFunction",
-                     ((OperationState) branch1.getStates().get(0)).getActions().get(0).getFunction());
+                     ((OperationState) branch1.getStates().get(0)).getActions().get(0).getFunction().getName());
 
         Branch branch2 = parallelState.getBranches().get(1);
         assertEquals("secondtestbranch",

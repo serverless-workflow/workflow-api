@@ -29,6 +29,7 @@ import org.serverless.workflow.api.choices.AndChoice;
 import org.serverless.workflow.api.choices.DefaultChoice;
 import org.serverless.workflow.api.interfaces.Choice;
 import org.serverless.workflow.api.interfaces.State;
+import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.SwitchState;
@@ -43,11 +44,14 @@ public class WorkflowControllerTest {
 
     @Test
     public void testManagerFromJson() {
+
         String testString = "{\n" +
                 "  \"states\" : [ {\n" +
                 "    \"action-mode\" : \"SEQUENTIAL\",\n" +
                 "    \"actions\" : [ {\n" +
-                "      \"function\" : \"testFunction\",\n" +
+                "      \"function\" : {\n" +
+                "        \"name\" : \"testFunction\"\n" +
+                "      },\n" +
                 "      \"timeout\" : 5,\n" +
                 "      \"retry\" : {\n" +
                 "        \"match\" : \"testMatch\",\n" +
@@ -90,7 +94,7 @@ public class WorkflowControllerTest {
 
         Action action = operationState.getActions().get(0);
         assertEquals("testFunction",
-                     action.getFunction());
+                     action.getFunction().getName());
         assertNotNull(action.getRetry());
         assertEquals("testMatch",
                      action.getRetry().getMatch());
@@ -116,6 +120,11 @@ public class WorkflowControllerTest {
                 "    \"name\" : \"switchstate\",\n" +
                 "    \"type\" : \"SWITCH\",\n" +
                 "    \"start\" : true\n" +
+                "  }, {\n" +
+                "    \"status\" : \"SUCCESS\",\n" +
+                "    \"name\" : \"endstate\",\n" +
+                "    \"type\" : \"END\",\n" +
+                "    \"start\" : false\n" +
                 "  } ]\n" +
                 "}";
 
@@ -136,6 +145,7 @@ public class WorkflowControllerTest {
                             }}
                     )
             );
+            add(new EndState().withStatus(EndState.Status.SUCCESS));
         }});
 
         WorkflowController controller = new WorkflowController(workflow);

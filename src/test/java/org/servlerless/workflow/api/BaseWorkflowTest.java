@@ -24,12 +24,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeAll;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.mapper.WorkflowObjectMapper;
+import org.serverless.workflow.api.validation.ValidationError;
 
 public class BaseWorkflowTest {
 
@@ -84,5 +86,16 @@ public class BaseWorkflowTest {
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean constainsError(List<ValidationError> errors, String error, String type) {
+        final Boolean[] contains = {false};
+        errors.stream().forEach(er -> {
+            if(er.getMessage().equalsIgnoreCase(error) && er.getType().equalsIgnoreCase(type)) {
+                contains[0] = true;
+            }
+        });
+
+        return contains[0];
     }
 }

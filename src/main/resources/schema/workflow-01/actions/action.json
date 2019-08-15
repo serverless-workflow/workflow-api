@@ -4,7 +4,7 @@
     "description": "Action Definition",
     "properties": {
         "function": {
-            "type": "string",
+            "$ref": "../functions/function.json",
             "description": "Specifies the function that must be invoked"
         },
         "timeout": {
