@@ -1,5 +1,7 @@
 {
+  "id": "1",
   "states" : [ {
+    "id": "2",
     "events" : [ {
       "event-expression" : "testEventExpression",
       "timeout" : "testTimeout",

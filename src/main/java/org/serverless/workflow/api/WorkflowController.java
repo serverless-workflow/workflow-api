@@ -18,13 +18,17 @@
 
 package org.serverless.workflow.api;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.serverless.workflow.api.mapper.WorkflowObjectMapper;
 import org.serverless.workflow.api.validation.ValidationError;
 import org.serverless.workflow.api.validation.WorkflowValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WorkflowController {
 
@@ -33,6 +37,8 @@ public class WorkflowController {
     private String json;
     private WorkflowObjectMapper objectMapper = new WorkflowObjectMapper();
     private Workflow workflow;
+
+    private static Logger logger = LoggerFactory.getLogger(WorkflowController.class);
 
     public WorkflowController() {
 
@@ -58,6 +64,22 @@ public class WorkflowController {
 
     public List<ValidationError> getValidationErrors() {
         return validationErrors;
+    }
+
+    public String displayValidationErrors() {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            mapper.writeValue(out,
+                              validationErrors);
+        } catch (Exception e) {
+            logger.error("Unable to display validation errors: " + e.getMessage());
+        }
+
+        final byte[] data = out.toByteArray();
+
+        return new String(data);
     }
 
     public Workflow getWorkflow() {

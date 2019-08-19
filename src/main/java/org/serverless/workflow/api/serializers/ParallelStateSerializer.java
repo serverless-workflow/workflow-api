@@ -43,6 +43,10 @@ public class ParallelStateSerializer extends StdSerializer<ParallelState> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
+        // set the id
+        if(parallelState.getId() == null || parallelState.getId().length() < 1) {
+            parallelState.setId(WorkflowSerializer.generateUniqueId());
+        }
         // set defaults for end state
         parallelState.setType(DefaultState.Type.PARALLEL);
         if (parallelState.getName() == null || parallelState.getName().length() < 1) {

@@ -1,5 +1,7 @@
 {
+  "id": "1",
   "states" : [ {
+    "id": "2",
     "choices" : [ {
       "And" : [ {
         "path" : "testpath",

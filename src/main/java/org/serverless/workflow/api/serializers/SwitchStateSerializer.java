@@ -43,6 +43,10 @@ public class SwitchStateSerializer extends StdSerializer<SwitchState> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
+        // set the id
+        if(switchState.getId() == null || switchState.getId().length() < 1) {
+            switchState.setId(WorkflowSerializer.generateUniqueId());
+        }
         // set defaults for end state
         switchState.setType(DefaultState.Type.SWITCH);
         if (switchState.getName() == null || switchState.getName().length() < 1) {

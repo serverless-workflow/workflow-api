@@ -1,5 +1,7 @@
 {
+    "id": "1",
     "states" : [ {
+        "id": "2",
         "status" : "SUCCESS",
         "name" : "endstate",
         "type" : "END",

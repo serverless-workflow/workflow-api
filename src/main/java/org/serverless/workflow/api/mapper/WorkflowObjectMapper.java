@@ -31,6 +31,7 @@ import org.serverless.workflow.api.serializers.EventStateSerializer;
 import org.serverless.workflow.api.serializers.OperationStateSerializer;
 import org.serverless.workflow.api.serializers.ParallelStateSerializer;
 import org.serverless.workflow.api.serializers.SwitchStateSerializer;
+import org.serverless.workflow.api.serializers.TriggerEventSerializer;
 import org.serverless.workflow.api.serializers.WorkflowSerializer;
 
 public class WorkflowObjectMapper extends ObjectMapper {
@@ -49,6 +50,7 @@ public class WorkflowObjectMapper extends ObjectMapper {
         module.addSerializer(new OperationStateSerializer());
         module.addSerializer(new ParallelStateSerializer());
         module.addSerializer(new SwitchStateSerializer());
+        module.addSerializer(new TriggerEventSerializer());
 
         // deserializers
         module.addDeserializer(State.class,

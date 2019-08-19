@@ -46,6 +46,7 @@ public class WorkflowControllerTest {
     public void testManagerFromJson() {
 
         String testString = "{\n" +
+                "  \"id\" : \"1\",\n" +
                 "  \"states\" : [ {\n" +
                 "    \"action-mode\" : \"SEQUENTIAL\",\n" +
                 "    \"actions\" : [ {\n" +
@@ -61,6 +62,7 @@ public class WorkflowControllerTest {
                 "      }\n" +
                 "    } ],\n" +
                 "    \"next-state\" : \"testnextstate\",\n" +
+                "    \"id\" : \"2\",\n" +
                 "    \"name\" : \"operationstate\",\n" +
                 "    \"type\" : \"OPERATION\",\n" +
                 "    \"start\" : true\n" +
@@ -73,6 +75,9 @@ public class WorkflowControllerTest {
         Workflow workflow = controller.getWorkflow();
         assertNotNull(workflow);
 
+        // set the id for tests
+        workflow.setId("1");
+
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));
         assertNotNull(workflow.getStates());
@@ -81,6 +86,8 @@ public class WorkflowControllerTest {
         assertTrue(workflow.getStates().get(0) instanceof OperationState);
 
         OperationState operationState = (OperationState) workflow.getStates().get(0);
+        // set the id for test
+        operationState.setId("2");
         assertEquals("testnextstate",
                      operationState.getNextState());
         assertEquals("operationstate",
@@ -99,13 +106,14 @@ public class WorkflowControllerTest {
         assertEquals("testMatch",
                      action.getRetry().getMatch());
 
-        assertEquals(testString, controller.toJsonString());
+        assertEquals(testString, new WorkflowController(workflow).toJsonString());
 
     }
 
     @Test
     public void testManagerFromWorkflow() {
         String testString = "{\n" +
+                "  \"id\" : \"1\",\n" +
                 "  \"states\" : [ {\n" +
                 "    \"choices\" : [ {\n" +
                 "      \"And\" : [ {\n" +
@@ -117,20 +125,22 @@ public class WorkflowControllerTest {
                 "      \"next-state\" : \"testnextstate\"\n" +
                 "    } ],\n" +
                 "    \"default\" : \"defaultteststate\",\n" +
+                "    \"id\" : \"2\",\n" +
                 "    \"name\" : \"switchstate\",\n" +
                 "    \"type\" : \"SWITCH\",\n" +
                 "    \"start\" : true\n" +
                 "  }, {\n" +
                 "    \"status\" : \"SUCCESS\",\n" +
+                "    \"id\" : \"3\",\n" +
                 "    \"name\" : \"endstate\",\n" +
                 "    \"type\" : \"END\",\n" +
                 "    \"start\" : false\n" +
                 "  } ]\n" +
                 "}";
 
-        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
+        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
             add(
-                    new SwitchState().withDefault("defaultteststate").withStart(true).withChoices(
+                    new SwitchState().withId("2").withDefault("defaultteststate").withStart(true).withChoices(
                             new ArrayList<Choice>() {{
                                 add(
                                         new AndChoice().withNextState("testnextstate").withAnd(
@@ -145,7 +155,7 @@ public class WorkflowControllerTest {
                             }}
                     )
             );
-            add(new EndState().withStatus(EndState.Status.SUCCESS));
+            add(new EndState().withId("3").withStatus(EndState.Status.SUCCESS));
         }});
 
         WorkflowController controller = new WorkflowController(workflow);

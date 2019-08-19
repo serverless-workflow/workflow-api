@@ -1,5 +1,7 @@
 {
+  "id": "1",
   "trigger-defs" : [ {
+    "id": "2",
     "name" : "testtriggerevent",
     "source" : "testsource",
     "eventID" : "testeventid",

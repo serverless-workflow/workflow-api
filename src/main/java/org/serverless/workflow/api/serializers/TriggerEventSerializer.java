@@ -25,38 +25,31 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.type.SimpleType;
-import org.serverless.workflow.api.states.DefaultState;
-import org.serverless.workflow.api.states.DelayState;
+import org.serverless.workflow.api.events.TriggerEvent;
 
-public class DelayStateSerializer extends StdSerializer<DelayState> {
+public class TriggerEventSerializer extends StdSerializer<TriggerEvent> {
 
-    public DelayStateSerializer() {
-        this(DelayState.class);
+    public TriggerEventSerializer() {
+        this(TriggerEvent.class);
     }
 
-    protected DelayStateSerializer(Class<DelayState> t) {
+    protected TriggerEventSerializer(Class<TriggerEvent> t) {
         super(t);
     }
 
     @Override
-    public void serialize(DelayState delayState,
+    public void serialize(TriggerEvent triggerEvent,
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
 
         // set the id
-        if(delayState.getId() == null || delayState.getId().length() < 1) {
-            delayState.setId(WorkflowSerializer.generateUniqueId());
+        if(triggerEvent.getId() == null || triggerEvent.getId().length() < 1) {
+            triggerEvent.setId(WorkflowSerializer.generateUniqueId());
         }
-        // set defaults for delay state
-        delayState.setType(DefaultState.Type.DELAY);
-        if (delayState.getName() == null || delayState.getName().length() < 1) {
-            delayState.setName("delaystate");
-        }
-
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
-                                                        SimpleType.construct(DelayState.class)).serialize(delayState,
+                                                        SimpleType.construct(TriggerEvent.class)).serialize(triggerEvent,
                                                                                                           gen,
                                                                                                           provider);
     }

@@ -51,7 +51,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
     public void testEmptyWorkflow() {
-        Workflow workflow = new Workflow();
+        Workflow workflow = new Workflow().withId("1");
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
@@ -60,7 +60,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
     public void testSimpleWorkflowWithMetadata() {
-        Workflow workflow = new Workflow()
+        Workflow workflow = new Workflow().withId("1")
                 .withMetadata(
                         Stream.of(new Object[][] {
                                 { "key1", "value1" },
@@ -75,9 +75,9 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
     public void testTrigger() {
-        Workflow workflow = new Workflow().withTriggerDefs(
+        Workflow workflow = new Workflow().withId("1").withTriggerDefs(
                 Arrays.asList(
-                        new TriggerEvent().withName("testtriggerevent").withEventID("testeventid")
+                        new TriggerEvent().withId("2").withName("testtriggerevent").withEventID("testeventid")
                                 .withCorrelationToken("testcorrelationtoken").withSource("testsource")
                 )
         );
@@ -90,8 +90,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     @Test
     public void testEndState() {
 
-        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
-            add(new EndState().withStatus(Status.SUCCESS));
+        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
+            add(new EndState().withId("2").withStatus(Status.SUCCESS));
         }});
 
         assertNotNull(toJsonString(workflow));
@@ -102,8 +102,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     @Test
     public void testEventState() {
 
-        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
-            add(new EventState().withStart(true)
+        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
+            add(new EventState().withId("2").withStart(true)
                         .withEvents(Arrays.asList(
                                 new Event().withEventExpression("testEventExpression").withTimeout("testTimeout")
                                         .withActionMode(Event.ActionMode.SEQUENTIAL)
@@ -125,8 +125,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
     public void testDelayState() {
-        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
-            add(new DelayState().withStart(false).withNextState("testNextState").withTimeDelay(5));
+        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
+            add(new DelayState().withId("2").withStart(false).withNextState("testNextState").withTimeDelay(5));
         }});
 
         assertNotNull(toJsonString(workflow));
@@ -136,8 +136,8 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
     public void testOperationState() {
-        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
-            add(new OperationState().withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
+        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
+            add(new OperationState().withId("2").withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
                         .withActions(Arrays.asList(
                                 new Action().withFunction(new Function().withName("testFunction"))
                                         .withTimeout(5)
@@ -154,12 +154,12 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
     public void testParallellState() {
-        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
-            add(new ParallelState().withStart(true).withNextState("testnextstate")
+        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
+            add(new ParallelState().withId("2").withStart(true).withNextState("testnextstate")
                         .withBranches(Arrays.asList(
                                 new Branch().withName("firsttestbranch").withStates(
                                         new ArrayList<State>() {{
-                                            add(new OperationState().withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
+                                            add(new OperationState().withId("3").withStart(true).withActionMode(OperationState.ActionMode.SEQUENTIAL).withNextState("testnextstate")
                                                         .withActions(Arrays.asList(
                                                                 new Action().withFunction(new Function().withName("testFunction"))
                                                                         .withTimeout(5)
@@ -171,7 +171,7 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                                 ),
                                 new Branch().withName("secondtestbranch").withStates(
                                         new ArrayList<State>() {{
-                                            add(new DelayState().withStart(false).withNextState("testNextState").withTimeDelay(5));
+                                            add(new DelayState().withId("4").withStart(false).withNextState("testNextState").withTimeDelay(5));
                                         }}
                                 )
                         )));
@@ -184,9 +184,9 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
     @Test
     public void testSwitchState() {
-        Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
+        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
             add(
-                    new SwitchState().withDefault("defaultteststate").withStart(false).withChoices(
+                    new SwitchState().withId("2").withDefault("defaultteststate").withStart(false).withChoices(
                             new ArrayList<Choice>() {{
                                 add(
                                         new AndChoice().withNextState("testnextstate").withAnd(
