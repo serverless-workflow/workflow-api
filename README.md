@@ -8,6 +8,7 @@ This project provides:
 * Java api generated from the Serverless Workflow JSON Schema
 * Jackson Marshalling and Unmarshalling of the object model to/from JSON
 * Workflow Validation (both schema validation and model validation rules)
+* Event Expression evaluation
 * WorkflowController class for convenience
 
 
@@ -179,5 +180,34 @@ If we give invalid workflow json, for example just:
 ```
 We should get the json schema validation error: "#: required key [states] not found"
 as the workflow json schema defines the states node as required. 
+
+
+#### Event Expression evaluation
+According to the specification Event States wait for events to happen before triggering one or more functions.
+Event states can have multiple events, and each event has an event-expression which defines which outside
+events they should trigger upon.
+
+This project provides a default event expression evaluator based on Apache Commons JEXL (http://commons.apache.org/proper/commons-jexl/).
+Implementors can also specify their own expression evaluator via the workflow controller, for example:
+
+
+```java
+    WorkflowController controller = new WorkflowController("someJSONString");
+    controller.setExpressionEvaluator(myEvaluator);
+    
+```
+
+If the default event expression evaluator is used, you can use full powers of JEXL to write your event expressions.
+Here are two simple examples:
+
+```json
+...
+"event-expression": "trigger.equals(\"testtrigger\")"
+...
+"event-expression": "trigger.equals(\"testtrigger\") or trigger.equals(\"testtrigger2\")",
+...
+```
+
+For more information on JEXL language syntax, see here: https://commons.apache.org/proper/commons-jexl/reference/syntax.html
 
 ### More to come soon!
