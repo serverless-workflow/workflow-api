@@ -48,7 +48,7 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
 
         gen.writeStartObject();
 
-        if(workflow.getId() == null || workflow.getId().length() < 1) {
+        if (workflow.getId() == null || workflow.getId().length() < 1) {
             gen.writeStringField("id",
                                  generateUniqueId());
         } else {
@@ -92,7 +92,7 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
                                 .getBytes("UTF-8"));
             String digest = bytesToHex(salt.digest());
             return digest;
-        } catch(Exception e) {
+        } catch (Exception e) {
             return UUID.randomUUID().toString();
         }
     }

@@ -20,148 +20,159 @@ package org.servlerless.workflow.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.WorkflowController;
 import org.serverless.workflow.api.actions.Action;
-import org.serverless.workflow.api.choices.AndChoice;
-import org.serverless.workflow.api.choices.DefaultChoice;
-import org.serverless.workflow.api.interfaces.Choice;
+import org.serverless.workflow.api.actions.Retry;
+import org.serverless.workflow.api.events.Event;
+import org.serverless.workflow.api.events.TriggerEvent;
+import org.serverless.workflow.api.functions.Function;
 import org.serverless.workflow.api.interfaces.State;
-import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
-import org.serverless.workflow.api.states.OperationState;
-import org.serverless.workflow.api.states.SwitchState;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.servlerless.workflow.api.util.IsEqualJSON.equalToJSONInFile;
 
-public class WorkflowControllerTest {
+public class WorkflowControllerTest extends BaseWorkflowTest {
 
     @Test
     public void testManagerFromJson() {
 
-        String testString = "{\n" +
-                "  \"id\" : \"1\",\n" +
-                "  \"states\" : [ {\n" +
-                "    \"action-mode\" : \"SEQUENTIAL\",\n" +
-                "    \"actions\" : [ {\n" +
-                "      \"function\" : {\n" +
-                "        \"name\" : \"testFunction\"\n" +
-                "      },\n" +
-                "      \"timeout\" : 5,\n" +
-                "      \"retry\" : {\n" +
-                "        \"match\" : \"testMatch\",\n" +
-                "        \"retry-interval\" : 2,\n" +
-                "        \"max-retry\" : 10,\n" +
-                "        \"next-state\" : \"testNextRetryState\"\n" +
-                "      }\n" +
-                "    } ],\n" +
-                "    \"next-state\" : \"testnextstate\",\n" +
-                "    \"id\" : \"2\",\n" +
-                "    \"name\" : \"operationstate\",\n" +
-                "    \"type\" : \"OPERATION\",\n" +
-                "    \"start\" : true\n" +
-                "  } ]\n" +
-                "}";
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("controller/eventstatewithtrigger.json")));
 
-        WorkflowController controller = new WorkflowController(testString);
+        WorkflowController controller = new WorkflowController(workflow);
         assertTrue(controller.isValid());
 
-        Workflow workflow = controller.getWorkflow();
-        assertNotNull(workflow);
-
-        // set the id for tests
-        workflow.setId("1");
-
-        assertThat(workflow.getTriggerDefs().size(),
-                   is(0));
         assertNotNull(workflow.getStates());
         assertThat(workflow.getStates().size(),
                    is(1));
-        assertTrue(workflow.getStates().get(0) instanceof OperationState);
+        assertTrue(workflow.getStates().get(0) instanceof EventState);
 
-        OperationState operationState = (OperationState) workflow.getStates().get(0);
-        // set the id for test
-        operationState.setId("2");
-        assertEquals("testnextstate",
-                     operationState.getNextState());
-        assertEquals("operationstate",
-                     operationState.getName());
-        assertEquals(EventState.Type.OPERATION,
-                     operationState.getType());
+        EventState eventState = (EventState) workflow.getStates().get(0);
+        assertEquals("eventstate",
+                     eventState.getName());
+        assertEquals(EventState.Type.EVENT,
+                     eventState.getType());
 
-        assertNotNull(operationState.getActions());
+        assertNotNull(eventState.getEvents());
         assertEquals(1,
-                     operationState.getActions().size());
+                     eventState.getEvents().size());
 
-        Action action = operationState.getActions().get(0);
-        assertEquals("testFunction",
-                     action.getFunction().getName());
-        assertNotNull(action.getRetry());
-        assertEquals("testMatch",
-                     action.getRetry().getMatch());
+        Event event = eventState.getEvents().get(0);
+        assertEquals("testNextState",
+                     event.getNextState());
+        assertNotNull(event.getActions());
 
-        assertEquals(testString, new WorkflowController(workflow).toJsonString());
+        assertEquals(1,
+                     event.getActions().size());
 
+        assertNotNull(workflow.getTriggerDefs());
+        assertEquals(1,
+                     workflow.getTriggerDefs().size());
+
+        assertTrue(controller.haveTriggers());
+
+        assertTrue(controller.haveStates());
+
+        assertEquals(1,
+                     controller.getUniqueStates().size());
+        assertEquals(1,
+                     controller.getUniqueTriggerEvents().size());
+
+        TriggerEvent triggerEvent = controller.getUniqueTriggerEvents().get("2");
+        assertNotNull(triggerEvent);
+
+        List<EventState> eventStatesForTrigger = controller.getEventStatesForTriggerEvent(triggerEvent);
+        assertNotNull(eventStatesForTrigger);
+        assertEquals(1,
+                     eventStatesForTrigger.size());
+        EventState eventStateForTrigger = eventStatesForTrigger.get(0);
+        assertEquals("3",
+                     eventStateForTrigger.getId());
     }
 
     @Test
     public void testManagerFromWorkflow() {
-        String testString = "{\n" +
-                "  \"id\" : \"1\",\n" +
-                "  \"states\" : [ {\n" +
-                "    \"choices\" : [ {\n" +
-                "      \"And\" : [ {\n" +
-                "        \"path\" : \"testpath\",\n" +
-                "        \"value\" : \"testvalue\",\n" +
-                "        \"operator\" : \"EQ\",\n" +
-                "        \"next-state\" : \"testnextstate\"\n" +
-                "      } ],\n" +
-                "      \"next-state\" : \"testnextstate\"\n" +
-                "    } ],\n" +
-                "    \"default\" : \"defaultteststate\",\n" +
-                "    \"id\" : \"2\",\n" +
-                "    \"name\" : \"switchstate\",\n" +
-                "    \"type\" : \"SWITCH\",\n" +
-                "    \"start\" : true\n" +
-                "  }, {\n" +
-                "    \"status\" : \"SUCCESS\",\n" +
-                "    \"id\" : \"3\",\n" +
-                "    \"name\" : \"endstate\",\n" +
-                "    \"type\" : \"END\",\n" +
-                "    \"start\" : false\n" +
-                "  } ]\n" +
-                "}";
-
-        Workflow workflow = new Workflow().withId("1").withStates(new ArrayList<State>() {{
-            add(
-                    new SwitchState().withId("2").withDefault("defaultteststate").withStart(true).withChoices(
-                            new ArrayList<Choice>() {{
-                                add(
-                                        new AndChoice().withNextState("testnextstate").withAnd(
-                                                Arrays.asList(
-                                                        new DefaultChoice().withNextState("testnextstate")
-                                                                .withOperator(DefaultChoice.Operator.EQ)
-                                                                .withPath("testpath")
-                                                                .withValue("testvalue")
-                                                )
-                                        )
-                                );
-                            }}
-                    )
-            );
-            add(new EndState().withId("3").withStatus(EndState.Status.SUCCESS));
-        }});
+        Workflow workflow = new Workflow().withId("1")
+                .withTriggerDefs(
+                        Arrays.asList(
+                                new TriggerEvent().withId("2").withName("testtrigger").withEventID("testeventid")
+                                        .withCorrelationToken("testcorrelationtoken").withSource("testsource")
+                        )
+                )
+                .withStates(new ArrayList<State>() {{
+                    add(new EventState().withId("3").withStart(true).withName("eventstate").withType(EventState.Type.EVENT)
+                                .withEvents(Arrays.asList(
+                                        new Event().withEventExpression("trigger.equals(\"testtrigger\")").withTimeout("testTimeout")
+                                                .withActionMode(Event.ActionMode.SEQUENTIAL)
+                                                .withNextState("testNextState")
+                                                .withActions(Arrays.asList(
+                                                        new Action().withFunction(new Function().withName("testFunction"))
+                                                                .withTimeout(5)
+                                                                .withRetry(new Retry().withMatch("testMatch").withMaxRetry(10)
+                                                                                   .withRetryInterval(2)
+                                                                                   .withNextState("testNextRetryState"))
+                                                ))
+                                )));
+                }});
 
         WorkflowController controller = new WorkflowController(workflow);
 
-        assertTrue(controller.isValid());
-        assertEquals(testString, controller.toJsonString());
+        assertNotNull(workflow.getStates());
+        assertThat(workflow.getStates().size(),
+                   is(1));
+        assertTrue(workflow.getStates().get(0) instanceof EventState);
 
+        EventState eventState = (EventState) workflow.getStates().get(0);
+        assertEquals("eventstate",
+                     eventState.getName());
+        assertEquals(EventState.Type.EVENT,
+                     eventState.getType());
+
+        assertNotNull(eventState.getEvents());
+        assertEquals(1,
+                     eventState.getEvents().size());
+
+        Event event = eventState.getEvents().get(0);
+        assertEquals("testNextState",
+                     event.getNextState());
+        assertNotNull(event.getActions());
+
+        assertEquals(1,
+                     event.getActions().size());
+
+        assertNotNull(workflow.getTriggerDefs());
+        assertEquals(1,
+                     workflow.getTriggerDefs().size());
+
+        assertTrue(controller.haveTriggers());
+
+        assertTrue(controller.haveStates());
+
+        assertEquals(1,
+                     controller.getUniqueStates().size());
+        assertEquals(1,
+                     controller.getUniqueTriggerEvents().size());
+
+        TriggerEvent triggerEvent = controller.getUniqueTriggerEvents().get("2");
+        assertNotNull(triggerEvent);
+
+        List<EventState> eventStatesForTrigger = controller.getEventStatesForTriggerEvent(triggerEvent);
+        assertNotNull(eventStatesForTrigger);
+        assertEquals(1,
+                     eventStatesForTrigger.size());
+        EventState eventStateForTrigger = eventStatesForTrigger.get(0);
+        assertEquals("3",
+                     eventStateForTrigger.getId());
+
+        assertThat(controller.toJsonString(),
+                   equalToJSONInFile(getResourcePathFor("controller/eventstatewithtrigger.json")));
     }
 }

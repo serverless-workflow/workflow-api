@@ -62,10 +62,11 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
     public void testSimpleWorkflowWithMetadata() {
         Workflow workflow = new Workflow().withId("1")
                 .withMetadata(
-                        Stream.of(new Object[][] {
-                                { "key1", "value1" },
-                                { "key2", "value2" },
-                        }).collect(Collectors.toMap(data -> (String) data[0], data -> (String) data[1]))
+                        Stream.of(new Object[][]{
+                                {"key1", "value1"},
+                                {"key2", "value2"},
+                        }).collect(Collectors.toMap(data -> (String) data[0],
+                                                    data -> (String) data[1]))
                 );
 
         assertNotNull(toJsonString(workflow));

@@ -164,10 +164,10 @@ public class WorkflowValidator {
                                        ValidationError.WORKFLOW_VALIDATION);
                 }
 
-                if(!foundEndState[0].booleanValue()) {
-                    addValidationError("No end state found.",
-                                       ValidationError.WORKFLOW_VALIDATION);
-                }
+//                if(!foundEndState[0].booleanValue()) {
+//                    addValidationError("No end state found.",
+//                                       ValidationError.WORKFLOW_VALIDATION);
+//                }
             }
         } catch (Exception e) {
             LOGGER.error("Error loading schema: " + e.getMessage());

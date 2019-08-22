@@ -16,9 +16,10 @@
  *
  */
 
-package org.serverless.workflow.api.interfaces;
+package org.serverless.workflow.api;
 
-public interface State {
+public interface ExpressionEvaluator {
 
-    public String getId();
+    boolean evaluate(String expression,
+                     String triggerName);
 }

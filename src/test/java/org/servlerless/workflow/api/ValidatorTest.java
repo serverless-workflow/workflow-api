@@ -40,18 +40,28 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertNotNull(validator);
 
         List<ValidationError> validationErrorList = validator.validate();
-        assertEquals(1, validationErrorList.size());
-        assertTrue(constainsError(validationErrorList, "#: required key [states] not found", ValidationError.SCHEMA_VALIDATION));
+        assertEquals(1,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "#: required key [states] not found",
+                                  ValidationError.SCHEMA_VALIDATION));
 
         // if workflow given there should be schema errors and workflow errors
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
         validator = validator.forWorkflow(workflow);
         validationErrorList = validator.validate();
-        assertEquals(4, validationErrorList.size());
-        assertTrue(constainsError(validationErrorList, "#: required key [states] not found", ValidationError.SCHEMA_VALIDATION));
-        assertTrue(constainsError(validationErrorList, "No states found.", ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList, "No start state found.", ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList, "No end state found.", ValidationError.WORKFLOW_VALIDATION));
+        assertEquals(3,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "#: required key [states] not found",
+                                  ValidationError.SCHEMA_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "No states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "No start state found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        //assertTrue(constainsError(validationErrorList, "No end state found.", ValidationError.WORKFLOW_VALIDATION));
 
     }
 
@@ -60,16 +70,22 @@ public class ValidatorTest extends BaseWorkflowTest {
         WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("basic/emptyworkflow.json")));
         assertNotNull(validator);
 
-        assertEquals(0, validator.validate().size());
+        assertEquals(0,
+                     validator.validate().size());
 
         // if workflow given there should be chema error and workflow error2
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
         validator = validator.forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
-        assertEquals(3, validationErrorList.size());
-        assertTrue(constainsError(validationErrorList, "No states found.", ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList, "No start state found.", ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList, "No end state found.", ValidationError.WORKFLOW_VALIDATION));
+        assertEquals(2,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "No states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "No start state found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        //assertTrue(constainsError(validationErrorList, "No end state found.", ValidationError.WORKFLOW_VALIDATION));
 
     }
 
@@ -78,15 +94,19 @@ public class ValidatorTest extends BaseWorkflowTest {
         WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidtrigger.json")));
         assertNotNull(validator);
 
-        assertEquals(1, validator.validate().size());
-        assertEquals("#/trigger-defs/0: required key [name] not found", validator.validate().get(0).getMessage());
+        assertEquals(1,
+                     validator.validate().size());
+        assertEquals("#/trigger-defs/0: required key [name] not found",
+                     validator.validate().get(0).getMessage());
 
         // if workflow given there should be schema error too
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/invalidtrigger.json")));
         validator = validator.forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
-        assertEquals(1, validationErrorList.size());
-        assertTrue(constainsError(validationErrorList, "#/trigger-defs/0: required key [name] not found", ValidationError.SCHEMA_VALIDATION));
-
+        assertEquals(1,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "#/trigger-defs/0: required key [name] not found",
+                                  ValidationError.SCHEMA_VALIDATION));
     }
 }

@@ -68,9 +68,12 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
                    is(0));
 
         assertNotNull(workflow.getMetadata());
-        assertEquals(2, workflow.getMetadata().size());
-        assertEquals("value1", workflow.getMetadata().get("key1"));
-        assertEquals("value2", workflow.getMetadata().get("key2"));
+        assertEquals(2,
+                     workflow.getMetadata().size());
+        assertEquals("value1",
+                     workflow.getMetadata().get("key1"));
+        assertEquals("value2",
+                     workflow.getMetadata().get("key2"));
     }
 
     @Test

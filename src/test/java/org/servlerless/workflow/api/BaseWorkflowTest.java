@@ -37,8 +37,8 @@ public class BaseWorkflowTest {
 
     private static WorkflowObjectMapper objectMapper;
     private Path resourceDirectory = Paths.get("src",
-                                       "test",
-                                       "resources");
+                                               "test",
+                                               "resources");
     String absolutePath = resourceDirectory.toFile().getAbsolutePath();
 
     @BeforeAll
@@ -88,10 +88,12 @@ public class BaseWorkflowTest {
         }
     }
 
-    public boolean constainsError(List<ValidationError> errors, String error, String type) {
+    public boolean constainsError(List<ValidationError> errors,
+                                  String error,
+                                  String type) {
         final Boolean[] contains = {false};
         errors.stream().forEach(er -> {
-            if(er.getMessage().equalsIgnoreCase(error) && er.getType().equalsIgnoreCase(type)) {
+            if (er.getMessage().equalsIgnoreCase(error) && er.getType().equalsIgnoreCase(type)) {
                 contains[0] = true;
             }
         });

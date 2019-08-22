@@ -23,6 +23,7 @@
     <jsonassert.version>1.5.0</jsonassert.version>
     <json.schema.validation.version>1.11.1</json.schema.validation.version>
     <slf4j.version>1.7.28</slf4j.version>
+    <commons-jexl3.version>3.1</commons-jexl3.version>
   </properties>
 
   <repositories>
@@ -52,6 +53,12 @@
       <groupId>com.github.everit-org.json-schema</groupId>
       <artifactId>org.everit.json.schema</artifactId>
       <version>${json.schema.validation.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-jexl3</artifactId>
+      <version>${commons-jexl3.version}</version>
     </dependency>
 
     <dependency>

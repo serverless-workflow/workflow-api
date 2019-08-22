@@ -43,9 +43,8 @@ public class OperationStateSerializer extends StdSerializer<OperationState> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-
         // set the id
-        if(operationState.getId() == null || operationState.getId().length() < 1) {
+        if (operationState.getId() == null || operationState.getId().length() < 1) {
             operationState.setId(WorkflowSerializer.generateUniqueId());
         }
         // set defaults for delay state

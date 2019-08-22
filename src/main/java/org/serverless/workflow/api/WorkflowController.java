@@ -30,13 +30,14 @@ import org.serverless.workflow.api.validation.WorkflowValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WorkflowController {
+public class WorkflowController extends WorkflowAdvice {
 
     private WorkflowValidator validator;
     private List<ValidationError> validationErrors;
     private String json;
     private WorkflowObjectMapper objectMapper = new WorkflowObjectMapper();
     private Workflow workflow;
+    private ExpressionEvaluator expressionEvaluator;
 
     private static Logger logger = LoggerFactory.getLogger(WorkflowController.class);
 
@@ -49,6 +50,7 @@ public class WorkflowController {
         this.workflow = workflow;
         this.validator = new WorkflowValidator().forWorkflow(workflow);
         this.validationErrors = this.validator.validate();
+        this.expressionEvaluator = new DefaultExpressionEvaluator();
     }
 
     public WorkflowController(String workflowJSON) {
@@ -56,6 +58,7 @@ public class WorkflowController {
         this.workflow = toWorkflow(json);
         this.validator = new WorkflowValidator().forWorkflowJson(json);
         this.validationErrors = this.validator.validate();
+        this.expressionEvaluator = new DefaultExpressionEvaluator();
     }
 
     public boolean isValid() {
@@ -64,6 +67,16 @@ public class WorkflowController {
 
     public List<ValidationError> getValidationErrors() {
         return validationErrors;
+    }
+
+    @Override
+    public void setExpressionEvaluator(ExpressionEvaluator expressionEvaluator) {
+        this.expressionEvaluator = expressionEvaluator;
+    }
+
+    @Override
+    public ExpressionEvaluator getExpressionEvaluator() {
+        return expressionEvaluator;
     }
 
     public String displayValidationErrors() {
@@ -82,6 +95,7 @@ public class WorkflowController {
         return new String(data);
     }
 
+    @Override
     public Workflow getWorkflow() {
         return workflow;
     }

@@ -34,7 +34,7 @@ public class ResourceSchemaClient implements SchemaClient {
     }
 
     public InputStream get(String path) {
-        path = path.substring("https://wg-serverless.org/" .length());
+        path = path.substring("https://wg-serverless.org/".length());
         return this.getClass().getResourceAsStream(baseResourcePath + path);
     }
 }

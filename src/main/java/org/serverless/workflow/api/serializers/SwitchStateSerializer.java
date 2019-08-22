@@ -44,7 +44,7 @@ public class SwitchStateSerializer extends StdSerializer<SwitchState> {
                           SerializerProvider provider) throws IOException {
 
         // set the id
-        if(switchState.getId() == null || switchState.getId().length() < 1) {
+        if (switchState.getId() == null || switchState.getId().length() < 1) {
             switchState.setId(WorkflowSerializer.generateUniqueId());
         }
         // set defaults for end state
