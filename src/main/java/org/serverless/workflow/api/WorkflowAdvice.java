@@ -86,4 +86,21 @@ public abstract class WorkflowAdvice {
 
         return triggerStates;
     }
+
+    public List<TriggerEvent> getTriggerEventsForEventState(EventState eventState) {
+        List<TriggerEvent> eventStateTriggers = new ArrayList<>();
+
+        for(TriggerEvent triggerEvent : getWorkflow().getTriggerDefs()) {
+            List<Event> triggeredEvents = eventState.getEvents().stream()
+                    .filter(event -> getExpressionEvaluator()
+                            .evaluate(event.getEventExpression(),
+                                      triggerEvent.getName())).collect(Collectors.toList());
+
+            if (triggeredEvents != null && triggeredEvents.size() > 0) {
+                eventStateTriggers.add(triggerEvent);
+            }
+        }
+
+        return eventStateTriggers;
+    }
 }

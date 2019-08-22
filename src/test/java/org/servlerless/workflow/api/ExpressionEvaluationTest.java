@@ -23,6 +23,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.WorkflowController;
+import org.serverless.workflow.api.events.TriggerEvent;
 import org.serverless.workflow.api.states.EventState;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -68,5 +69,16 @@ public class ExpressionEvaluationTest extends BaseWorkflowTest {
         EventState eventStateForTrigger3 = eventStatesForTrigger2.get(0);
         assertEquals("5",
                      eventStateForTrigger3.getId());
+
+        List<TriggerEvent> triggerEvents1 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("4"));
+        assertNotNull(triggerEvents1);
+        assertThat(triggerEvents1.size(), is(1));
+        assertEquals("2", triggerEvents1.get(0).getId());
+
+        List<TriggerEvent> triggerEvents2 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("5"));
+        assertNotNull(triggerEvents2);
+        assertThat(triggerEvents2.size(), is(2));
+        assertEquals("2", triggerEvents2.get(0).getId());
+        assertEquals("3", triggerEvents2.get(1).getId());
     }
 }
