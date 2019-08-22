@@ -23,19 +23,28 @@ import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JexlExpression;
 import org.apache.commons.jexl3.MapContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultExpressionEvaluator implements ExpressionEvaluator {
 
     public JexlEngine jexl = new JexlBuilder().create();
 
+    private static Logger logger = LoggerFactory.getLogger(DefaultExpressionEvaluator.class);
+
     public boolean evaluate(String expression,
                             String triggerName) {
-        JexlExpression e = jexl.createExpression(expression);
+        try {
+            JexlExpression e = jexl.createExpression(expression);
 
-        JexlContext jc = new MapContext();
-        jc.set("trigger",
-               triggerName);
+            JexlContext jc = new MapContext();
+            jc.set("trigger",
+                   triggerName);
 
-        return (Boolean) e.evaluate(jc);
+            return (Boolean) e.evaluate(jc);
+        } catch(Exception e) {
+            logger.error("Unable to evaluate expression: " + expression + " with error: " + e.getMessage());
+            return false;
+        }
     }
 }
