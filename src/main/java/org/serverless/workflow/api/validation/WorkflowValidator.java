@@ -19,7 +19,9 @@
 package org.serverless.workflow.api.validation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
@@ -109,7 +111,7 @@ public class WorkflowValidator {
                                        ValidationError.WORKFLOW_VALIDATION);
                 }
 
-                // make sure we have at least one start state and one end state
+                // make sure we have at least one start state
                 final Boolean[] foundStartState = {false};
                 final Boolean[] foundEndState = {false};
                 if (workflow.getStates() != null) {
@@ -168,7 +170,36 @@ public class WorkflowValidator {
 //                    addValidationError("No end state found.",
 //                                       ValidationError.WORKFLOW_VALIDATION);
 //                }
+
+                // make sure if we have trigger events that they unique name and
+                // event id
+                if(workflow.getTriggerDefs() != null) {
+                    Map<String, String> uniqueNames = new HashMap<>();
+                    Map<String, String> uniqueEventIds = new HashMap();
+                    workflow.getTriggerDefs().stream().forEach(triggerEvent -> {
+                        System.out.println("1");
+                        if(triggerEvent.getName() == null || triggerEvent.getName().length() < 1) {
+                            addValidationError("Trigger Event has no name", ValidationError.WORKFLOW_VALIDATION);
+                        }
+                        if(triggerEvent.getEventID() == null || triggerEvent.getEventID().length() < 1) {
+                            addValidationError("Trigger Event has no event id", ValidationError.WORKFLOW_VALIDATION);
+                        }
+
+                        if(uniqueNames.containsKey(triggerEvent.getName())) {
+                            addValidationError("Trigger Event does not have unique name.", ValidationError.WORKFLOW_VALIDATION);
+                        } else {
+                            uniqueNames.put(triggerEvent.getName(), "");
+                        }
+
+                        if(uniqueEventIds.containsKey(triggerEvent.getEventID())) {
+                            addValidationError("Trigger Event does not have unique eventid.", ValidationError.WORKFLOW_VALIDATION);
+                        } else {
+                            uniqueEventIds.put(triggerEvent.getEventID(), "");
+                        }
+                    });
+                }
             }
+
         } catch (Exception e) {
             LOGGER.error("Error loading schema: " + e.getMessage());
         }

@@ -109,4 +109,34 @@ public class ValidatorTest extends BaseWorkflowTest {
                                   "#/trigger-defs/0: required key [name] not found",
                                   ValidationError.SCHEMA_VALIDATION));
     }
+
+    @Test
+    public void invalidTriggerEventNotUniqueProperties() {
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidtriggerproperties.json")));
+        assertNotNull(validator);
+
+        // no schema errors
+        assertEquals(0,
+                     validator.validate().size());
+
+        // there are workflow validation errors
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/invalidtriggerproperties.json")));
+        validator = validator.forWorkflow(workflow);
+        List<ValidationError> validationErrorList = validator.validate();
+        assertEquals(4,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "No states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "No start state found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "Trigger Event does not have unique name.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "Trigger Event does not have unique eventid.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+
+    }
 }

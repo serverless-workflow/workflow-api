@@ -1,0 +1,14 @@
+{
+  "trigger-defs" : [ {
+    "name" : "testtriggerevent",
+    "source" : "testsource",
+    "eventID" : "testeventid",
+    "correlation-token" : "testcorrelationtoken"
+  },{
+    "name" : "testtriggerevent",
+    "source" : "testsource",
+    "eventID" : "testeventid",
+    "correlation-token" : "testcorrelationtoken"
+  } ],
+  "states" : [ ]
+}
