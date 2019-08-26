@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.serverless.workflow.api.events.Event;
 import org.serverless.workflow.api.events.TriggerEvent;
@@ -102,5 +103,25 @@ public abstract class WorkflowAdvice {
         }
 
         return eventStateTriggers;
+    }
+
+    public List<TriggerEvent> getAllTriggerEventsAssociatedWithEventStates() {
+        Map<String, TriggerEvent> associatedTriggersMap = new HashMap();
+        for (State state : getWorkflow().getStates()) {
+            if (state instanceof EventState) {
+                EventState eventState = (EventState) state;
+                for (TriggerEvent triggerEvent : getWorkflow().getTriggerDefs()) {
+                    List<Event> triggeredEvents = eventState.getEvents().stream()
+                            .filter(event -> getExpressionEvaluator()
+                                    .evaluate(event.getEventExpression(),
+                                              triggerEvent.getName())).collect(Collectors.toList());
+                    if (triggeredEvents != null && triggeredEvents.size() > 0) {
+                        associatedTriggersMap.put(triggerEvent.getId(), triggerEvent);
+                    }
+                }
+            }
+        }
+
+        return new ArrayList<>(associatedTriggersMap.values());
     }
 }

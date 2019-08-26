@@ -13,9 +13,16 @@
       "source" : "testsource2",
       "eventID" : "testeventid2",
       "correlation-token" : "testcorrelationtoken2"
+    },
+    {
+      "id": "4",
+      "name" : "testtrigger3",
+      "source" : "testsource3",
+      "eventID" : "testeventid3",
+      "correlation-token" : "testcorrelationtoken3"
     }],
   "states" : [ {
-    "id": "4",
+    "id": "5",
     "events" : [ {
       "event-expression" : "trigger.equals(\"testtrigger\")",
       "timeout" : "testTimeout",
@@ -39,7 +46,7 @@
     "start" : true
   },
     {
-      "id": "5",
+      "id": "6",
       "events" : [ {
         "event-expression" : "trigger.equals(\"testtrigger\") or trigger.equals(\"testtrigger2\")",
         "timeout" : "testTimeout",
