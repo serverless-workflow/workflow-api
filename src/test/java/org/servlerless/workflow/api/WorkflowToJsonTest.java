@@ -206,6 +206,6 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("basic/singleswitchstateAndChoice.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singleswitchstateandchoice.json")));
     }
 }
