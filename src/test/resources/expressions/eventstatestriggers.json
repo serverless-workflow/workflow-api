@@ -24,7 +24,7 @@
   "states" : [ {
     "id": "5",
     "events" : [ {
-      "event-expression" : "trigger.equals(\"testtrigger\")",
+      "event-expression" : "trigger.equals('testtrigger')",
       "timeout" : "testTimeout",
       "action-mode" : "SEQUENTIAL",
       "actions" : [ {
@@ -48,7 +48,7 @@
     {
       "id": "6",
       "events" : [ {
-        "event-expression" : "trigger.equals(\"testtrigger\") or trigger.equals(\"testtrigger2\")",
+        "event-expression" : "trigger.equals('testtrigger') or trigger.equals('testtrigger2')",
         "timeout" : "testTimeout",
         "action-mode" : "SEQUENTIAL",
         "actions" : [ {
