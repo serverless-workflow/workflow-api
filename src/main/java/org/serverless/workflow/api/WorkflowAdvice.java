@@ -25,8 +25,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.serverless.workflow.api.actions.Action;
 import org.serverless.workflow.api.events.Event;
 import org.serverless.workflow.api.events.TriggerEvent;
+import org.serverless.workflow.api.functions.Function;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.states.EventState;
 
@@ -123,5 +125,40 @@ public abstract class WorkflowAdvice {
         }
 
         return new ArrayList<>(associatedTriggersMap.values());
+    }
+
+    // convenience method
+    public List<Action> getAllActionsForEventState(EventState eventState) {
+        List<Action> actions = new ArrayList<>();
+        eventState.getEvents().stream().forEach(event -> {
+            actions.addAll(event.getActions());
+        });
+        return actions;
+    }
+
+    // convenience method
+    public List<Action> getAllActionsForEventStates(List<EventState> eventStates) {
+        List<Action> actions = new ArrayList<>();
+        eventStates.stream().forEach(eventState -> {
+            actions.addAll(getAllActionsForEventState(eventState));
+        });
+        return actions;
+    }
+
+    // convenience method
+    public List<Function> getAllFunctionsForActions(List<Action> actions) {
+        List<Function> functions = new ArrayList<>();
+        actions.stream().forEach(action -> {
+            functions.add(action.getFunction());
+        });
+
+        return functions;
+    }
+
+    // convenience method
+    public List<Function> getAllFunctionsForEventStates(List<EventState> eventStates) {
+        List<Function> functions = new ArrayList<>();
+        List<Action> actions = getAllActionsForEventStates(eventStates);
+        return getAllFunctionsForActions(actions);
     }
 }
