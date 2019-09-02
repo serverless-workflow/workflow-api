@@ -18,7 +18,19 @@
 
 package org.serverless.workflow.api.interfaces;
 
+import java.util.Map;
+
+import org.serverless.workflow.api.states.DefaultState.Type;
+
 public interface State {
 
-    public String getId();
+    String getId();
+
+    String getName();
+
+    Type getType();
+
+    boolean isStart();
+
+    Map<String, String> getMetadata();
 }
