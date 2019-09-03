@@ -4,16 +4,19 @@
   "properties": {
     "input-path": {
       "type": "string",
-      "description": "JSON Path to use as an input for an Action, Event or State"
+      "description": "Select input data of either Event, State or Action as JSONPath"
     },
     "result-path": {
       "type": "string",
-      "description": "JSON Path to use as result node for an Action, Event or State"
+      "description": "Specify result JSON node of Action Output as JSONPath"
     },
     "output-path": {
       "type": "string",
-      "description": "JSON Path to use as the output for an Action, Event or State"
+      "description": "Specify output data of State or Action as JSONPath"
+    },
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
     }
   },
-  "required": ["input-path", "result-path", "output-path"]
+  "required": []
 }

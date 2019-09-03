@@ -20,6 +20,9 @@
             "default": false,
             "description": "Is the start event"
         },
+        "filter": {
+            "$ref": "../filters/filter.json"
+        },
         "metadata": {
             "$ref": "../metadata/metadata.json"
         }
