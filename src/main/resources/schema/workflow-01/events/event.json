@@ -27,6 +27,9 @@
             "type": "string",
             "description": "Next state name"
         },
+        "filter": {
+            "$ref": "../filters/filter.json"
+        },
         "metadata": {
             "$ref": "../metadata/metadata.json"
         }

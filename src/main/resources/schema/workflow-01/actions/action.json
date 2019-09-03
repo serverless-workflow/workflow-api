@@ -17,6 +17,9 @@
             "$ref": "retry.json",
             "description": "Specifies how the result from a function is to be handled"
         },
+        "filter": {
+            "$ref": "../filters/filter.json"
+        },
         "metadata": {
             "$ref": "../metadata/metadata.json"
         }
