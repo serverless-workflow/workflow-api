@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.filters.Filter",
+  "properties": {
+    "input-path": {
+      "type": "string",
+      "description": "JSON Path to use as an input for an Action, Event or State"
+    },
+    "result-path": {
+      "type": "string",
+      "description": "JSON Path to use as result node for an Action, Event or State"
+    },
+    "output-path": {
+      "type": "string",
+      "description": "JSON Path to use as the output for an Action, Event or State"
+    }
+  },
+  "required": ["input-path", "result-path", "output-path"]
+}

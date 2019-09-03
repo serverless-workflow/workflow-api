@@ -1,23 +1,32 @@
 {
   "id": "1",
-  "states" : [ {
-    "id": "2",
-    "action-mode" : "SEQUENTIAL",
-    "actions" : [ {
-      "function" : {
-        "name" : "testFunction"
+  "states": [
+    {
+      "id": "2",
+      "action-mode": "SEQUENTIAL",
+      "actions": [
+        {
+          "function": {
+            "name": "testFunction"
+          },
+          "timeout": 5,
+          "retry": {
+            "match": "testMatch",
+            "retry-interval": 2,
+            "max-retry": 10,
+            "next-state": "testNextRetryState"
+          }
+        }
+      ],
+      "filter": {
+        "input-path": "$.owner.address.zipcode",
+        "result-path": "$.country.code",
+        "output-path": "$.owner.address.countryCode"
       },
-      "timeout" : 5,
-      "retry" : {
-        "match" : "testMatch",
-        "retry-interval" : 2,
-        "max-retry" : 10,
-        "next-state" : "testNextRetryState"
-      }
-    } ],
-    "next-state" : "testnextstate",
-    "name" : "operationstate",
-    "type" : "OPERATION",
-    "start" : true
-  } ]
+      "next-state": "testnextstate",
+      "name": "operationstate",
+      "type": "OPERATION",
+      "start": true
+    }
+  ]
 }
