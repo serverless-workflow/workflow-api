@@ -20,6 +20,7 @@ package org.serverless.workflow.api.interfaces;
 
 import java.util.Map;
 
+import org.serverless.workflow.api.filters.Filter;
 import org.serverless.workflow.api.states.DefaultState.Type;
 
 public interface State {
@@ -31,6 +32,8 @@ public interface State {
     Type getType();
 
     boolean isStart();
+
+    Filter getFilter();
 
     Map<String, String> getMetadata();
 }
