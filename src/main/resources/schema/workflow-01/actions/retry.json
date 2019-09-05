@@ -9,10 +9,14 @@
         },
         "retry-interval": {
             "type": "integer",
+            "default":"0",
+            "minimum": 0,
             "description": "Specifies retry interval"
         },
         "max-retry": {
             "type": "integer",
+            "default":"0",
+            "minimum": 0,
             "description": "Specifies the max retry"
         },
         "next-state": {

@@ -121,7 +121,7 @@ public class JsonToWorkflowTest extends BaseWorkflowTest {
     @Test
     public void testEventState() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singlestateevent.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/singleeventstate.json")));
         assertNotNull(workflow);
         assertThat(workflow.getTriggerDefs().size(),
                    is(0));

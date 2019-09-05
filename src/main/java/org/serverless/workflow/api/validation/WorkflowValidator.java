@@ -177,7 +177,6 @@ public class WorkflowValidator {
                     Map<String, String> uniqueNames = new HashMap<>();
                     Map<String, String> uniqueEventIds = new HashMap();
                     workflow.getTriggerDefs().stream().forEach(triggerEvent -> {
-                        System.out.println("1");
                         if(triggerEvent.getName() == null || triggerEvent.getName().length() < 1) {
                             addValidationError("Trigger Event has no name", ValidationError.WORKFLOW_VALIDATION);
                         }

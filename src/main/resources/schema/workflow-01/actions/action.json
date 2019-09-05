@@ -9,7 +9,8 @@
         },
         "timeout": {
             "type": "integer",
-            "minimum": 1,
+            "default":"0",
+            "minimum": 0,
             "description": "Specifies the time period waiting for the events in the EVENTS-EXPRESSION"
         },
         "retry": {
@@ -24,5 +25,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": []
+    "required": ["function"]
 }

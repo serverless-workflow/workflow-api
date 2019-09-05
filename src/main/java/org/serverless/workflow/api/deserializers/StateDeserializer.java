@@ -55,7 +55,7 @@ public class StateDeserializer extends StdDeserializer<State> {
         String type = node.get("type").asText();
 
         // based on statetype return the specific state impl
-        if (type.equals("EVENT")) {
+        if (type.equalsIgnoreCase("EVENT")) {
             return mapper.treeToValue(node,
                                       EventState.class);
         } else if (type.equalsIgnoreCase("OPERATION")) {

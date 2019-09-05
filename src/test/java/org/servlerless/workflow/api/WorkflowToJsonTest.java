@@ -117,12 +117,15 @@ public class WorkflowToJsonTest extends BaseWorkflowTest {
                                                    .withRetryInterval(2)
                                                    .withNextState("testNextRetryState"))
                             ))
-                    )));
+                    ))
+                    .withEntryAction(new Action().withFunction(new Function().withName("entryFunction")))
+                    .withExitAction(new Action().withFunction(new Function().withName("exitFunction")))
+            );
         }});
 
         assertNotNull(toJsonString(workflow));
         assertThat(toJsonString(workflow),
-                   equalToJSONInFile(getResourcePathFor("basic/singlestateevent.json")));
+                   equalToJSONInFile(getResourcePathFor("basic/singleeventstate.json")));
     }
 
     @Test

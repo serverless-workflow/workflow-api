@@ -23,6 +23,12 @@
         "filter": {
             "$ref": "../filters/filter.json"
         },
+        "entry-action": {
+            "$ref": "../actions/action.json"
+        },
+        "exit-action": {
+            "$ref": "../actions/action.json"
+        },
         "metadata": {
             "$ref": "../metadata/metadata.json"
         }

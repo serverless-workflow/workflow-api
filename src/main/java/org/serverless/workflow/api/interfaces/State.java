@@ -20,6 +20,7 @@ package org.serverless.workflow.api.interfaces;
 
 import java.util.Map;
 
+import org.serverless.workflow.api.actions.Action;
 import org.serverless.workflow.api.filters.Filter;
 import org.serverless.workflow.api.states.DefaultState.Type;
 
@@ -36,4 +37,8 @@ public interface State {
     Filter getFilter();
 
     Map<String, String> getMetadata();
+
+    Action getEntryAction();
+
+    Action getExitAction();
 }

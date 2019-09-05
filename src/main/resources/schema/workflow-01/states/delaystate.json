@@ -9,7 +9,8 @@
     "properties": {
         "time-delay": {
             "type": "integer",
-            "minimum": 1,
+            "default":"0",
+            "minimum": 0,
             "description": "Amount of time in seconds to delay in this state"
         },
         "next-state": {
