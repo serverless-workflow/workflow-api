@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.schemaclient.ResourceSchemaClient;
-import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
 import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
@@ -111,45 +110,46 @@ public class WorkflowValidator {
                                        ValidationError.WORKFLOW_VALIDATION);
                 }
 
-                // make sure we have at least one start state
+                // make sure we have one start state
                 final Boolean[] foundStartState = {false};
+                final Integer[] startStatesCount = {0};
                 final Boolean[] foundEndState = {false};
+                final Integer[] endStatesCount = {0};
                 if (workflow.getStates() != null) {
                     workflow.getStates().stream().forEach(s -> {
                         if (s instanceof EventState) {
                             EventState eventState = (EventState) s;
                             if (eventState.isStart()) {
                                 foundStartState[0] = true;
+                                startStatesCount[0]++;
                             }
                         }
                         if (s instanceof OperationState) {
                             OperationState operationState = (OperationState) s;
                             if (operationState.isStart()) {
                                 foundStartState[0] = true;
+                                startStatesCount[0]++;
                             }
                         }
                         if (s instanceof SwitchState) {
                             SwitchState switchState = (SwitchState) s;
                             if (switchState.isStart()) {
                                 foundStartState[0] = true;
+                                startStatesCount[0]++;
                             }
                         }
                         if (s instanceof ParallelState) {
                             ParallelState parallelState = (ParallelState) s;
                             if (parallelState.isStart()) {
                                 foundStartState[0] = true;
+                                startStatesCount[0]++;
                             }
                         }
                         if (s instanceof DelayState) {
                             DelayState delayState = (DelayState) s;
                             if (delayState.isStart()) {
                                 foundStartState[0] = true;
-                            }
-                        }
-                        if (s instanceof DefaultState) {
-                            DefaultState defaultState = (DefaultState) s;
-                            if (defaultState.isStart()) {
-                                foundStartState[0] = true;
+                                startStatesCount[0]++;
                             }
                         }
                     });
@@ -157,6 +157,7 @@ public class WorkflowValidator {
                     workflow.getStates().stream().forEach(s -> {
                         if (s instanceof EndState) {
                             foundEndState[0] = true;
+                            endStatesCount[0]++;
                         }
                     });
                 }
@@ -166,39 +167,54 @@ public class WorkflowValidator {
                                        ValidationError.WORKFLOW_VALIDATION);
                 }
 
+                if (startStatesCount[0] > 1) {
+                    addValidationError("Multiple start states found.",
+                                       ValidationError.WORKFLOW_VALIDATION);
+                }
+
 //                if(!foundEndState[0].booleanValue()) {
 //                    addValidationError("No end state found.",
 //                                       ValidationError.WORKFLOW_VALIDATION);
 //                }
 
+//                if(endStatesCount[0] > 1) {
+//                    addValidationError("Multiple end states found.",
+//                                       ValidationError.WORKFLOW_VALIDATION);
+//                }
+
                 // make sure if we have trigger events that they unique name and
                 // event id
-                if(workflow.getTriggerDefs() != null) {
+                if (workflow.getTriggerDefs() != null) {
                     Map<String, String> uniqueNames = new HashMap<>();
                     Map<String, String> uniqueEventIds = new HashMap();
                     workflow.getTriggerDefs().stream().forEach(triggerEvent -> {
-                        if(triggerEvent.getName() == null || triggerEvent.getName().length() < 1) {
-                            addValidationError("Trigger Event has no name", ValidationError.WORKFLOW_VALIDATION);
+                        if (triggerEvent.getName() == null || triggerEvent.getName().length() < 1) {
+                            addValidationError("Trigger Event has no name",
+                                               ValidationError.WORKFLOW_VALIDATION);
                         }
-                        if(triggerEvent.getEventID() == null || triggerEvent.getEventID().length() < 1) {
-                            addValidationError("Trigger Event has no event id", ValidationError.WORKFLOW_VALIDATION);
-                        }
-
-                        if(uniqueNames.containsKey(triggerEvent.getName())) {
-                            addValidationError("Trigger Event does not have unique name.", ValidationError.WORKFLOW_VALIDATION);
-                        } else {
-                            uniqueNames.put(triggerEvent.getName(), "");
+                        if (triggerEvent.getEventID() == null || triggerEvent.getEventID().length() < 1) {
+                            addValidationError("Trigger Event has no event id",
+                                               ValidationError.WORKFLOW_VALIDATION);
                         }
 
-                        if(uniqueEventIds.containsKey(triggerEvent.getEventID())) {
-                            addValidationError("Trigger Event does not have unique eventid.", ValidationError.WORKFLOW_VALIDATION);
+                        if (uniqueNames.containsKey(triggerEvent.getName())) {
+                            addValidationError("Trigger Event does not have unique name.",
+                                               ValidationError.WORKFLOW_VALIDATION);
                         } else {
-                            uniqueEventIds.put(triggerEvent.getEventID(), "");
+                            uniqueNames.put(triggerEvent.getName(),
+                                            "");
+                        }
+
+                        if (uniqueEventIds.containsKey(triggerEvent.getEventID())) {
+                            addValidationError("Trigger Event does not have unique eventid.",
+                                               ValidationError.WORKFLOW_VALIDATION);
+                        } else {
+                            uniqueEventIds.put(triggerEvent.getEventID(),
+                                               "");
                         }
                     });
                 }
             }
-
         } catch (Exception e) {
             LOGGER.error("Error loading schema: " + e.getMessage());
         }

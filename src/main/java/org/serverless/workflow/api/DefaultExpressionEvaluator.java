@@ -42,7 +42,7 @@ public class DefaultExpressionEvaluator implements ExpressionEvaluator {
                    triggerName);
 
             return (Boolean) e.evaluate(jc);
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.error("Unable to evaluate expression: " + expression + " with error: " + e.getMessage());
             return false;
         }

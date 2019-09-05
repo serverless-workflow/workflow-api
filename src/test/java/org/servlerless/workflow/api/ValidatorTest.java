@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ValidatorTest extends BaseWorkflowTest {
 
     @Test
-    public void emptyJsonTest() {
+    public void testEmptyJson() {
 
         // there should be one schema validation error
         // no workflow errors (workflow not give)
@@ -66,7 +66,7 @@ public class ValidatorTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void noDataTest() {
+    public void testNoData() {
         WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("basic/emptyworkflow.json")));
         assertNotNull(validator);
 
@@ -90,7 +90,7 @@ public class ValidatorTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void invalidTriggerEvent() {
+    public void testInvalidTriggerEvent() {
         WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidtrigger.json")));
         assertNotNull(validator);
 
@@ -111,7 +111,7 @@ public class ValidatorTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void invalidTriggerEventNotUniqueProperties() {
+    public void testInvalidTriggerEventNotUniqueProperties() {
         WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidtriggerproperties.json")));
         assertNotNull(validator);
 
@@ -137,6 +137,29 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertTrue(constainsError(validationErrorList,
                                   "Trigger Event does not have unique eventid.",
                                   ValidationError.WORKFLOW_VALIDATION));
+    }
 
+    @Test
+    public void testMultipleStartStates() {
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/multiplestartstates.json")));
+        assertNotNull(validator);
+
+        // no schema errors
+        assertEquals(0,
+                     validator.validate().size());
+
+        // no schema errors
+        assertEquals(0,
+                     validator.validate().size());
+
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/multiplestartstates.json")));
+        validator = validator.forWorkflow(workflow);
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "Multiple start states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
     }
 }

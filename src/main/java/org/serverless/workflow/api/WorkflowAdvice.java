@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.serverless.workflow.api.actions.Action;
 import org.serverless.workflow.api.events.Event;
@@ -93,7 +92,7 @@ public abstract class WorkflowAdvice {
     public List<TriggerEvent> getTriggerEventsForEventState(EventState eventState) {
         List<TriggerEvent> eventStateTriggers = new ArrayList<>();
 
-        for(TriggerEvent triggerEvent : getWorkflow().getTriggerDefs()) {
+        for (TriggerEvent triggerEvent : getWorkflow().getTriggerDefs()) {
             List<Event> triggeredEvents = eventState.getEvents().stream()
                     .filter(event -> getExpressionEvaluator()
                             .evaluate(event.getEventExpression(),
@@ -118,7 +117,8 @@ public abstract class WorkflowAdvice {
                                     .evaluate(event.getEventExpression(),
                                               triggerEvent.getName())).collect(Collectors.toList());
                     if (triggeredEvents != null && triggeredEvents.size() > 0) {
-                        associatedTriggersMap.put(triggerEvent.getId(), triggerEvent);
+                        associatedTriggersMap.put(triggerEvent.getId(),
+                                                  triggerEvent);
                     }
                 }
             }

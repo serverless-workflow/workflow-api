@@ -47,6 +47,7 @@ public class SpelExpressionEvaluator implements ExpressionEvaluator {
     }
 
     protected class SpelRootObject {
+
         private String trigger;
 
         public SpelRootObject(String trigger) {

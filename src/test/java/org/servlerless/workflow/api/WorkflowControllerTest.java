@@ -48,6 +48,7 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("controller/eventstatewithtrigger.json")));
 
         WorkflowController controller = new WorkflowController(workflow);
+
         assertTrue(controller.isValid());
 
         assertNotNull(workflow.getStates());
