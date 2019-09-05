@@ -187,7 +187,19 @@ According to the specification Event States wait for events to happen before tri
 Event states can have multiple events, and each event has an event-expression which defines which outside
 events they should trigger upon.
 
-This project provides a default event expression evaluator based on Apache Commons JEXL (http://commons.apache.org/proper/commons-jexl/).
+This project provides two event expression evaluators. The default one is based on Apache Commons JEXL (http://commons.apache.org/proper/commons-jexl/).
+Alternatively out of the box you can also use Spring Expression Language (SpEL) (https://docs.spring.io/spring/docs/5.2.0.RC1/spring-framework-reference/core.html#expressions)
+expressions.
+
+To use SpEL you need to pass it to the workflow controller:
+```java
+    WorkflowController controller = new WorkflowController("someJSONString");
+    controller.setExpressionEvaluator(new SpelExpressionEvaluator());
+    
+```
+
+If no expression evaluator is specified, the default one based on Apache Commons JEXL is used.
+ 
 Implementors can also specify their own expression evaluator via the workflow controller, for example:
 
 
@@ -209,5 +221,16 @@ Here are two simple examples:
 ```
 
 For more information on JEXL language syntax, see here: https://commons.apache.org/proper/commons-jexl/reference/syntax.html
+
+
+Similarly if you use SpEL, you can do for example:
+
+```json
+...
+"event-expression" : "trigger != null && trigger.equals('testtrigger')",
+...
+"event-expression" : "trigger != null && (trigger.equals('testtrigger') || trigger.equals('testtrigger2'))",
+...
+```
 
 ### More to come soon!

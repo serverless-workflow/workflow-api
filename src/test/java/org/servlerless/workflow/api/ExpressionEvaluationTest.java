@@ -21,6 +21,7 @@ package org.servlerless.workflow.api;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.serverless.workflow.api.SpelExpressionEvaluator;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.WorkflowController;
 import org.serverless.workflow.api.events.TriggerEvent;
@@ -35,9 +36,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ExpressionEvaluationTest extends BaseWorkflowTest {
 
     @Test
-    public void testEventStateExpressions() {
+    public void testEventStateJexlExpressions() {
 
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("expressions/eventstatestriggers.json")));
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("expressions/eventstatestriggers-jexl.json")));
 
         WorkflowController controller = new WorkflowController(workflow);
         assertTrue(controller.isValid());
@@ -72,19 +73,89 @@ public class ExpressionEvaluationTest extends BaseWorkflowTest {
 
         List<TriggerEvent> triggerEvents1 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("5"));
         assertNotNull(triggerEvents1);
-        assertThat(triggerEvents1.size(), is(1));
-        assertEquals("2", triggerEvents1.get(0).getId());
+        assertThat(triggerEvents1.size(),
+                   is(1));
+        assertEquals("2",
+                     triggerEvents1.get(0).getId());
 
         List<TriggerEvent> triggerEvents2 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("6"));
         assertNotNull(triggerEvents2);
-        assertThat(triggerEvents2.size(), is(2));
-        assertEquals("2", triggerEvents2.get(0).getId());
-        assertEquals("3", triggerEvents2.get(1).getId());
+        assertThat(triggerEvents2.size(),
+                   is(2));
+        assertEquals("2",
+                     triggerEvents2.get(0).getId());
+        assertEquals("3",
+                     triggerEvents2.get(1).getId());
 
         List<TriggerEvent> triggerEvents3 = controller.getAllTriggerEventsAssociatedWithEventStates();
         assertNotNull(triggerEvents3);
-        assertEquals(2, triggerEvents3.size());
-        assertEquals("2", triggerEvents3.get(0).getId());
-        assertEquals("3", triggerEvents3.get(1).getId());
+        assertEquals(2,
+                     triggerEvents3.size());
+        assertEquals("2",
+                     triggerEvents3.get(0).getId());
+        assertEquals("3",
+                     triggerEvents3.get(1).getId());
+    }
+
+    @Test
+    public void testEventStateSpelExpressions() {
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("expressions/eventstatestriggers-spel.json")));
+
+        WorkflowController controller = new WorkflowController(workflow);
+        controller.setExpressionEvaluator(new SpelExpressionEvaluator());
+        assertTrue(controller.isValid());
+
+        assertTrue(controller.haveTriggers());
+        assertTrue(controller.haveStates());
+
+        assertThat(workflow.getTriggerDefs().size(),
+                   is(3));
+
+        assertThat(workflow.getStates().size(),
+                   is(2));
+
+        List<EventState> eventStatesForTrigger1 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("2"));
+        assertNotNull(eventStatesForTrigger1);
+        assertEquals(2,
+                     eventStatesForTrigger1.size());
+        EventState eventStateForTrigger1 = eventStatesForTrigger1.get(0);
+        assertEquals("5",
+                     eventStateForTrigger1.getId());
+        EventState eventStateForTrigger2 = eventStatesForTrigger1.get(1);
+        assertEquals("6",
+                     eventStateForTrigger2.getId());
+
+        List<EventState> eventStatesForTrigger2 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("3"));
+        assertNotNull(eventStatesForTrigger2);
+        assertEquals(1,
+                     eventStatesForTrigger2.size());
+        EventState eventStateForTrigger3 = eventStatesForTrigger2.get(0);
+        assertEquals("6",
+                     eventStateForTrigger3.getId());
+
+        List<TriggerEvent> triggerEvents1 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("5"));
+        assertNotNull(triggerEvents1);
+        assertThat(triggerEvents1.size(),
+                   is(1));
+        assertEquals("2",
+                     triggerEvents1.get(0).getId());
+
+        List<TriggerEvent> triggerEvents2 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("6"));
+        assertNotNull(triggerEvents2);
+        assertThat(triggerEvents2.size(),
+                   is(2));
+        assertEquals("2",
+                     triggerEvents2.get(0).getId());
+        assertEquals("3",
+                     triggerEvents2.get(1).getId());
+
+        List<TriggerEvent> triggerEvents3 = controller.getAllTriggerEventsAssociatedWithEventStates();
+        assertNotNull(triggerEvents3);
+        assertEquals(2,
+                     triggerEvents3.size());
+        assertEquals("2",
+                     triggerEvents3.get(0).getId());
+        assertEquals("3",
+                     triggerEvents3.get(1).getId());
     }
 }
