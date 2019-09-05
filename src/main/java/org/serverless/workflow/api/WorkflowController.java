@@ -56,7 +56,7 @@ public class WorkflowController extends WorkflowAdvice {
     public WorkflowController(String workflowJSON) {
         this.json = workflowJSON;
         this.workflow = toWorkflow(json);
-        this.validator = new WorkflowValidator().forWorkflowJson(json);
+        this.validator = new WorkflowValidator().forWorkflow(workflow);
         this.validationErrors = this.validator.validate();
         this.expressionEvaluator = new DefaultExpressionEvaluator();
     }
