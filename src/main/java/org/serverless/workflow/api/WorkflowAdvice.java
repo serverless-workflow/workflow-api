@@ -29,6 +29,8 @@ import org.serverless.workflow.api.events.Event;
 import org.serverless.workflow.api.events.TriggerEvent;
 import org.serverless.workflow.api.functions.Function;
 import org.serverless.workflow.api.interfaces.State;
+import org.serverless.workflow.api.states.DelayState;
+import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
 
 public abstract class WorkflowAdvice {
@@ -161,4 +163,25 @@ public abstract class WorkflowAdvice {
         List<Action> actions = getAllActionsForEventStates(eventStates);
         return getAllFunctionsForActions(actions);
     }
+
+    // convenience method
+    public State getStartState() {
+        return getWorkflow().getStates().stream().filter(state -> state.isStart())
+                .findFirst().orElse(null);
+    }
+
+    // convenience method
+    public State getStateByNAme(String stateName) {
+        return getWorkflow().getStates().stream().filter(state -> state.getName().equals(stateName))
+                .findFirst().orElse(null);
+    }
+
+    // convenience method
+    public boolean haveEndState() {
+        return getWorkflow().getStates().stream()
+                .anyMatch(state -> state instanceof EndState);
+    }
+
+
+
 }
