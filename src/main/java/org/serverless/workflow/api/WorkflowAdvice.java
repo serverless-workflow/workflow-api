@@ -29,7 +29,6 @@ import org.serverless.workflow.api.events.Event;
 import org.serverless.workflow.api.events.TriggerEvent;
 import org.serverless.workflow.api.functions.Function;
 import org.serverless.workflow.api.interfaces.State;
-import org.serverless.workflow.api.states.DelayState;
 import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
 
@@ -39,8 +38,6 @@ public abstract class WorkflowAdvice {
     private Map<String, State> stateMap = new HashMap<>();
 
     protected abstract Workflow getWorkflow();
-
-    protected abstract void setExpressionEvaluator(ExpressionEvaluator expressionEvaluator);
 
     protected abstract ExpressionEvaluator getExpressionEvaluator();
 
@@ -181,7 +178,4 @@ public abstract class WorkflowAdvice {
         return getWorkflow().getStates().stream()
                 .anyMatch(state -> state instanceof EndState);
     }
-
-
-
 }

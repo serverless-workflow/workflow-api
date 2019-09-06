@@ -148,10 +148,6 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(0,
                      validator.validate().size());
 
-        // no schema errors
-        assertEquals(0,
-                     validator.validate().size());
-
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/multiplestartstates.json")));
         validator = validator.forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
@@ -160,6 +156,100 @@ public class ValidatorTest extends BaseWorkflowTest {
                      validationErrorList.size());
         assertTrue(constainsError(validationErrorList,
                                   "Multiple start states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+    }
+
+    @Test
+    public void testMultipleEndStatesInStrictMode() {
+        WorkflowValidator validator = new WorkflowValidator()
+                .forWorkflowJson(getFileContents(getResourcePath("validation/multipleendstates.json")))
+                .withStrictMode(true);
+        assertNotNull(validator);
+
+        // no schema errors
+        assertEquals(0,
+                     validator.validate().size());
+
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/multipleendstates.json")));
+        validator = validator.forWorkflow(workflow);
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(2,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "No start state found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "Multiple end states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+    }
+
+    @Test
+    public void testValidationDisabled() {
+        WorkflowValidator validator = new WorkflowValidator()
+                .forWorkflowJson("{}")
+                .withEnabled(false);
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(0,
+                     validationErrorList.size());
+    }
+
+    @Test
+    public void testSchemaValidationDisabled() {
+        WorkflowValidator validator = new WorkflowValidator()
+                .forWorkflowJson("{}")
+                .withSchemaValidation(false);
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+        // with schema validation disabled there should be no schema errors
+        assertEquals(0,
+                     validationErrorList.size());
+
+        // if workflow given there should be workflow errors
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
+        validator = validator.forWorkflow(workflow);
+        validationErrorList = validator.validate();
+        assertEquals(2,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "No states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "No start state found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+    }
+
+    @Test
+    public void testStrictValidationEnabled() {
+        WorkflowValidator validator = new WorkflowValidator()
+                .forWorkflowJson("{}")
+                .withSchemaValidation(false)
+                .withStrictMode(true);
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+        // with schema validation disabled there should be no schema errors
+        assertEquals(0,
+                     validationErrorList.size());
+
+        // if workflow given there should be workflow errors + additional strict mode error
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
+        validator = validator.forWorkflow(workflow);
+        validationErrorList = validator.validate();
+        assertEquals(3,
+                     validationErrorList.size());
+        assertTrue(constainsError(validationErrorList,
+                                  "No states found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "No start state found.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+        assertTrue(constainsError(validationErrorList,
+                                  "No end state found.",
                                   ValidationError.WORKFLOW_VALIDATION));
     }
 }

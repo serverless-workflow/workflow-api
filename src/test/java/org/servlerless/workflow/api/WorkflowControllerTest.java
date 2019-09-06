@@ -47,7 +47,7 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
 
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("controller/eventstatewithtrigger.json")));
 
-        WorkflowController controller = new WorkflowController(workflow);
+        WorkflowController controller = new WorkflowController().forWorkflow(workflow);
 
         assertTrue(controller.isValid());
 
@@ -124,7 +124,7 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
                                 )));
                 }});
 
-        WorkflowController controller = new WorkflowController(workflow);
+        WorkflowController controller = new WorkflowController().forWorkflow(workflow);
 
         assertNotNull(workflow.getStates());
         assertThat(workflow.getStates().size(),

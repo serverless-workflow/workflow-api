@@ -46,14 +46,15 @@ public class WorkflowValidator {
     private JSONObject workflowSchema;
     private Workflow workflow;
 
-    private boolean schemaValidation;
+    private boolean schemaValidation = true;
     private String workflowJson;
+    private boolean enabled = true;
+    private boolean strictMode = false;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowValidator.class);
 
     public WorkflowValidator() {
         this.workflowSchema = new JSONObject(new JSONTokener(getClass().getResourceAsStream("/schema/workflow-01/workflow.json")));
-        this.schemaValidation = true;
     }
 
     public WorkflowValidator forWorkflowJson(String workflowJson) {
@@ -63,6 +64,16 @@ public class WorkflowValidator {
 
     public WorkflowValidator withSchemaValidation(boolean schemaValidation) {
         this.schemaValidation = schemaValidation;
+        return this;
+    }
+
+    public WorkflowValidator withStrictMode(boolean strictMode) {
+        this.strictMode = strictMode;
+        return this;
+    }
+
+    public WorkflowValidator withEnabled(boolean enabled) {
+        this.enabled = enabled;
         return this;
     }
 
@@ -77,146 +88,149 @@ public class WorkflowValidator {
 
     public List<ValidationError> validate() {
         validationErrors.clear();
+        if (enabled) {
+            try {
+                if (schemaValidation && workflowJson != null) {
+                    SchemaLoader schemaLoader = SchemaLoader.builder()
+                            .schemaClient(new ResourceSchemaClient(new DefaultSchemaClient()))
+                            .schemaJson(workflowSchema)
+                            .resolutionScope("classpath:schema/workflow-01/") // setting the default resolution scope
+                            .build();
+                    Schema schema = schemaLoader.load().build();
 
-        try {
-            if (schemaValidation && workflowJson != null) {
-                SchemaLoader schemaLoader = SchemaLoader.builder()
-                        .schemaClient(new ResourceSchemaClient(new DefaultSchemaClient()))
-                        .schemaJson(workflowSchema)
-                        .resolutionScope("classpath:schema/workflow-01/") // setting the default resolution scope
-                        .build();
-                Schema schema = schemaLoader.load().build();
-
-                try {
-                    schema.validate(new JSONObject(workflowJson));
-                } catch (ValidationException e) {
-                    // main error
-                    addValidationError(e.getMessage(),
-                                       ValidationError.SCHEMA_VALIDATION);
-                    // suberrors
-                    e.getCausingExceptions().stream()
-                            .map(ValidationException::getMessage)
-                            .forEach(m -> {
-                                addValidationError(m,
-                                                   ValidationError.SCHEMA_VALIDATION);
-                            });
+                    try {
+                        schema.validate(new JSONObject(workflowJson));
+                    } catch (ValidationException e) {
+                        // main error
+                        addValidationError(e.getMessage(),
+                                           ValidationError.SCHEMA_VALIDATION);
+                        // suberrors
+                        e.getCausingExceptions().stream()
+                                .map(ValidationException::getMessage)
+                                .forEach(m -> {
+                                    addValidationError(m,
+                                                       ValidationError.SCHEMA_VALIDATION);
+                                });
+                    }
                 }
+
+                if (workflow != null) {
+                    // make sure we have at least one state
+                    if (workflow.getStates() == null || workflow.getStates().size() < 1) {
+                        addValidationError("No states found.",
+                                           ValidationError.WORKFLOW_VALIDATION);
+                    }
+
+                    // make sure we have one start state
+                    final Boolean[] foundStartState = {false};
+                    final Integer[] startStatesCount = {0};
+                    final Boolean[] foundEndState = {false};
+                    final Integer[] endStatesCount = {0};
+                    if (workflow.getStates() != null) {
+                        workflow.getStates().stream().forEach(s -> {
+                            if (s instanceof EventState) {
+                                EventState eventState = (EventState) s;
+                                if (eventState.isStart()) {
+                                    foundStartState[0] = true;
+                                    startStatesCount[0]++;
+                                }
+                            }
+                            if (s instanceof OperationState) {
+                                OperationState operationState = (OperationState) s;
+                                if (operationState.isStart()) {
+                                    foundStartState[0] = true;
+                                    startStatesCount[0]++;
+                                }
+                            }
+                            if (s instanceof SwitchState) {
+                                SwitchState switchState = (SwitchState) s;
+                                if (switchState.isStart()) {
+                                    foundStartState[0] = true;
+                                    startStatesCount[0]++;
+                                }
+                            }
+                            if (s instanceof ParallelState) {
+                                ParallelState parallelState = (ParallelState) s;
+                                if (parallelState.isStart()) {
+                                    foundStartState[0] = true;
+                                    startStatesCount[0]++;
+                                }
+                            }
+                            if (s instanceof DelayState) {
+                                DelayState delayState = (DelayState) s;
+                                if (delayState.isStart()) {
+                                    foundStartState[0] = true;
+                                    startStatesCount[0]++;
+                                }
+                            }
+                        });
+
+                        workflow.getStates().stream().forEach(s -> {
+                            if (s instanceof EndState) {
+                                foundEndState[0] = true;
+                                endStatesCount[0]++;
+                            }
+                        });
+                    }
+
+                    if (!foundStartState[0].booleanValue()) {
+                        addValidationError("No start state found.",
+                                           ValidationError.WORKFLOW_VALIDATION);
+                    }
+
+                    if (startStatesCount[0] > 1) {
+                        addValidationError("Multiple start states found.",
+                                           ValidationError.WORKFLOW_VALIDATION);
+                    }
+
+                    if (strictMode) {
+                        if (!foundEndState[0].booleanValue()) {
+                            addValidationError("No end state found.",
+                                               ValidationError.WORKFLOW_VALIDATION);
+                        }
+
+                        if (endStatesCount[0] > 1) {
+                            addValidationError("Multiple end states found.",
+                                               ValidationError.WORKFLOW_VALIDATION);
+                        }
+                    }
+
+                    // make sure if we have trigger events that they unique name and
+                    // event id
+                    if (workflow.getTriggerDefs() != null) {
+                        Map<String, String> uniqueNames = new HashMap<>();
+                        Map<String, String> uniqueEventIds = new HashMap();
+                        workflow.getTriggerDefs().stream().forEach(triggerEvent -> {
+                            if (triggerEvent.getName() == null || triggerEvent.getName().length() < 1) {
+                                addValidationError("Trigger Event has no name",
+                                                   ValidationError.WORKFLOW_VALIDATION);
+                            }
+                            if (triggerEvent.getEventID() == null || triggerEvent.getEventID().length() < 1) {
+                                addValidationError("Trigger Event has no event id",
+                                                   ValidationError.WORKFLOW_VALIDATION);
+                            }
+
+                            if (uniqueNames.containsKey(triggerEvent.getName())) {
+                                addValidationError("Trigger Event does not have unique name.",
+                                                   ValidationError.WORKFLOW_VALIDATION);
+                            } else {
+                                uniqueNames.put(triggerEvent.getName(),
+                                                "");
+                            }
+
+                            if (uniqueEventIds.containsKey(triggerEvent.getEventID())) {
+                                addValidationError("Trigger Event does not have unique eventid.",
+                                                   ValidationError.WORKFLOW_VALIDATION);
+                            } else {
+                                uniqueEventIds.put(triggerEvent.getEventID(),
+                                                   "");
+                            }
+                        });
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error loading schema: " + e.getMessage());
             }
-
-            if (workflow != null) {
-                // make sure we have at least one state
-                if (workflow.getStates() == null || workflow.getStates().size() < 1) {
-                    addValidationError("No states found.",
-                                       ValidationError.WORKFLOW_VALIDATION);
-                }
-
-                // make sure we have one start state
-                final Boolean[] foundStartState = {false};
-                final Integer[] startStatesCount = {0};
-                final Boolean[] foundEndState = {false};
-                final Integer[] endStatesCount = {0};
-                if (workflow.getStates() != null) {
-                    workflow.getStates().stream().forEach(s -> {
-                        if (s instanceof EventState) {
-                            EventState eventState = (EventState) s;
-                            if (eventState.isStart()) {
-                                foundStartState[0] = true;
-                                startStatesCount[0]++;
-                            }
-                        }
-                        if (s instanceof OperationState) {
-                            OperationState operationState = (OperationState) s;
-                            if (operationState.isStart()) {
-                                foundStartState[0] = true;
-                                startStatesCount[0]++;
-                            }
-                        }
-                        if (s instanceof SwitchState) {
-                            SwitchState switchState = (SwitchState) s;
-                            if (switchState.isStart()) {
-                                foundStartState[0] = true;
-                                startStatesCount[0]++;
-                            }
-                        }
-                        if (s instanceof ParallelState) {
-                            ParallelState parallelState = (ParallelState) s;
-                            if (parallelState.isStart()) {
-                                foundStartState[0] = true;
-                                startStatesCount[0]++;
-                            }
-                        }
-                        if (s instanceof DelayState) {
-                            DelayState delayState = (DelayState) s;
-                            if (delayState.isStart()) {
-                                foundStartState[0] = true;
-                                startStatesCount[0]++;
-                            }
-                        }
-                    });
-
-                    workflow.getStates().stream().forEach(s -> {
-                        if (s instanceof EndState) {
-                            foundEndState[0] = true;
-                            endStatesCount[0]++;
-                        }
-                    });
-                }
-
-                if (!foundStartState[0].booleanValue()) {
-                    addValidationError("No start state found.",
-                                       ValidationError.WORKFLOW_VALIDATION);
-                }
-
-                if (startStatesCount[0] > 1) {
-                    addValidationError("Multiple start states found.",
-                                       ValidationError.WORKFLOW_VALIDATION);
-                }
-
-//                if(!foundEndState[0].booleanValue()) {
-//                    addValidationError("No end state found.",
-//                                       ValidationError.WORKFLOW_VALIDATION);
-//                }
-
-//                if(endStatesCount[0] > 1) {
-//                    addValidationError("Multiple end states found.",
-//                                       ValidationError.WORKFLOW_VALIDATION);
-//                }
-
-                // make sure if we have trigger events that they unique name and
-                // event id
-                if (workflow.getTriggerDefs() != null) {
-                    Map<String, String> uniqueNames = new HashMap<>();
-                    Map<String, String> uniqueEventIds = new HashMap();
-                    workflow.getTriggerDefs().stream().forEach(triggerEvent -> {
-                        if (triggerEvent.getName() == null || triggerEvent.getName().length() < 1) {
-                            addValidationError("Trigger Event has no name",
-                                               ValidationError.WORKFLOW_VALIDATION);
-                        }
-                        if (triggerEvent.getEventID() == null || triggerEvent.getEventID().length() < 1) {
-                            addValidationError("Trigger Event has no event id",
-                                               ValidationError.WORKFLOW_VALIDATION);
-                        }
-
-                        if (uniqueNames.containsKey(triggerEvent.getName())) {
-                            addValidationError("Trigger Event does not have unique name.",
-                                               ValidationError.WORKFLOW_VALIDATION);
-                        } else {
-                            uniqueNames.put(triggerEvent.getName(),
-                                            "");
-                        }
-
-                        if (uniqueEventIds.containsKey(triggerEvent.getEventID())) {
-                            addValidationError("Trigger Event does not have unique eventid.",
-                                               ValidationError.WORKFLOW_VALIDATION);
-                        } else {
-                            uniqueEventIds.put(triggerEvent.getEventID(),
-                                               "");
-                        }
-                    });
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("Error loading schema: " + e.getMessage());
         }
 
         return validationErrors;

@@ -32,46 +32,53 @@ import org.slf4j.LoggerFactory;
 
 public class WorkflowController extends WorkflowAdvice {
 
-    private WorkflowValidator validator;
-    private List<ValidationError> validationErrors;
-    private String json;
+    private WorkflowValidator validator = new WorkflowValidator();
+    private String workflowJSON = "";
     private WorkflowObjectMapper objectMapper = new WorkflowObjectMapper();
     private Workflow workflow;
-    private ExpressionEvaluator expressionEvaluator;
+    private ExpressionEvaluator expressionEvaluator = new DefaultExpressionEvaluator();
 
     private static Logger logger = LoggerFactory.getLogger(WorkflowController.class);
 
-    public WorkflowController() {
-
-    }
-
-    public WorkflowController(Workflow workflow) {
-        this.json = "";
+    public WorkflowController forWorkflow(Workflow workflow) {
         this.workflow = workflow;
-        this.validator = new WorkflowValidator().forWorkflow(workflow);
-        this.validationErrors = this.validator.validate();
-        this.expressionEvaluator = new DefaultExpressionEvaluator();
+        this.validator = this.validator.forWorkflow(workflow);
+        return this;
     }
 
-    public WorkflowController(String workflowJSON) {
-        this.json = workflowJSON;
-        this.workflow = toWorkflow(json);
-        this.validator = new WorkflowValidator().forWorkflow(workflow);
-        this.validationErrors = this.validator.validate();
-        this.expressionEvaluator = new DefaultExpressionEvaluator();
+    public WorkflowController forJson(String workflowJSON) {
+        this.workflowJSON = workflowJSON;
+        this.workflow = toWorkflow(workflowJSON);
+        this.validator = this.validator.forWorkflow(this.workflow);
+        return this;
+    }
+
+    public WorkflowController withExpressionEvaluator(ExpressionEvaluator expressionEvaluator) {
+        this.expressionEvaluator = expressionEvaluator;
+        return this;
+    }
+
+    public WorkflowController withValidationEnabled(boolean validationEnabled) {
+        this.validator = this.validator.withEnabled(validationEnabled);
+        return this;
+    }
+
+    public WorkflowController withSchemaValidation(boolean schemaValidation) {
+        this.validator = this.validator.withSchemaValidation(schemaValidation);
+        return this;
+    }
+
+    public WorkflowController withStrictValidation(boolean strictValidation) {
+        this.validator = this.validator.withStrictMode(strictValidation);
+        return this;
     }
 
     public boolean isValid() {
-        return validationErrors.size() < 1;
+        return this.validator.validate().size() < 1;
     }
 
     public List<ValidationError> getValidationErrors() {
-        return validationErrors;
-    }
-
-    @Override
-    public void setExpressionEvaluator(ExpressionEvaluator expressionEvaluator) {
-        this.expressionEvaluator = expressionEvaluator;
+        return this.validator.validate();
     }
 
     @Override
@@ -85,7 +92,7 @@ public class WorkflowController extends WorkflowAdvice {
 
         try {
             mapper.writeValue(out,
-                              validationErrors);
+                              this.validator.validate());
         } catch (Exception e) {
             logger.error("Unable to display validation errors: " + e.getMessage());
         }
@@ -104,13 +111,14 @@ public class WorkflowController extends WorkflowAdvice {
         try {
             return objectMapper.writeValueAsString(workflow);
         } catch (JsonProcessingException e) {
+            logger.error("Error mapping to json: " + e.getMessage());
             return null;
         }
     }
 
     public JsonNode toJson() {
         try {
-            return objectMapper.readTree(json);
+            return objectMapper.readTree(workflowJSON);
         } catch (Exception e) {
             return null;
         }
@@ -121,6 +129,7 @@ public class WorkflowController extends WorkflowAdvice {
             return objectMapper.readValue(json,
                                           Workflow.class);
         } catch (Exception e) {
+            logger.error("Error converting to workflow: " + e.getMessage());
             return null;
         }
     }

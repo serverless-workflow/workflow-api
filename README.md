@@ -70,7 +70,7 @@ Given serverless workflow JSON which represents a workflow with a single Event S
 You can use this project to read it into the workflow api:
 
 ```java
-WorkflowController controller = new WorkflowController(json);
+WorkflowController controller = new WorkflowController().forJson(json);
 assertTrue(controller.isValid());
 
 ...
@@ -118,7 +118,7 @@ ObjectMapper objectMapper = new WorkflowObjectMapper();
 String workflowStr = objectMapper.writeValueAsString(workflow);
 
 // or you can use the workflow controller too:
-WorkflowController controller = new WorkflowController(workflow);
+WorkflowController controller = new WorkflowController().forWorkflow(workflow);
 assertTrue(controller.isValid());
 
 String jsonString = controller.toJsonString();
@@ -161,7 +161,7 @@ For example if we have a bare valid workflow definition without any states:
 we can get validation errors:
 
 ```java
-    WorkflowController controller = new WorkflowController(json);
+    WorkflowController controller = new WorkflowController().forJson(json);
     assertTrue(controller.isValid());
     
     List<ValidationError> validationErrors = controller.getValidationErrors();
@@ -182,6 +182,25 @@ We should get the json schema validation error: "#: required key [states] not fo
 as the workflow json schema defines the states node as required. 
 
 
+You can also enable strict validation (extra checks):
+```java
+    WorkflowController controller = new WorkflowController().forJson(json).withStrictValidation(true);
+```
+(strict validation is false by default)
+
+You can also disable schema validation (only workflow based validation will be performed):
+```java
+    WorkflowController controller = new WorkflowController().forJson(json).withSchemaValidation(false);
+```
+
+Or you can disable validation completely:
+```java
+    WorkflowController controller = new WorkflowController().forJson(json).withValidationEnabled(false);
+```
+in this case validation errors will always be empty
+
+
+
 #### Event Expression evaluation
 According to the specification Event States wait for events to happen before triggering one or more functions.
 Event states can have multiple events, and each event has an event-expression which defines which outside
@@ -193,7 +212,7 @@ expressions.
 
 To use SpEL you need to pass it to the workflow controller:
 ```java
-    WorkflowController controller = new WorkflowController("someJSONString");
+    WorkflowController controller = new WorkflowController().forJson("someJSONString");
     controller.setExpressionEvaluator(new SpelExpressionEvaluator());
     
 ```
@@ -204,7 +223,7 @@ Implementors can also specify their own expression evaluator via the workflow co
 
 
 ```java
-    WorkflowController controller = new WorkflowController("someJSONString");
+    WorkflowController controller = new WorkflowController().forJson("someJSONString");
     controller.setExpressionEvaluator(myEvaluator);
     
 ```

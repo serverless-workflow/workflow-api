@@ -1,0 +1,17 @@
+{
+  "id": "1",
+  "states" : [ {
+    "id": "2",
+    "status" : "SUCCESS",
+    "name" : "endstate",
+    "type" : "END",
+    "start" : false
+  },
+    {
+      "id": "3",
+      "status" : "SUCCESS",
+      "name" : "endstate2",
+      "type" : "END",
+      "start" : false
+    }]
+}

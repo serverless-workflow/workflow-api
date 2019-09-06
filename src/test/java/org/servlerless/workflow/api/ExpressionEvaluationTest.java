@@ -40,7 +40,7 @@ public class ExpressionEvaluationTest extends BaseWorkflowTest {
 
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("expressions/eventstatestriggers-jexl.json")));
 
-        WorkflowController controller = new WorkflowController(workflow);
+        WorkflowController controller = new WorkflowController().forWorkflow(workflow);
         assertTrue(controller.isValid());
 
         assertTrue(controller.haveTriggers());
@@ -101,8 +101,9 @@ public class ExpressionEvaluationTest extends BaseWorkflowTest {
     public void testEventStateSpelExpressions() {
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("expressions/eventstatestriggers-spel.json")));
 
-        WorkflowController controller = new WorkflowController(workflow);
-        controller.setExpressionEvaluator(new SpelExpressionEvaluator());
+        WorkflowController controller = new WorkflowController()
+                .forWorkflow(workflow)
+                .withExpressionEvaluator(new SpelExpressionEvaluator());
         assertTrue(controller.isValid());
 
         assertTrue(controller.haveTriggers());
