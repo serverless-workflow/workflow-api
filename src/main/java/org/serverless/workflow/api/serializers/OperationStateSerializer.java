@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.type.SimpleType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.OperationState;
 
@@ -55,8 +56,8 @@ public class OperationStateSerializer extends StdSerializer<OperationState> {
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
-                                                        SimpleType.construct(OperationState.class)).serialize(operationState,
-                                                                                                              gen,
-                                                                                                              provider);
+                                                        TypeFactory.defaultInstance().constructType(OperationState.class)).serialize(operationState,
+                                                                                                               gen,
+                                                                                                               provider);
     }
 }
