@@ -1,0 +1,10 @@
+{
+  "id": "1",
+  "states" : [ {
+    "id": "2",
+    "status" : "CUSTOMSTATUS",
+    "name" : "endstate",
+    "type" : "END",
+    "start" : false
+  } ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "states": [
+    {
+      "time-delay": 5,
+      "next-state": "testNextState",
+      "id": "2",
+      "name": "delaystate",
+      "type": "CUSTOMSTATETYPE",
+      "start": true
+    }
+  ]
+}

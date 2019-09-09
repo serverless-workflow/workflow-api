@@ -46,7 +46,7 @@
                 "type": "object",
                 "existingJavaType": "org.serverless.workflow.api.interfaces.State",
                 "anyOf": [
-                    { "$ref": "states/defaultstate.json" },
+                    { "type": "object", "$ref": "states/defaultstate.json" },
                     { "$ref": "states/delaystate.json" },
                     { "$ref": "states/endstate.json" },
                     { "$ref": "states/eventstate.json" },

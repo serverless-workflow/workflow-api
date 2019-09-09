@@ -10,7 +10,8 @@
         "status": {
             "type" : "string",
             "enum": ["SUCCESS", "FAILURE"],
-            "description": "Specifies the workflow termination status"
+            "description": "Specifies the workflow termination status",
+            "format": "validstatus"
         },
         "metadata": {
             "$ref": "../metadata/metadata.json"

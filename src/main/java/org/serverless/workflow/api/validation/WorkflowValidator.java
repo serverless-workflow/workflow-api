@@ -95,6 +95,11 @@ public class WorkflowValidator {
                             .schemaClient(new ResourceSchemaClient(new DefaultSchemaClient()))
                             .schemaJson(workflowSchema)
                             .resolutionScope("classpath:schema/workflow-01/") // setting the default resolution scope
+                            .draftV7Support()
+                            .addFormatValidator(new StateTypeValidator())
+                            .addFormatValidator(new ActionModeValidator())
+                            .addFormatValidator(new OperatorValidator())
+                            .addFormatValidator(new StatusValidator())
                             .build();
                     Schema schema = schemaLoader.load().build();
 

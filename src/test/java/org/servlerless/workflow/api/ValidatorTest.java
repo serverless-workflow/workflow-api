@@ -311,4 +311,64 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(3,
                      validationErrorList.size());
     }
+
+    @Test
+    public void testInvalidStateType() {
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidstatetype.json")));
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        assertTrue(constainsError(validationErrorList,
+                                  "#: Invalid state type: CUSTOMSTATETYPE",
+                                  ValidationError.SCHEMA_VALIDATION));
+    }
+
+    @Test
+    public void testInvalidActionMode() {
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidactionmode.json")));
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        assertTrue(constainsError(validationErrorList,
+                                  "#: Invalid action mode: CUSTOMACTIONMODE",
+                                  ValidationError.SCHEMA_VALIDATION));
+    }
+
+    @Test
+    public void testInvalidOperator() {
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidoperator.json")));
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        assertTrue(constainsError(validationErrorList,
+                                  "#: Invalid operator: CUSTOMOPERATOR",
+                                  ValidationError.SCHEMA_VALIDATION));
+    }
+
+    @Test
+    public void testInvalidStatus() {
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidstatus.json")));
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        assertTrue(constainsError(validationErrorList,
+                                  "#: Invalid status: CUSTOMSTATUS",
+                                  ValidationError.SCHEMA_VALIDATION));
+    }
 }

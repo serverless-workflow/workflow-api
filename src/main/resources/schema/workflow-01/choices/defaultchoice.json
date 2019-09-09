@@ -15,7 +15,8 @@
         "operator": {
             "type" : "string",
             "enum": ["EQ", "LT", "LTEQ", "GT", "GTEQ", "StrEQ", "StrLT", "StrLTEQ", "StrGT", "StrGTEQ"],
-            "description": "Specifies how the input data is compared with the values"
+            "description": "Specifies how the input data is compared with the values",
+            "format": "validoperator"
         },
         "next-state": {
             "type": "string",

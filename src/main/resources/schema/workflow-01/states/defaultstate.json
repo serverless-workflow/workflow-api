@@ -17,7 +17,8 @@
         "type": {
             "type" : "string",
             "enum": ["EVENT", "OPERATION", "SWITCH", "DELAY", "PARALLEL", "END"],
-            "description": "state type"
+            "description": "State type",
+            "format": "validstatetype"
         },
         "start": {
             "type": "boolean",
