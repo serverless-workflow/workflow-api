@@ -6,12 +6,16 @@
     "properties": {
         "id": {
             "type": "string",
-            "description": "State unique id"
+            "description": "State unique id",
+            "minLength": 1
         },
         "name": {
-            "type": "string"
+            "type": "string",
+            "description": "State name",
+            "minLength": 1
         },
         "type": {
+            "type" : "string",
             "enum": ["EVENT", "OPERATION", "SWITCH", "DELAY", "PARALLEL", "END"],
             "description": "state type"
         },

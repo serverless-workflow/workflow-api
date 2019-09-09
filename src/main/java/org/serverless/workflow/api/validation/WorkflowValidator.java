@@ -121,13 +121,24 @@ public class WorkflowValidator {
                                            ValidationError.WORKFLOW_VALIDATION);
                     }
 
-                    // make sure we have one start state
+                    // make sure we have one start state and check for null next id and next-state
                     final Boolean[] foundStartState = {false};
                     final Integer[] startStatesCount = {0};
                     final Boolean[] foundEndState = {false};
                     final Integer[] endStatesCount = {0};
                     if (workflow.getStates() != null) {
                         workflow.getStates().stream().forEach(s -> {
+
+                            if (s.getId() == null || s.getId().trim().length() < 1) {
+                                addValidationError("Id should not be empty.",
+                                                   ValidationError.WORKFLOW_VALIDATION);
+                            }
+
+                            if (s.getName() == null || s.getName().trim().length() < 1) {
+                                addValidationError("Name should not be empty.",
+                                                   ValidationError.WORKFLOW_VALIDATION);
+                            }
+
                             if (s instanceof EventState) {
                                 EventState eventState = (EventState) s;
                                 if (eventState.isStart()) {
@@ -137,6 +148,12 @@ public class WorkflowValidator {
                             }
                             if (s instanceof OperationState) {
                                 OperationState operationState = (OperationState) s;
+
+                                if (operationState.getNextState() == null || operationState.getNextState().trim().length() < 1) {
+                                    addValidationError("Next state should not be empty.",
+                                                       ValidationError.WORKFLOW_VALIDATION);
+                                }
+
                                 if (operationState.isStart()) {
                                     foundStartState[0] = true;
                                     startStatesCount[0]++;
@@ -144,6 +161,12 @@ public class WorkflowValidator {
                             }
                             if (s instanceof SwitchState) {
                                 SwitchState switchState = (SwitchState) s;
+
+                                if (switchState.getDefault() == null || switchState.getDefault().trim().length() < 1) {
+                                    addValidationError("Default should not be empty.",
+                                                       ValidationError.WORKFLOW_VALIDATION);
+                                }
+
                                 if (switchState.isStart()) {
                                     foundStartState[0] = true;
                                     startStatesCount[0]++;
@@ -151,6 +174,12 @@ public class WorkflowValidator {
                             }
                             if (s instanceof ParallelState) {
                                 ParallelState parallelState = (ParallelState) s;
+
+                                if (parallelState.getNextState() == null || parallelState.getNextState().trim().length() < 1) {
+                                    addValidationError("Next state should not be empty.",
+                                                       ValidationError.WORKFLOW_VALIDATION);
+                                }
+
                                 if (parallelState.isStart()) {
                                     foundStartState[0] = true;
                                     startStatesCount[0]++;
@@ -158,6 +187,12 @@ public class WorkflowValidator {
                             }
                             if (s instanceof DelayState) {
                                 DelayState delayState = (DelayState) s;
+
+                                if (delayState.getNextState() == null || delayState.getNextState().trim().length() < 1) {
+                                    addValidationError("Next state should not be empty.",
+                                                       ValidationError.WORKFLOW_VALIDATION);
+                                }
+
                                 if (delayState.isStart()) {
                                     foundStartState[0] = true;
                                     startStatesCount[0]++;

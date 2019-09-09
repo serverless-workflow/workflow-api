@@ -21,7 +21,8 @@
         },
         "next-state": {
             "type": "string",
-            "description": "Name of the next state to transition to when exceeding max-retry limit"
+            "description": "Name of the next state to transition to when exceeding max-retry limit",
+            "minLength": 1
         },
         "metadata": {
             "$ref": "../metadata/metadata.json"

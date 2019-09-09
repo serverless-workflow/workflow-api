@@ -8,6 +8,7 @@
     },
     "properties": {
         "status": {
+            "type" : "string",
             "enum": ["SUCCESS", "FAILURE"],
             "description": "Specifies the workflow termination status"
         },

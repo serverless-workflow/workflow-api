@@ -17,7 +17,8 @@
         },
         "next-state": {
             "type": "string",
-            "description": "Specifies the name of the next state to transition to after all branches have completed execution"
+            "description": "Specifies the name of the next state to transition to after all branches have completed execution",
+            "minLength": 1
         },
         "metadata": {
             "$ref": "../metadata/metadata.json"

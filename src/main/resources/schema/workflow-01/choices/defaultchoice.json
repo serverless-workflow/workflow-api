@@ -13,12 +13,14 @@
             "description": "Matching value"
         },
         "operator": {
+            "type" : "string",
             "enum": ["EQ", "LT", "LTEQ", "GT", "GTEQ", "StrEQ", "StrLT", "StrLTEQ", "StrGT", "StrGTEQ"],
             "description": "Specifies how the input data is compared with the values"
         },
         "next-state": {
             "type": "string",
-            "description": "Specifies the name of the next state to transition to if there is a value match"
+            "description": "Specifies the name of the next state to transition to if there is a value match",
+            "minLength": 1
         },
         "metadata": {
             "$ref": "../metadata/metadata.json"

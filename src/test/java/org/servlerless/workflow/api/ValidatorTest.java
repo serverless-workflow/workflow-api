@@ -252,4 +252,63 @@ public class ValidatorTest extends BaseWorkflowTest {
                                   "No end state found.",
                                   ValidationError.WORKFLOW_VALIDATION));
     }
+
+    @Test
+    public void testEmptyId() {
+
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/emptyid.json")));
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        assertTrue(constainsError(validationErrorList,
+                                  "#/id: expected minLength: 1, actual: 0",
+                                  ValidationError.SCHEMA_VALIDATION));
+    }
+
+    @Test
+    public void testEmptyNextState() {
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/emptynextstate.json")));
+        WorkflowValidator validator = new WorkflowValidator().forWorkflow(workflow);
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        assertTrue(constainsError(validationErrorList,
+                                  "Next state should not be empty.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+    }
+
+    @Test
+    public void testEmptyName() {
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/emptyname.json")));
+        WorkflowValidator validator = new WorkflowValidator().forWorkflow(workflow);
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        assertTrue(constainsError(validationErrorList,
+                                  "Name should not be empty.",
+                                  ValidationError.WORKFLOW_VALIDATION));
+    }
+
+    @Test
+    public void testInvalidStateDefinition() {
+        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidstate.json")));
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(3,
+                     validationErrorList.size());
+    }
 }

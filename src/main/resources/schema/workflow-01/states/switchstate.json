@@ -12,7 +12,13 @@
             "description": "Defines an ordered set of Match Rules against the input data to this state",
             "items": {
                 "type": "object",
-                "existingJavaType": "org.serverless.workflow.api.interfaces.Choice"
+                "existingJavaType": "org.serverless.workflow.api.interfaces.Choice",
+                "anyOf": [
+                    { "$ref": "../choices/defaultchoice.json" },
+                    { "$ref": "../choices/andchoice.json" },
+                    { "$ref": "../choices/notchoice.json" },
+                    { "$ref": "../choices/orchoice.json" }
+                ]
             }
         },
         "default": {

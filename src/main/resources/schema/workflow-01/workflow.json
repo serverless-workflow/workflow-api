@@ -8,11 +8,13 @@
     "properties": {
         "id": {
             "type": "string",
-            "description": "Workflow unique id"
+            "description": "Workflow unique id",
+            "minLength": 1
         },
         "name": {
             "type": "string",
-            "description": "Workflow name"
+            "description": "Workflow name",
+            "minLength": 1
         },
         "description": {
             "type": "string",
@@ -42,7 +44,16 @@
             "description": "State Definitions",
             "items": {
                 "type": "object",
-                "existingJavaType": "org.serverless.workflow.api.interfaces.State"
+                "existingJavaType": "org.serverless.workflow.api.interfaces.State",
+                "anyOf": [
+                    { "$ref": "states/defaultstate.json" },
+                    { "$ref": "states/delaystate.json" },
+                    { "$ref": "states/endstate.json" },
+                    { "$ref": "states/eventstate.json" },
+                    { "$ref": "states/operationstate.json" },
+                    { "$ref": "states/parallelstate.json" },
+                    { "$ref": "states/switchstate.json" }
+                ]
             }
         }
     },

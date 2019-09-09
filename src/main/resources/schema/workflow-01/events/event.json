@@ -12,6 +12,7 @@
             "description": "Specifies the time period waiting for the events in the EVENTS-EXPRESSION"
         },
         "action-mode": {
+            "type" : "string",
             "enum": ["SEQUENTIAL", "PARALLEL"],
             "description": "Specifies whether functions are executed in sequence or in parallel"
         },
@@ -25,7 +26,8 @@
         },
         "next-state": {
             "type": "string",
-            "description": "Next state name"
+            "description": "Next state name",
+            "minLength": 1
         },
         "filter": {
             "$ref": "../filters/filter.json"

@@ -4,7 +4,8 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "function name"
+      "description": "function name",
+      "minLength": 1
     },
     "metadata": {
       "$ref": "../metadata/metadata.json"

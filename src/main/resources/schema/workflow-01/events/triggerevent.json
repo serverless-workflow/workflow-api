@@ -4,11 +4,13 @@
     "properties": {
         "id": {
             "type": "string",
-            "description": "Trigger Event unique id"
+            "description": "Trigger Event unique id",
+            "minLength": 1
         },
         "name": {
             "type": "string",
-            "description": "CloudEvent name"
+            "description": "CloudEvent name",
+            "minLength": 1
         },
         "source": {
             "type": "string",
