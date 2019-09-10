@@ -129,41 +129,33 @@ public abstract class WorkflowAdvice {
     // convenience method
     public List<Action> getAllActionsForEventState(EventState eventState) {
         List<Action> actions = new ArrayList<>();
-        eventState.getEvents().stream().forEach(event -> {
-            actions.addAll(event.getActions());
-        });
+        eventState.getEvents().forEach(event -> actions.addAll(event.getActions()));
         return actions;
     }
 
     // convenience method
     public List<Action> getAllActionsForEventStates(List<EventState> eventStates) {
         List<Action> actions = new ArrayList<>();
-        eventStates.stream().forEach(eventState -> {
-            actions.addAll(getAllActionsForEventState(eventState));
-        });
+        eventStates.forEach(eventState -> actions.addAll(getAllActionsForEventState(eventState)));
         return actions;
     }
 
     // convenience method
     public List<Function> getAllFunctionsForActions(List<Action> actions) {
         List<Function> functions = new ArrayList<>();
-        actions.stream().forEach(action -> {
-            functions.add(action.getFunction());
-        });
-
+        actions.forEach(action -> functions.add(action.getFunction()));
         return functions;
     }
 
     // convenience method
     public List<Function> getAllFunctionsForEventStates(List<EventState> eventStates) {
-        List<Function> functions = new ArrayList<>();
         List<Action> actions = getAllActionsForEventStates(eventStates);
         return getAllFunctionsForActions(actions);
     }
 
     // convenience method
     public State getStartState() {
-        return getWorkflow().getStates().stream().filter(state -> state.isStart())
+        return getWorkflow().getStates().stream().filter(State::isStart)
             .findFirst().orElse(null);
     }
 

@@ -343,7 +343,7 @@ public class ValidatorTest extends BaseWorkflowTest {
     }
 
     @Test
-    public void testUniqueStateId() {
+    public void testUniqueStateName() {
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/duplicatedstateid.json")));
         WorkflowValidator validator = new WorkflowValidator().forWorkflow(workflow);
         assertNotNull(validator);
