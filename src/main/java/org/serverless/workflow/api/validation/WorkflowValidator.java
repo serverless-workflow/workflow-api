@@ -19,9 +19,9 @@
 package org.serverless.workflow.api.validation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
@@ -33,7 +33,6 @@ import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.schemaclient.ResourceSchemaClient;
 import org.serverless.workflow.api.states.DelayState;
 import org.serverless.workflow.api.states.EndState;
-import org.serverless.workflow.api.states.EventState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.ParallelState;
 import org.serverless.workflow.api.states.SwitchState;
@@ -82,25 +81,21 @@ public class WorkflowValidator {
         return this;
     }
 
-    public JSONObject getWorkflowSchema() {
-        return workflowSchema;
-    }
-
     public List<ValidationError> validate() {
         validationErrors.clear();
         if (enabled) {
             try {
                 if (schemaValidation && workflowJson != null) {
                     SchemaLoader schemaLoader = SchemaLoader.builder()
-                            .schemaClient(new ResourceSchemaClient(new DefaultSchemaClient()))
-                            .schemaJson(workflowSchema)
-                            .resolutionScope("classpath:schema/workflow-01/") // setting the default resolution scope
-                            .draftV7Support()
-                            .addFormatValidator(new StateTypeValidator())
-                            .addFormatValidator(new ActionModeValidator())
-                            .addFormatValidator(new OperatorValidator())
-                            .addFormatValidator(new StatusValidator())
-                            .build();
+                        .schemaClient(new ResourceSchemaClient(new DefaultSchemaClient()))
+                        .schemaJson(workflowSchema)
+                        .resolutionScope("classpath:schema/workflow-01/") // setting the default resolution scope
+                        .draftV7Support()
+                        .addFormatValidator(new StateTypeValidator())
+                        .addFormatValidator(new ActionModeValidator())
+                        .addFormatValidator(new OperatorValidator())
+                        .addFormatValidator(new StatusValidator())
+                        .build();
                     Schema schema = schemaLoader.load().build();
 
                     try {
@@ -111,159 +106,107 @@ public class WorkflowValidator {
                                            ValidationError.SCHEMA_VALIDATION);
                         // suberrors
                         e.getCausingExceptions().stream()
-                                .map(ValidationException::getMessage)
-                                .forEach(m -> {
-                                    addValidationError(m,
-                                                       ValidationError.SCHEMA_VALIDATION);
-                                });
+                            .map(ValidationException::getMessage)
+                            .forEach(m -> addValidationError(m, ValidationError.SCHEMA_VALIDATION));
                     }
                 }
 
                 if (workflow != null) {
+                    if (workflow.getName() == null || workflow.getName().trim().isEmpty()) {
+                        addValidationError("Workflow name should not be empty", ValidationError.WORKFLOW_VALIDATION);
+                    }
                     // make sure we have at least one state
-                    if (workflow.getStates() == null || workflow.getStates().size() < 1) {
+                    if (workflow.getStates() == null || workflow.getStates().isEmpty()) {
                         addValidationError("No states found.",
                                            ValidationError.WORKFLOW_VALIDATION);
                     }
 
                     // make sure we have one start state and check for null next id and next-state
-                    final Boolean[] foundStartState = {false};
-                    final Integer[] startStatesCount = {0};
-                    final Boolean[] foundEndState = {false};
-                    final Integer[] endStatesCount = {0};
+                    final Validation validation = new Validation();
                     if (workflow.getStates() != null) {
-                        workflow.getStates().stream().forEach(s -> {
-
-                            if (s.getId() == null || s.getId().trim().length() < 1) {
-                                addValidationError("Id should not be empty.",
-                                                   ValidationError.WORKFLOW_VALIDATION);
-                            }
-
-                            if (s.getName() == null || s.getName().trim().length() < 1) {
+                        workflow.getStates().forEach(s -> {
+                            if (s.getName() != null && s.getName().trim().isEmpty()) {
                                 addValidationError("Name should not be empty.",
                                                    ValidationError.WORKFLOW_VALIDATION);
+                            } else {
+                                validation.addState(s.getName());
+                            }
+                            if (s.isStart()) {
+                                validation.addStartState();
                             }
 
-                            if (s instanceof EventState) {
-                                EventState eventState = (EventState) s;
-                                if (eventState.isStart()) {
-                                    foundStartState[0] = true;
-                                    startStatesCount[0]++;
-                                }
-                            }
                             if (s instanceof OperationState) {
                                 OperationState operationState = (OperationState) s;
 
-                                if (operationState.getNextState() == null || operationState.getNextState().trim().length() < 1) {
+                                if (operationState.getNextState() == null || operationState.getNextState().trim().isEmpty()) {
                                     addValidationError("Next state should not be empty.",
                                                        ValidationError.WORKFLOW_VALIDATION);
-                                }
-
-                                if (operationState.isStart()) {
-                                    foundStartState[0] = true;
-                                    startStatesCount[0]++;
                                 }
                             }
                             if (s instanceof SwitchState) {
                                 SwitchState switchState = (SwitchState) s;
 
-                                if (switchState.getDefault() == null || switchState.getDefault().trim().length() < 1) {
+                                if (switchState.getDefault() == null || switchState.getDefault().trim().isEmpty()) {
                                     addValidationError("Default should not be empty.",
                                                        ValidationError.WORKFLOW_VALIDATION);
-                                }
-
-                                if (switchState.isStart()) {
-                                    foundStartState[0] = true;
-                                    startStatesCount[0]++;
                                 }
                             }
                             if (s instanceof ParallelState) {
                                 ParallelState parallelState = (ParallelState) s;
 
-                                if (parallelState.getNextState() == null || parallelState.getNextState().trim().length() < 1) {
+                                if (parallelState.getNextState() == null || parallelState.getNextState().trim().isEmpty()) {
                                     addValidationError("Next state should not be empty.",
                                                        ValidationError.WORKFLOW_VALIDATION);
-                                }
-
-                                if (parallelState.isStart()) {
-                                    foundStartState[0] = true;
-                                    startStatesCount[0]++;
                                 }
                             }
                             if (s instanceof DelayState) {
                                 DelayState delayState = (DelayState) s;
 
-                                if (delayState.getNextState() == null || delayState.getNextState().trim().length() < 1) {
+                                if (delayState.getNextState() == null || delayState.getNextState().trim().isEmpty()) {
                                     addValidationError("Next state should not be empty.",
                                                        ValidationError.WORKFLOW_VALIDATION);
                                 }
-
-                                if (delayState.isStart()) {
-                                    foundStartState[0] = true;
-                                    startStatesCount[0]++;
-                                }
                             }
-                        });
-
-                        workflow.getStates().stream().forEach(s -> {
                             if (s instanceof EndState) {
-                                foundEndState[0] = true;
-                                endStatesCount[0]++;
+                                validation.addEndState();
                             }
                         });
                     }
 
-                    if (!foundStartState[0].booleanValue()) {
+                    if (validation.startStates == 0) {
                         addValidationError("No start state found.",
                                            ValidationError.WORKFLOW_VALIDATION);
                     }
 
-                    if (startStatesCount[0] > 1) {
+                    if (validation.startStates > 1) {
                         addValidationError("Multiple start states found.",
                                            ValidationError.WORKFLOW_VALIDATION);
                     }
 
                     if (strictMode) {
-                        if (!foundEndState[0].booleanValue()) {
+                        if (validation.endStates == 0) {
                             addValidationError("No end state found.",
                                                ValidationError.WORKFLOW_VALIDATION);
                         }
 
-                        if (endStatesCount[0] > 1) {
+                        if (validation.endStates > 1) {
                             addValidationError("Multiple end states found.",
                                                ValidationError.WORKFLOW_VALIDATION);
                         }
                     }
 
-                    // make sure if we have trigger events that they unique name and
-                    // event id
+                    // make sure if we have trigger events that they unique name
                     if (workflow.getTriggerDefs() != null) {
-                        Map<String, String> uniqueNames = new HashMap<>();
-                        Map<String, String> uniqueEventIds = new HashMap();
-                        workflow.getTriggerDefs().stream().forEach(triggerEvent -> {
-                            if (triggerEvent.getName() == null || triggerEvent.getName().length() < 1) {
+                        workflow.getTriggerDefs().forEach(triggerEvent -> {
+                            if (triggerEvent.getName() == null || triggerEvent.getName().isEmpty()) {
                                 addValidationError("Trigger Event has no name",
                                                    ValidationError.WORKFLOW_VALIDATION);
+                            } else {
+                                validation.addEvent(triggerEvent.getName());
                             }
-                            if (triggerEvent.getEventID() == null || triggerEvent.getEventID().length() < 1) {
+                            if (triggerEvent.getEventID() == null || triggerEvent.getEventID().isEmpty()) {
                                 addValidationError("Trigger Event has no event id",
                                                    ValidationError.WORKFLOW_VALIDATION);
-                            }
-
-                            if (uniqueNames.containsKey(triggerEvent.getName())) {
-                                addValidationError("Trigger Event does not have unique name.",
-                                                   ValidationError.WORKFLOW_VALIDATION);
-                            } else {
-                                uniqueNames.put(triggerEvent.getName(),
-                                                "");
-                            }
-
-                            if (uniqueEventIds.containsKey(triggerEvent.getEventID())) {
-                                addValidationError("Trigger Event does not have unique eventid.",
-                                                   ValidationError.WORKFLOW_VALIDATION);
-                            } else {
-                                uniqueEventIds.put(triggerEvent.getEventID(),
-                                                   "");
                             }
                         });
                     }
@@ -282,5 +225,39 @@ public class WorkflowValidator {
         mainError.setMessage(message);
         mainError.setType(type);
         validationErrors.add(mainError);
+    }
+
+    private class Validation {
+
+        final Set<String> events = new HashSet<>();
+        final Set<String> states = new HashSet<>();
+        Integer startStates = 0;
+        Integer endStates = 0;
+
+        void addEvent(String name) {
+            if (events.contains(name)) {
+                addValidationError("Trigger Event does not have unique name: " + name,
+                                   ValidationError.WORKFLOW_VALIDATION);
+            } else {
+                events.add(name);
+            }
+        }
+
+        void addState(String name) {
+            if (states.contains(name)) {
+                addValidationError("State does not have a unique name: " + name,
+                                   ValidationError.WORKFLOW_VALIDATION);
+            } else {
+                states.add(name);
+            }
+        }
+
+        void addStartState() {
+            startStates++;
+        }
+
+        void addEndState() {
+            endStates++;
+        }
     }
 }

@@ -50,13 +50,13 @@ public class ChoiceDeserializer extends StdDeserializer<Choice> {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode node = jp.getCodec().readTree(jp);
 
-        if (node.get("And") != null) {
+        if (node.get("and") != null) {
             return mapper.treeToValue(node,
                                       AndChoice.class);
-        } else if (node.get("Not") != null) {
+        } else if (node.get("not") != null) {
             return mapper.treeToValue(node,
                                       NotChoice.class);
-        } else if (node.get("Or") != null) {
+        } else if (node.get("or") != null) {
             return mapper.treeToValue(node,
                                       OrChoice.class);
         } else {

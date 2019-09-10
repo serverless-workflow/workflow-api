@@ -43,16 +43,9 @@ public class EndStateSerializer extends StdSerializer<EndState> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-        // set the id
-        if (endState.getId() == null || endState.getId().length() < 1) {
-            endState.setId(WorkflowSerializer.generateUniqueId());
-        }
         // set defaults for end state
         endState.setStart(false);
         endState.setType(DefaultState.Type.END);
-        if (endState.getName() == null || endState.getName().length() < 1) {
-            endState.setName("endstate");
-        }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,

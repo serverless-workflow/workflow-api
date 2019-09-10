@@ -4,14 +4,9 @@
     "javaInterfaces": ["org.serverless.workflow.api.interfaces.State"],
     "description": "Default State",
     "properties": {
-        "id": {
-            "type": "string",
-            "description": "State unique id",
-            "minLength": 1
-        },
         "name": {
             "type": "string",
-            "description": "State name",
+            "description": "Unique name of the state",
             "minLength": 1
         },
         "type": {
@@ -28,15 +23,9 @@
         "filter": {
             "$ref": "../filters/filter.json"
         },
-        "entry-action": {
-            "$ref": "../actions/action.json"
-        },
-        "exit-action": {
-            "$ref": "../actions/action.json"
-        },
         "metadata": {
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": ["name", "type", "start"]
+    "required": ["name", "type"]
 }

@@ -42,10 +42,6 @@ public class TriggerEventSerializer extends StdSerializer<TriggerEvent> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-        // set the id
-        if (triggerEvent.getId() == null || triggerEvent.getId().length() < 1) {
-            triggerEvent.setId(WorkflowSerializer.generateUniqueId());
-        }
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
                                                         TypeFactory.defaultInstance().constructType(TriggerEvent.class)).serialize(triggerEvent,

@@ -1,10 +1,11 @@
 {
-    "id": "1",
-    "states" : [ {
-        "id": "2",
-        "status" : "SUCCESS",
-        "name" : "endstate",
-        "type" : "END",
-        "start" : false
-    } ]
+  "name": "test-wf",
+  "states": [
+    {
+      "status": "SUCCESS",
+      "name": "test-state",
+      "type": "END",
+      "start": false
+    }
+  ]
 }

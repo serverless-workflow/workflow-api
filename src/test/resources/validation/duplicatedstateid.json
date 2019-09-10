@@ -2,6 +2,7 @@
   "name": "test-wf",
   "states": [
     {
+      "name": "duplicated",
       "action-mode": "SEQUENTIAL",
       "actions": [
         {
@@ -17,15 +18,14 @@
           }
         }
       ],
-      "filter": {
-        "input-path": "$.owner.address.zipcode",
-        "result-path": "$.country.code",
-        "output-path": "$.owner.address.countryCode"
-      },
       "next-state": "testnextstate",
-      "name": "test-state",
       "type": "OPERATION",
       "start": true
+    },
+    {
+      "name": "duplicated",
+      "status": "SUCCESS",
+      "type": "END"
     }
   ]
 }

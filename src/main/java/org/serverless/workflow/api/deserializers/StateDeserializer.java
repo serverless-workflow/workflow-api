@@ -46,36 +46,29 @@ public class StateDeserializer extends StdDeserializer<State> {
     }
 
     @Override
-    public State deserialize(JsonParser jp,
-                             DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+    public State deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode node = jp.getCodec().readTree(jp);
-        String type = node.get("type").asText();
+        String typeValue = node.get("type").asText();
 
         // based on statetype return the specific state impl
-        if (type.equalsIgnoreCase("EVENT")) {
-            return mapper.treeToValue(node,
-                                      EventState.class);
-        } else if (type.equalsIgnoreCase("OPERATION")) {
-            return mapper.treeToValue(node,
-                                      OperationState.class);
-        } else if (type.equalsIgnoreCase("SWITCH")) {
-            return mapper.treeToValue(node,
-                                      SwitchState.class);
-        } else if (type.equalsIgnoreCase("DELAY")) {
-            return mapper.treeToValue(node,
-                                      DelayState.class);
-        } else if (type.equalsIgnoreCase("PARALLEL")) {
-            return mapper.treeToValue(node,
-                                      ParallelState.class);
-        } else if (type.equalsIgnoreCase("END")) {
-            return mapper.treeToValue(node,
-                                      EndState.class);
-        } else {
-            return mapper.treeToValue(node,
-                                      DefaultState.class);
+        DefaultState.Type type = DefaultState.Type.fromValue(typeValue);
+        switch (type) {
+            case EVENT:
+                return mapper.treeToValue(node, EventState.class);
+            case OPERATION:
+                return mapper.treeToValue(node, OperationState.class);
+            case SWITCH:
+                return mapper.treeToValue(node, SwitchState.class);
+            case DELAY:
+                return mapper.treeToValue(node, DelayState.class);
+            case PARALLEL:
+                return mapper.treeToValue(node, ParallelState.class);
+            case END:
+                return mapper.treeToValue(node, EndState.class);
+            default:
+                return mapper.treeToValue(node, DefaultState.class);
         }
     }
 }

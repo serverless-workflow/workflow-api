@@ -74,7 +74,7 @@ public class WorkflowController extends WorkflowAdvice {
     }
 
     public boolean isValid() {
-        return this.validator.validate().size() < 1;
+        return this.validator.validate().isEmpty();
     }
 
     public List<ValidationError> getValidationErrors() {

@@ -1,7 +1,7 @@
 {
-  "id": "1",
-  "states" : [ ],
-  "metadata" : {
+  "name": "test-wf",
+  "states": [],
+  "metadata": {
     "key1": "value1",
     "key2": "value2"
   }

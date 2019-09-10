@@ -2,14 +2,9 @@
     "type": "object",
     "javaType": "org.serverless.workflow.api.events.TriggerEvent",
     "properties": {
-        "id": {
-            "type": "string",
-            "description": "Trigger Event unique id",
-            "minLength": 1
-        },
         "name": {
             "type": "string",
-            "description": "CloudEvent name",
+            "description": "Trigger unique name",
             "minLength": 1
         },
         "source": {

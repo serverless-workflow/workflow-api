@@ -47,16 +47,9 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
                           SerializerProvider provider) throws IOException {
 
         gen.writeStartObject();
+        gen.writeStringField("name", workflow.getName());
 
-        if (workflow.getId() == null || workflow.getId().length() < 1) {
-            gen.writeStringField("id",
-                                 generateUniqueId());
-        } else {
-            gen.writeStringField("id",
-                                 workflow.getId());
-        }
-
-        if (workflow.getTriggerDefs() != null && workflow.getTriggerDefs().size() > 0) {
+        if (workflow.getTriggerDefs() != null && !workflow.getTriggerDefs().isEmpty()) {
             gen.writeArrayFieldStart("trigger-defs");
             for (TriggerEvent triggerEvent : workflow.getTriggerDefs()) {
                 gen.writeObject(triggerEvent);
@@ -64,7 +57,7 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
             gen.writeEndArray();
         }
 
-        if (workflow.getStates() != null && workflow.getStates().size() > 0) {
+        if (workflow.getStates() != null && !workflow.getStates().isEmpty()) {
             gen.writeArrayFieldStart("states");
             for (State state : workflow.getStates()) {
                 gen.writeObject(state);
@@ -75,7 +68,7 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
             gen.writeEndArray();
         }
 
-        if (workflow.getMetadata() != null && workflow.getMetadata().size() > 0) {
+        if (workflow.getMetadata() != null && !workflow.getMetadata().isEmpty()) {
             gen.writeObjectField("metadata",
                                  workflow.getMetadata());
         }

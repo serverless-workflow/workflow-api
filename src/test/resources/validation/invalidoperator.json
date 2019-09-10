@@ -1,19 +1,24 @@
 {
-  "id": "1",
-  "states" : [ {
-    "id": "2",
-    "choices" : [ {
-      "And" : [ {
-        "path" : "testpath",
-        "value" : "testvalue",
-        "operator" : "CUSTOMOPERATOR",
-        "next-state" : "testnextstate"
-      } ],
-      "next-state" : "testnextstate"
-    } ],
-    "default" : "defaultteststate",
-    "name" : "switchstate",
-    "type" : "SWITCH",
-    "start" : false
-  } ]
+  "name": "test-wf",
+  "states": [
+    {
+      "name": "test-state",
+      "choices": [
+        {
+          "and": [
+            {
+              "path": "testpath",
+              "value": "testvalue",
+              "operator": "CUSTOMOPERATOR",
+              "next-state": "testnextstate"
+            }
+          ],
+          "next-state": "testnextstate"
+        }
+      ],
+      "default": "defaultteststate",
+      "type": "SWITCH",
+      "start": false
+    }
+  ]
 }

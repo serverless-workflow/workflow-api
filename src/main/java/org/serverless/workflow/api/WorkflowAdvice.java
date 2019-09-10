@@ -44,26 +44,26 @@ public abstract class WorkflowAdvice {
     public Map<String, TriggerEvent> getUniqueTriggerEvents() {
         if (getWorkflow().getTriggerDefs() != null) {
             triggerEvenMap = getWorkflow().getTriggerDefs().stream()
-                    .collect(Collectors.toMap(TriggerEvent::getId,
-                                              tiggerEvent -> tiggerEvent));
+                .collect(Collectors.toMap(TriggerEvent::getName,
+                                          tiggerEvent -> tiggerEvent));
         }
 
         return triggerEvenMap;
     }
 
     public boolean haveTriggers() {
-        return getWorkflow().getTriggerDefs() != null && getWorkflow().getTriggerDefs().size() > 0;
+        return getWorkflow().getTriggerDefs() != null && !getWorkflow().getTriggerDefs().isEmpty();
     }
 
     public boolean haveStates() {
-        return getWorkflow().getStates() != null && getWorkflow().getStates().size() > 0;
+        return getWorkflow().getStates() != null && !getWorkflow().getStates().isEmpty();
     }
 
     public Map<String, State> getUniqueStates() {
         if (getWorkflow().getTriggerDefs() != null) {
             stateMap = getWorkflow().getStates().stream()
-                    .collect(Collectors.toMap(State::getId,
-                                              state -> state));
+                .collect(Collectors.toMap(State::getName,
+                                          state -> state));
         }
 
         return stateMap;
@@ -76,10 +76,10 @@ public abstract class WorkflowAdvice {
             if (state instanceof EventState) {
                 EventState eventState = (EventState) state;
                 List<Event> triggeredEvents = eventState.getEvents().stream()
-                        .filter(event -> getExpressionEvaluator()
-                                .evaluate(event.getEventExpression(),
-                                          triggerEvent.getName())).collect(Collectors.toList());
-                if (triggeredEvents != null && triggeredEvents.size() > 0) {
+                    .filter(event -> getExpressionEvaluator()
+                        .evaluate(event.getEventExpression(),
+                                  triggerEvent.getName())).collect(Collectors.toList());
+                if (triggeredEvents != null && !triggeredEvents.isEmpty()) {
                     triggerStates.add(eventState);
                 }
             }
@@ -93,11 +93,11 @@ public abstract class WorkflowAdvice {
 
         for (TriggerEvent triggerEvent : getWorkflow().getTriggerDefs()) {
             List<Event> triggeredEvents = eventState.getEvents().stream()
-                    .filter(event -> getExpressionEvaluator()
-                            .evaluate(event.getEventExpression(),
-                                      triggerEvent.getName())).collect(Collectors.toList());
+                .filter(event -> getExpressionEvaluator()
+                    .evaluate(event.getEventExpression(),
+                              triggerEvent.getName())).collect(Collectors.toList());
 
-            if (triggeredEvents != null && triggeredEvents.size() > 0) {
+            if (triggeredEvents != null && !triggeredEvents.isEmpty()) {
                 eventStateTriggers.add(triggerEvent);
             }
         }
@@ -112,11 +112,11 @@ public abstract class WorkflowAdvice {
                 EventState eventState = (EventState) state;
                 for (TriggerEvent triggerEvent : getWorkflow().getTriggerDefs()) {
                     List<Event> triggeredEvents = eventState.getEvents().stream()
-                            .filter(event -> getExpressionEvaluator()
-                                    .evaluate(event.getEventExpression(),
-                                              triggerEvent.getName())).collect(Collectors.toList());
-                    if (triggeredEvents != null && triggeredEvents.size() > 0) {
-                        associatedTriggersMap.put(triggerEvent.getId(),
+                        .filter(event -> getExpressionEvaluator()
+                            .evaluate(event.getEventExpression(),
+                                      triggerEvent.getName())).collect(Collectors.toList());
+                    if (triggeredEvents != null && !triggeredEvents.isEmpty()) {
+                        associatedTriggersMap.put(triggerEvent.getName(),
                                                   triggerEvent);
                     }
                 }
@@ -129,53 +129,45 @@ public abstract class WorkflowAdvice {
     // convenience method
     public List<Action> getAllActionsForEventState(EventState eventState) {
         List<Action> actions = new ArrayList<>();
-        eventState.getEvents().stream().forEach(event -> {
-            actions.addAll(event.getActions());
-        });
+        eventState.getEvents().forEach(event -> actions.addAll(event.getActions()));
         return actions;
     }
 
     // convenience method
     public List<Action> getAllActionsForEventStates(List<EventState> eventStates) {
         List<Action> actions = new ArrayList<>();
-        eventStates.stream().forEach(eventState -> {
-            actions.addAll(getAllActionsForEventState(eventState));
-        });
+        eventStates.forEach(eventState -> actions.addAll(getAllActionsForEventState(eventState)));
         return actions;
     }
 
     // convenience method
     public List<Function> getAllFunctionsForActions(List<Action> actions) {
         List<Function> functions = new ArrayList<>();
-        actions.stream().forEach(action -> {
-            functions.add(action.getFunction());
-        });
-
+        actions.forEach(action -> functions.add(action.getFunction()));
         return functions;
     }
 
     // convenience method
     public List<Function> getAllFunctionsForEventStates(List<EventState> eventStates) {
-        List<Function> functions = new ArrayList<>();
         List<Action> actions = getAllActionsForEventStates(eventStates);
         return getAllFunctionsForActions(actions);
     }
 
     // convenience method
     public State getStartState() {
-        return getWorkflow().getStates().stream().filter(state -> state.isStart())
-                .findFirst().orElse(null);
+        return getWorkflow().getStates().stream().filter(State::isStart)
+            .findFirst().orElse(null);
     }
 
     // convenience method
     public State getStateByNAme(String stateName) {
         return getWorkflow().getStates().stream().filter(state -> state.getName().equals(stateName))
-                .findFirst().orElse(null);
+            .findFirst().orElse(null);
     }
 
     // convenience method
     public boolean haveEndState() {
         return getWorkflow().getStates().stream()
-                .anyMatch(state -> state instanceof EndState);
+            .anyMatch(state -> state instanceof EndState);
     }
 }

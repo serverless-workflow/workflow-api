@@ -1,19 +1,17 @@
 {
-  "id": "1",
+  "name": "test-wf",
   "states": [
     {
       "time-delay": 5,
       "next-state": "testNextState",
-      "id": "2",
-      "name": "delaystate",
+      "name": "test-state-1",
       "type": "DELAY",
       "start": true
     },
     {
       "time-delay": 5,
       "next-state": "testNextState2",
-      "id": "3",
-      "name": "delaystate2",
+      "name": "test-state-2",
       "type": "DELAY",
       "start": true
     }

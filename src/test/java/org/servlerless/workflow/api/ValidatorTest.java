@@ -27,42 +27,43 @@ import org.serverless.workflow.api.validation.WorkflowValidator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidatorTest extends BaseWorkflowTest {
 
     @Test
     public void testEmptyJson() {
 
-        // there should be one schema validation error
+        // there should be two schema validation errors
         // no workflow errors (workflow not give)
         WorkflowValidator validator = new WorkflowValidator().forWorkflowJson("{}");
         assertNotNull(validator);
 
         List<ValidationError> validationErrorList = validator.validate();
-        assertEquals(1,
+        assertEquals(3,
                      validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "#: required key [states] not found",
-                                  ValidationError.SCHEMA_VALIDATION));
+        expectError(validationErrorList,
+                    "#: required key [states] not found",
+                    ValidationError.SCHEMA_VALIDATION);
+        expectError(validationErrorList,
+                    "#: required key [name] not found",
+                    ValidationError.SCHEMA_VALIDATION);
+        expectError(validationErrorList,
+                    "#: 2 schema violations found",
+                    ValidationError.SCHEMA_VALIDATION);
 
         // if workflow given there should be schema errors and workflow errors
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
-        validator = validator.forWorkflow(workflow);
-        validationErrorList = validator.validate();
-        assertEquals(3,
-                     validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "#: required key [states] not found",
-                                  ValidationError.SCHEMA_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "No states found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "No start state found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        //assertTrue(constainsError(validationErrorList, "No end state found.", ValidationError.WORKFLOW_VALIDATION));
 
+        validator = new WorkflowValidator().forWorkflow(workflow);
+        validationErrorList = validator.validate();
+        assertEquals(2,
+                     validationErrorList.size());
+        expectError(validationErrorList,
+                    "No states found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "No start state found.",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
@@ -75,39 +76,27 @@ public class ValidatorTest extends BaseWorkflowTest {
 
         // if workflow given there should be chema error and workflow error2
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
-        validator = validator.forWorkflow(workflow);
+        validator = new WorkflowValidator().forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
         assertEquals(2,
                      validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "No states found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "No start state found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        //assertTrue(constainsError(validationErrorList, "No end state found.", ValidationError.WORKFLOW_VALIDATION));
-
+        expectError(validationErrorList,
+                    "No states found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "No start state found.",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
     public void testInvalidTriggerEvent() {
         WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/invalidtrigger.json")));
         assertNotNull(validator);
-
-        assertEquals(1,
-                     validator.validate().size());
-        assertEquals("#/trigger-defs/0: required key [name] not found",
-                     validator.validate().get(0).getMessage());
-
-        // if workflow given there should be schema error too
-        Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/invalidtrigger.json")));
-        validator = validator.forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
-        assertEquals(1,
-                     validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "#/trigger-defs/0: required key [name] not found",
-                                  ValidationError.SCHEMA_VALIDATION));
+        assertEquals(1, validationErrorList.size());
+        expectError(validationErrorList,
+                    "#/trigger-defs/0: required key [name] not found",
+                    ValidationError.SCHEMA_VALIDATION);
     }
 
     @Test
@@ -121,22 +110,19 @@ public class ValidatorTest extends BaseWorkflowTest {
 
         // there are workflow validation errors
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/invalidtriggerproperties.json")));
-        validator = validator.forWorkflow(workflow);
+        validator = new WorkflowValidator().forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
-        assertEquals(4,
+        assertEquals(3,
                      validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "No states found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "No start state found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "Trigger Event does not have unique name.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "Trigger Event does not have unique eventid.",
-                                  ValidationError.WORKFLOW_VALIDATION));
+        expectError(validationErrorList,
+                    "No states found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "No start state found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "Trigger Event does not have unique name: testtriggerevent",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
@@ -149,21 +135,21 @@ public class ValidatorTest extends BaseWorkflowTest {
                      validator.validate().size());
 
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/multiplestartstates.json")));
-        validator = validator.forWorkflow(workflow);
+        validator = new WorkflowValidator().forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
 
         assertEquals(1,
                      validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "Multiple start states found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
+        expectError(validationErrorList,
+                    "Multiple start states found.",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
     public void testMultipleEndStatesInStrictMode() {
         WorkflowValidator validator = new WorkflowValidator()
-                .forWorkflowJson(getFileContents(getResourcePath("validation/multipleendstates.json")))
-                .withStrictMode(true);
+            .forWorkflowJson(getFileContents(getResourcePath("validation/multipleendstates.json")))
+            .withStrictMode(true);
         assertNotNull(validator);
 
         // no schema errors
@@ -171,24 +157,24 @@ public class ValidatorTest extends BaseWorkflowTest {
                      validator.validate().size());
 
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/multipleendstates.json")));
-        validator = validator.forWorkflow(workflow);
+        validator = new WorkflowValidator().withStrictMode(true).forWorkflow(workflow);
         List<ValidationError> validationErrorList = validator.validate();
 
         assertEquals(2,
                      validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "No start state found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "Multiple end states found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
+        expectError(validationErrorList,
+                    "No start state found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "Multiple end states found.",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
     public void testValidationDisabled() {
         WorkflowValidator validator = new WorkflowValidator()
-                .forWorkflowJson("{}")
-                .withEnabled(false);
+            .forWorkflowJson("{}")
+            .withEnabled(false);
         assertNotNull(validator);
 
         List<ValidationError> validationErrorList = validator.validate();
@@ -200,8 +186,8 @@ public class ValidatorTest extends BaseWorkflowTest {
     @Test
     public void testSchemaValidationDisabled() {
         WorkflowValidator validator = new WorkflowValidator()
-                .forWorkflowJson("{}")
-                .withSchemaValidation(false);
+            .forWorkflowJson("{}")
+            .withSchemaValidation(false);
         assertNotNull(validator);
 
         List<ValidationError> validationErrorList = validator.validate();
@@ -211,24 +197,24 @@ public class ValidatorTest extends BaseWorkflowTest {
 
         // if workflow given there should be workflow errors
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
-        validator = validator.forWorkflow(workflow);
+        validator = new WorkflowValidator().forWorkflow(workflow);
         validationErrorList = validator.validate();
         assertEquals(2,
                      validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "No states found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "No start state found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
+        expectError(validationErrorList,
+                    "No states found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "No start state found.",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
     public void testStrictValidationEnabled() {
         WorkflowValidator validator = new WorkflowValidator()
-                .forWorkflowJson("{}")
-                .withSchemaValidation(false)
-                .withStrictMode(true);
+            .forWorkflowJson("{}")
+            .withSchemaValidation(false)
+            .withStrictMode(true);
         assertNotNull(validator);
 
         List<ValidationError> validationErrorList = validator.validate();
@@ -238,35 +224,19 @@ public class ValidatorTest extends BaseWorkflowTest {
 
         // if workflow given there should be workflow errors + additional strict mode error
         Workflow workflow = toWorkflow(getFileContents(getResourcePath("basic/emptyworkflow.json")));
-        validator = validator.forWorkflow(workflow);
+        validator = new WorkflowValidator().withStrictMode(true).forWorkflow(workflow);
         validationErrorList = validator.validate();
         assertEquals(3,
                      validationErrorList.size());
-        assertTrue(constainsError(validationErrorList,
-                                  "No states found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "No start state found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-        assertTrue(constainsError(validationErrorList,
-                                  "No end state found.",
-                                  ValidationError.WORKFLOW_VALIDATION));
-    }
-
-    @Test
-    public void testEmptyId() {
-
-        WorkflowValidator validator = new WorkflowValidator().forWorkflowJson(getFileContents(getResourcePath("validation/emptyid.json")));
-        assertNotNull(validator);
-
-        List<ValidationError> validationErrorList = validator.validate();
-
-        assertEquals(1,
-                     validationErrorList.size());
-
-        assertTrue(constainsError(validationErrorList,
-                                  "#/id: expected minLength: 1, actual: 0",
-                                  ValidationError.SCHEMA_VALIDATION));
+        expectError(validationErrorList,
+                    "No states found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "No start state found.",
+                    ValidationError.WORKFLOW_VALIDATION);
+        expectError(validationErrorList,
+                    "No end state found.",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
@@ -280,9 +250,9 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(1,
                      validationErrorList.size());
 
-        assertTrue(constainsError(validationErrorList,
-                                  "Next state should not be empty.",
-                                  ValidationError.WORKFLOW_VALIDATION));
+        expectError(validationErrorList,
+                    "Next state should not be empty.",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
@@ -296,9 +266,9 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(1,
                      validationErrorList.size());
 
-        assertTrue(constainsError(validationErrorList,
-                                  "Name should not be empty.",
-                                  ValidationError.WORKFLOW_VALIDATION));
+        expectError(validationErrorList,
+                    "Workflow name should not be empty",
+                    ValidationError.WORKFLOW_VALIDATION);
     }
 
     @Test
@@ -322,9 +292,9 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(1,
                      validationErrorList.size());
 
-        assertTrue(constainsError(validationErrorList,
-                                  "#: Invalid state type: CUSTOMSTATETYPE",
-                                  ValidationError.SCHEMA_VALIDATION));
+        expectError(validationErrorList,
+                    "#: Invalid state type: CUSTOMSTATETYPE",
+                    ValidationError.SCHEMA_VALIDATION);
     }
 
     @Test
@@ -337,9 +307,9 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(1,
                      validationErrorList.size());
 
-        assertTrue(constainsError(validationErrorList,
-                                  "#: Invalid action mode: CUSTOMACTIONMODE",
-                                  ValidationError.SCHEMA_VALIDATION));
+        expectError(validationErrorList,
+                    "#: Invalid action mode: CUSTOMACTIONMODE",
+                    ValidationError.SCHEMA_VALIDATION);
     }
 
     @Test
@@ -352,9 +322,9 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(1,
                      validationErrorList.size());
 
-        assertTrue(constainsError(validationErrorList,
-                                  "#: Invalid operator: CUSTOMOPERATOR",
-                                  ValidationError.SCHEMA_VALIDATION));
+        expectError(validationErrorList,
+                    "#: Invalid operator: CUSTOMOPERATOR",
+                    ValidationError.SCHEMA_VALIDATION);
     }
 
     @Test
@@ -367,8 +337,22 @@ public class ValidatorTest extends BaseWorkflowTest {
         assertEquals(1,
                      validationErrorList.size());
 
-        assertTrue(constainsError(validationErrorList,
-                                  "#: Invalid status: CUSTOMSTATUS",
-                                  ValidationError.SCHEMA_VALIDATION));
+        expectError(validationErrorList,
+                    "#: Invalid status: CUSTOMSTATUS",
+                    ValidationError.SCHEMA_VALIDATION);
+    }
+
+    @Test
+    public void testUniqueStateName() {
+        Workflow workflow = toWorkflow(getFileContents(getResourcePath("validation/duplicatedstateid.json")));
+        WorkflowValidator validator = new WorkflowValidator().forWorkflow(workflow);
+        assertNotNull(validator);
+
+        List<ValidationError> validationErrorList = validator.validate();
+
+        assertEquals(1,
+                     validationErrorList.size());
+
+        expectError(validationErrorList, "State does not have a unique name: duplicated", ValidationError.WORKFLOW_VALIDATION);
     }
 }

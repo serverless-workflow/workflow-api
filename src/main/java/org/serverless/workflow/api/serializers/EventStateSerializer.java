@@ -43,15 +43,8 @@ public class EventStateSerializer extends StdSerializer<EventState> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-        // set the id
-        if (eventState.getId() == null || eventState.getId().length() < 1) {
-            eventState.setId(WorkflowSerializer.generateUniqueId());
-        }
         // set defaults for end state
         eventState.setType(DefaultState.Type.EVENT);
-        if (eventState.getName() == null || eventState.getName().length() < 1) {
-            eventState.setName("eventstate");
-        }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,

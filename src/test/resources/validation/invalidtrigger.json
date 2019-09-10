@@ -1,9 +1,11 @@
 {
-  "trigger-defs" : [ {
-    "name1" : "testtriggerevent",
-    "source" : "testsource",
-    "eventID" : "testeventid",
-    "correlation-token" : "testcorrelationtoken"
-  } ],
-  "states" : [ ]
+  "name": "test-wf",
+  "trigger-defs": [
+    {
+      "source": "testsource",
+      "eventID": "testeventid",
+      "correlation-token": "testcorrelationtoken"
+    }
+  ],
+  "states": []
 }

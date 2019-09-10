@@ -1,14 +1,18 @@
 {
-  "trigger-defs" : [ {
-    "name" : "testtriggerevent",
-    "source" : "testsource",
-    "eventID" : "testeventid",
-    "correlation-token" : "testcorrelationtoken"
-  },{
-    "name" : "testtriggerevent",
-    "source" : "testsource",
-    "eventID" : "testeventid",
-    "correlation-token" : "testcorrelationtoken"
-  } ],
-  "states" : [ ]
+  "name": "test-wf",
+  "trigger-defs": [
+    {
+      "name": "testtriggerevent",
+      "source": "testsource",
+      "eventID": "testeventid",
+      "correlation-token": "testcorrelationtoken"
+    },
+    {
+      "name": "testtriggerevent",
+      "source": "testsource",
+      "eventID": "testeventid",
+      "correlation-token": "testcorrelationtoken"
+    }
+  ],
+  "states": []
 }

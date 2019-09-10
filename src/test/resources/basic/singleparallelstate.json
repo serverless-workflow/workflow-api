@@ -1,43 +1,51 @@
 {
-  "id": "1",
-  "states" : [ {
-    "branches" : [ {
-      "name" : "firsttestbranch",
-      "states" : [ {
-        "action-mode" : "SEQUENTIAL",
-        "actions" : [ {
-          "function" : {
-            "name": "testFunction"
-          },
-          "timeout" : 5,
-          "retry" : {
-            "match" : "testMatch",
-            "retry-interval" : 2,
-            "max-retry" : 10,
-            "next-state" : "testNextRetryState"
-          }
-        } ],
-        "next-state" : "testnextstate",
-        "id": "3",
-        "name" : "operationstate",
-        "type" : "OPERATION",
-        "start" : true
-      } ]
-    }, {
-      "name" : "secondtestbranch",
-      "states" : [ {
-        "time-delay" : 5,
-        "next-state" : "testNextState",
-        "id": "4",
-        "name" : "delaystate",
-        "type" : "DELAY",
-        "start" : false
-      } ]
-    } ],
-    "next-state" : "testnextstate",
-    "id" : "2",
-    "name" : "parallelstate",
-    "type" : "PARALLEL",
-    "start" : true
-  } ]
+  "name": "test-wf",
+  "states": [
+    {
+      "branches": [
+        {
+          "name": "firsttestbranch",
+          "states": [
+            {
+              "action-mode": "SEQUENTIAL",
+              "actions": [
+                {
+                  "function": {
+                    "name": "testFunction"
+                  },
+                  "timeout": 5,
+                  "retry": {
+                    "match": "testMatch",
+                    "retry-interval": 2,
+                    "max-retry": 10,
+                    "next-state": "testNextRetryState"
+                  }
+                }
+              ],
+              "next-state": "testnextstate",
+              "name": "operationstate",
+              "type": "OPERATION",
+              "start": true
+            }
+          ]
+        },
+        {
+          "name": "secondtestbranch",
+          "states": [
+            {
+              "time-delay": 5,
+              "next-state": "testNextState",
+              "name": "delaystate",
+              "type": "DELAY",
+              "start": false
+            }
+          ]
+        }
+      ],
+      "next-state": "testnextstate",
+      "name": "test-state",
+      "type": "PARALLEL",
+      "start": true
+    }
+  ]
 }

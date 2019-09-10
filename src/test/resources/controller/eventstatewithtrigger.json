@@ -1,34 +1,40 @@
 {
-  "id": "1",
-  "trigger-defs" : [ {
-    "id": "2",
-    "name" : "testtrigger",
-    "source" : "testsource",
-    "eventID" : "testeventid",
-    "correlation-token" : "testcorrelationtoken"
-  } ],
-  "states" : [ {
-    "id": "3",
-    "events" : [ {
-      "event-expression" : "trigger.equals(\"testtrigger\")",
-      "timeout" : "testTimeout",
-      "action-mode" : "SEQUENTIAL",
-      "actions" : [ {
-        "function" : {
-          "name": "testFunction"
-        },
-        "timeout" : 5,
-        "retry" : {
-          "match" : "testMatch",
-          "retry-interval" : 2,
-          "max-retry" : 10,
-          "next-state" : "testNextRetryState"
+  "name": "test-wf",
+  "trigger-defs": [
+    {
+      "name": "test-trigger",
+      "source": "testsource",
+      "eventID": "testeventid",
+      "correlation-token": "testcorrelationtoken"
+    }
+  ],
+  "states": [
+    {
+      "events": [
+        {
+          "event-expression": "trigger.equals('test-trigger')",
+          "timeout": "testTimeout",
+          "action-mode": "SEQUENTIAL",
+          "actions": [
+            {
+              "function": {
+                "name": "testFunction"
+              },
+              "timeout": 5,
+              "retry": {
+                "match": "testMatch",
+                "retry-interval": 2,
+                "max-retry": 10,
+                "next-state": "testNextRetryState"
+              }
+            }
+          ],
+          "next-state": "testNextState"
         }
-      } ],
-      "next-state" : "testNextState"
-    } ],
-    "name" : "eventstate",
-    "type" : "EVENT",
-    "start" : true
-  } ]
+      ],
+      "name": "test-state",
+      "type": "EVENT",
+      "start": true
+    }
+  ]
 }

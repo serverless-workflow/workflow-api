@@ -1,39 +1,32 @@
 {
-  "id": "1",
-  "states" : [ {
-    "id": "2",
-    "events" : [ {
-      "event-expression" : "testEventExpression",
-      "timeout" : "testTimeout",
-      "action-mode" : "SEQUENTIAL",
-      "actions" : [ {
-        "function" : {
-          "name": "testFunction"
-        },
-        "timeout" : 5,
-        "retry" : {
-          "match" : "testMatch",
-          "retry-interval" : 2,
-          "max-retry" : 10,
-          "next-state" : "testNextRetryState"
+  "name": "test-wf",
+  "states": [
+    {
+      "events": [
+        {
+          "event-expression": "testEventExpression",
+          "timeout": "testTimeout",
+          "action-mode": "SEQUENTIAL",
+          "actions": [
+            {
+              "function": {
+                "name": "testFunction"
+              },
+              "timeout": 5,
+              "retry": {
+                "match": "testMatch",
+                "retry-interval": 2,
+                "max-retry": 10,
+                "next-state": "testNextRetryState"
+              }
+            }
+          ],
+          "next-state": "testNextState"
         }
-      } ],
-      "next-state" : "testNextState"
-    } ],
-    "name" : "eventstate",
-    "type" : "EVENT",
-    "start" : true,
-    "entry-action" : {
-      "function" : {
-        "name": "entryFunction"
-      },
-      "timeout" : 0
-    },
-    "exit-action" : {
-      "function" : {
-        "name": "exitFunction"
-      },
-      "timeout" : 0
+      ],
+      "name": "test-state",
+      "type": "EVENT",
+      "start": true
     }
-  } ]
+  ]
 }

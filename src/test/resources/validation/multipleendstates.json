@@ -1,17 +1,17 @@
 {
-  "id": "1",
-  "states" : [ {
-    "id": "2",
-    "status" : "SUCCESS",
-    "name" : "endstate",
-    "type" : "END",
-    "start" : false
-  },
+  "name": "test-wf",
+  "states": [
     {
-      "id": "3",
-      "status" : "SUCCESS",
-      "name" : "endstate2",
-      "type" : "END",
-      "start" : false
-    }]
+      "name": "test-state-1",
+      "status": "SUCCESS",
+      "type": "END",
+      "start": false
+    },
+    {
+      "name": "test-state-2",
+      "status": "SUCCESS",
+      "type": "END",
+      "start": false
+    }
+  ]
 }
