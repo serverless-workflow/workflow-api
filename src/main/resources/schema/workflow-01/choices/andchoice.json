@@ -4,7 +4,7 @@
     "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
     "description": "And Choice",
     "properties": {
-        "And": {
+        "and": {
             "type": "array",
             "description": "List of choices",
             "items": {

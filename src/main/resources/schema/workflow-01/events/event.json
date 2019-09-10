@@ -27,7 +27,7 @@
         },
         "next-state": {
             "type": "string",
-            "description": "Next state name",
+            "description": "Name of the next state to transition to after all the actions for the matching event have been successfully executed",
             "minLength": 1
         },
         "filter": {

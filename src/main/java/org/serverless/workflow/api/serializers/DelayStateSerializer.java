@@ -43,15 +43,8 @@ public class DelayStateSerializer extends StdSerializer<DelayState> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-        // set the id
-        if (delayState.getId() == null || delayState.getId().length() < 1) {
-            delayState.setId(WorkflowSerializer.generateUniqueId());
-        }
         // set defaults for delay state
         delayState.setType(DefaultState.Type.DELAY);
-        if (delayState.getName() == null || delayState.getName().length() < 1) {
-            delayState.setName("delaystate");
-        }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,

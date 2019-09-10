@@ -6,11 +6,6 @@
     "javaType": "org.serverless.workflow.api.Workflow",
     "javaInterfaces": ["java.io.Serializable"],
     "properties": {
-        "id": {
-            "type": "string",
-            "description": "Workflow unique id",
-            "minLength": 1
-        },
         "name": {
             "type": "string",
             "description": "Workflow name",
@@ -57,5 +52,5 @@
             }
         }
     },
-    "required": ["states"]
+    "required": ["name", "states"]
 }

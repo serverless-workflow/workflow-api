@@ -30,8 +30,7 @@ public class SpelExpressionEvaluator implements ExpressionEvaluator {
 
     private static Logger logger = LoggerFactory.getLogger(SpelExpressionEvaluator.class);
 
-    public boolean evaluate(String expression,
-                            String triggerName) {
+    public boolean evaluate(String expression, String triggerName) {
 
         try {
             ExpressionParser spelExpressionParser = new SpelExpressionParser();

@@ -1,11 +1,10 @@
 {
-  "id": "1",
+  "name": "",
   "states": [
     {
       "time-delay": 5,
       "next-state": "testNextState",
-      "id": "2",
-      "name": "",
+      "name": "test-state",
       "type": "DELAY",
       "start": true
     }

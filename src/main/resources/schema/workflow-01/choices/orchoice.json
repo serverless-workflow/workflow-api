@@ -4,7 +4,7 @@
     "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
     "description": "Or Choice",
     "properties": {
-        "Or": {
+        "or": {
             "type": "array",
             "description": "List of choices",
             "items": {

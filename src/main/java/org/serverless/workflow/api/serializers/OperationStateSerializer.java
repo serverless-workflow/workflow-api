@@ -24,7 +24,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.fasterxml.jackson.databind.type.SimpleType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.OperationState;
@@ -44,20 +43,13 @@ public class OperationStateSerializer extends StdSerializer<OperationState> {
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
-        // set the id
-        if (operationState.getId() == null || operationState.getId().length() < 1) {
-            operationState.setId(WorkflowSerializer.generateUniqueId());
-        }
         // set defaults for delay state
         operationState.setType(DefaultState.Type.OPERATION);
-        if (operationState.getName() == null || operationState.getName().length() < 1) {
-            operationState.setName("operationstate");
-        }
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
                                                         TypeFactory.defaultInstance().constructType(OperationState.class)).serialize(operationState,
-                                                                                                               gen,
-                                                                                                               provider);
+                                                                                                                                     gen,
+                                                                                                                                     provider);
     }
 }

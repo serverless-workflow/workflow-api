@@ -4,7 +4,7 @@
     "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
     "description": "Not Choice",
     "properties": {
-        "Not": {
+        "not": {
             "type": "object",
             "$ref": "defaultchoice.json",
             "description": "Single Choice"

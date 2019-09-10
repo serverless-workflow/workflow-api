@@ -52,49 +52,49 @@ public class ExpressionEvaluationTest extends BaseWorkflowTest {
         assertThat(workflow.getStates().size(),
                    is(2));
 
-        List<EventState> eventStatesForTrigger1 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("2"));
+        List<EventState> eventStatesForTrigger1 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("test-trigger-1"));
         assertNotNull(eventStatesForTrigger1);
         assertEquals(2,
                      eventStatesForTrigger1.size());
         EventState eventStateForTrigger1 = eventStatesForTrigger1.get(0);
-        assertEquals("5",
-                     eventStateForTrigger1.getId());
+        assertEquals("test-state-1",
+                     eventStateForTrigger1.getName());
         EventState eventStateForTrigger2 = eventStatesForTrigger1.get(1);
-        assertEquals("6",
-                     eventStateForTrigger2.getId());
+        assertEquals("test-state-2",
+                     eventStateForTrigger2.getName());
 
-        List<EventState> eventStatesForTrigger2 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("3"));
+        List<EventState> eventStatesForTrigger2 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("test-trigger-2"));
         assertNotNull(eventStatesForTrigger2);
         assertEquals(1,
                      eventStatesForTrigger2.size());
         EventState eventStateForTrigger3 = eventStatesForTrigger2.get(0);
-        assertEquals("6",
-                     eventStateForTrigger3.getId());
+        assertEquals("test-state-2",
+                     eventStateForTrigger3.getName());
 
-        List<TriggerEvent> triggerEvents1 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("5"));
+        List<TriggerEvent> triggerEvents1 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("test-state-1"));
         assertNotNull(triggerEvents1);
         assertThat(triggerEvents1.size(),
                    is(1));
-        assertEquals("2",
-                     triggerEvents1.get(0).getId());
+        assertEquals("test-trigger-1",
+                     triggerEvents1.get(0).getName());
 
-        List<TriggerEvent> triggerEvents2 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("6"));
+        List<TriggerEvent> triggerEvents2 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("test-state-2"));
         assertNotNull(triggerEvents2);
         assertThat(triggerEvents2.size(),
                    is(2));
-        assertEquals("2",
-                     triggerEvents2.get(0).getId());
-        assertEquals("3",
-                     triggerEvents2.get(1).getId());
+        assertEquals("test-trigger-1",
+                     triggerEvents2.get(0).getName());
+        assertEquals("test-trigger-2",
+                     triggerEvents2.get(1).getName());
 
         List<TriggerEvent> triggerEvents3 = controller.getAllTriggerEventsAssociatedWithEventStates();
         assertNotNull(triggerEvents3);
         assertEquals(2,
                      triggerEvents3.size());
-        assertEquals("2",
-                     triggerEvents3.get(0).getId());
-        assertEquals("3",
-                     triggerEvents3.get(1).getId());
+        assertEquals("test-trigger-1",
+                     triggerEvents3.get(0).getName());
+        assertEquals("test-trigger-2",
+                     triggerEvents3.get(1).getName());
     }
 
     @Test
@@ -115,48 +115,48 @@ public class ExpressionEvaluationTest extends BaseWorkflowTest {
         assertThat(workflow.getStates().size(),
                    is(2));
 
-        List<EventState> eventStatesForTrigger1 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("2"));
+        List<EventState> eventStatesForTrigger1 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("test-trigger-1"));
         assertNotNull(eventStatesForTrigger1);
         assertEquals(2,
                      eventStatesForTrigger1.size());
         EventState eventStateForTrigger1 = eventStatesForTrigger1.get(0);
-        assertEquals("5",
-                     eventStateForTrigger1.getId());
+        assertEquals("test-state-1",
+                     eventStateForTrigger1.getName());
         EventState eventStateForTrigger2 = eventStatesForTrigger1.get(1);
-        assertEquals("6",
-                     eventStateForTrigger2.getId());
+        assertEquals("test-state-2",
+                     eventStateForTrigger2.getName());
 
-        List<EventState> eventStatesForTrigger2 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("3"));
+        List<EventState> eventStatesForTrigger2 = controller.getEventStatesForTriggerEvent(controller.getUniqueTriggerEvents().get("test-trigger-2"));
         assertNotNull(eventStatesForTrigger2);
         assertEquals(1,
                      eventStatesForTrigger2.size());
         EventState eventStateForTrigger3 = eventStatesForTrigger2.get(0);
-        assertEquals("6",
-                     eventStateForTrigger3.getId());
+        assertEquals("test-state-2",
+                     eventStateForTrigger3.getName());
 
-        List<TriggerEvent> triggerEvents1 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("5"));
+        List<TriggerEvent> triggerEvents1 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("test-state-1"));
         assertNotNull(triggerEvents1);
         assertThat(triggerEvents1.size(),
                    is(1));
-        assertEquals("2",
-                     triggerEvents1.get(0).getId());
+        assertEquals("test-trigger-1",
+                     triggerEvents1.get(0).getName());
 
-        List<TriggerEvent> triggerEvents2 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("6"));
+        List<TriggerEvent> triggerEvents2 = controller.getTriggerEventsForEventState((EventState) controller.getUniqueStates().get("test-state-2"));
         assertNotNull(triggerEvents2);
         assertThat(triggerEvents2.size(),
                    is(2));
-        assertEquals("2",
-                     triggerEvents2.get(0).getId());
-        assertEquals("3",
-                     triggerEvents2.get(1).getId());
+        assertEquals("test-trigger-1",
+                     triggerEvents2.get(0).getName());
+        assertEquals("test-trigger-2",
+                     triggerEvents2.get(1).getName());
 
         List<TriggerEvent> triggerEvents3 = controller.getAllTriggerEventsAssociatedWithEventStates();
         assertNotNull(triggerEvents3);
         assertEquals(2,
                      triggerEvents3.size());
-        assertEquals("2",
-                     triggerEvents3.get(0).getId());
-        assertEquals("3",
-                     triggerEvents3.get(1).getId());
+        assertEquals("test-trigger-1",
+                     triggerEvents3.get(0).getName());
+        assertEquals("test-trigger-2",
+                     triggerEvents3.get(1).getName());
     }
 }

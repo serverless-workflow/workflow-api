@@ -57,7 +57,7 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
         assertTrue(workflow.getStates().get(0) instanceof EventState);
 
         EventState eventState = (EventState) workflow.getStates().get(0);
-        assertEquals("eventstate",
+        assertEquals("test-state",
                      eventState.getName());
         assertEquals(EventState.Type.EVENT,
                      eventState.getType());
@@ -87,7 +87,7 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
         assertEquals(1,
                      controller.getUniqueTriggerEvents().size());
 
-        TriggerEvent triggerEvent = controller.getUniqueTriggerEvents().get("2");
+        TriggerEvent triggerEvent = controller.getUniqueTriggerEvents().get("test-trigger");
         assertNotNull(triggerEvent);
 
         List<EventState> eventStatesForTrigger = controller.getEventStatesForTriggerEvent(triggerEvent);
@@ -95,23 +95,23 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
         assertEquals(1,
                      eventStatesForTrigger.size());
         EventState eventStateForTrigger = eventStatesForTrigger.get(0);
-        assertEquals("3",
-                     eventStateForTrigger.getId());
+        assertEquals("test-state",
+                     eventStateForTrigger.getName());
     }
 
     @Test
     public void testManagerFromWorkflow() {
-        Workflow workflow = new Workflow().withId("1")
+        Workflow workflow = new Workflow().withName("test-wf")
                 .withTriggerDefs(
                         Arrays.asList(
-                                new TriggerEvent().withId("2").withName("testtrigger").withEventID("testeventid")
+                                new TriggerEvent().withName("test-trigger").withEventID("testeventid")
                                         .withCorrelationToken("testcorrelationtoken").withSource("testsource")
                         )
                 )
                 .withStates(new ArrayList<State>() {{
-                    add(new EventState().withId("3").withStart(true).withName("eventstate").withType(EventState.Type.EVENT)
+                    add(new EventState().withStart(true).withName("test-state").withType(EventState.Type.EVENT)
                                 .withEvents(Arrays.asList(
-                                        new Event().withEventExpression("trigger.equals(\"testtrigger\")").withTimeout("testTimeout")
+                                        new Event().withEventExpression("trigger.equals('test-trigger')").withTimeout("testTimeout")
                                                 .withActionMode(Event.ActionMode.SEQUENTIAL)
                                                 .withNextState("testNextState")
                                                 .withActions(Arrays.asList(
@@ -132,7 +132,7 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
         assertTrue(workflow.getStates().get(0) instanceof EventState);
 
         EventState eventState = (EventState) workflow.getStates().get(0);
-        assertEquals("eventstate",
+        assertEquals("test-state",
                      eventState.getName());
         assertEquals(EventState.Type.EVENT,
                      eventState.getType());
@@ -162,7 +162,7 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
         assertEquals(1,
                      controller.getUniqueTriggerEvents().size());
 
-        TriggerEvent triggerEvent = controller.getUniqueTriggerEvents().get("2");
+        TriggerEvent triggerEvent = controller.getUniqueTriggerEvents().get("test-trigger");
         assertNotNull(triggerEvent);
 
         List<EventState> eventStatesForTrigger = controller.getEventStatesForTriggerEvent(triggerEvent);
@@ -170,8 +170,8 @@ public class WorkflowControllerTest extends BaseWorkflowTest {
         assertEquals(1,
                      eventStatesForTrigger.size());
         EventState eventStateForTrigger = eventStatesForTrigger.get(0);
-        assertEquals("3",
-                     eventStateForTrigger.getId());
+        assertEquals("test-state",
+                     eventStateForTrigger.getName());
 
         assertThat(controller.toJsonString(),
                    equalToJSONInFile(getResourcePathFor("controller/eventstatewithtrigger.json")));
