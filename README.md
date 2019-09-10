@@ -37,7 +37,6 @@ Given serverless workflow JSON which represents a workflow with a single Event S
 
 ```json
 {
-  "id" : "testid",
   "name" : "testname",
   "version" : "testversion",
   "description" : "testdescription",
@@ -96,7 +95,7 @@ You can create the Workflow programatically, for example:
 ```java
 Workflow workflow = new Workflow().withStates(new ArrayList<State>() {{
     add(
-            new SwitchState().withDefault("defaultteststate").withStart(false).withChoices(
+            new SwitchState().withName("switch-state").withDefault("defaultteststate").withStart(false).withChoices(
                     new ArrayList<Choice>() {{
                         add(
                                 new AndChoice().withNextState("testnextstate").withAnd(
@@ -132,7 +131,7 @@ This will produce a workflow JSON with a single Switch State:
 {
   "states" : [ {
     "choices" : [ {
-      "And" : [ {
+      "and" : [ {
         "path" : "testpath",
         "value" : "testvalue",
         "operator" : "EQ",
@@ -233,9 +232,9 @@ Here are two simple examples:
 
 ```json
 ...
-"event-expression": "trigger.equals(\"testtrigger\")"
+"event-expression": "trigger.equals('testtrigger')"
 ...
-"event-expression": "trigger.equals(\"testtrigger\") or trigger.equals(\"testtrigger2\")",
+"event-expression": "trigger.equals('testtrigger') or trigger.equals('testtrigger2')",
 ...
 ```
 
@@ -246,9 +245,9 @@ Similarly if you use SpEL, you can do for example:
 
 ```json
 ...
-"event-expression" : "trigger != null && trigger.equals('testtrigger')",
+"event-expression": "trigger != null && trigger.equals('testtrigger')",
 ...
-"event-expression" : "trigger != null && (trigger.equals('testtrigger') || trigger.equals('testtrigger2'))",
+"event-expression": "trigger != null && (trigger.equals('testtrigger') || trigger.equals('testtrigger2'))",
 ...
 ```
 
