@@ -21,7 +21,6 @@ package org.serverless.workflow.api.deserializers;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +45,8 @@ public class StateDeserializer extends StdDeserializer<State> {
     }
 
     @Override
-    public State deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public State deserialize(JsonParser jp,
+                             DeserializationContext ctxt) throws IOException {
 
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode node = jp.getCodec().readTree(jp);
@@ -56,19 +56,26 @@ public class StateDeserializer extends StdDeserializer<State> {
         DefaultState.Type type = DefaultState.Type.fromValue(typeValue);
         switch (type) {
             case EVENT:
-                return mapper.treeToValue(node, EventState.class);
+                return mapper.treeToValue(node,
+                                          EventState.class);
             case OPERATION:
-                return mapper.treeToValue(node, OperationState.class);
+                return mapper.treeToValue(node,
+                                          OperationState.class);
             case SWITCH:
-                return mapper.treeToValue(node, SwitchState.class);
+                return mapper.treeToValue(node,
+                                          SwitchState.class);
             case DELAY:
-                return mapper.treeToValue(node, DelayState.class);
+                return mapper.treeToValue(node,
+                                          DelayState.class);
             case PARALLEL:
-                return mapper.treeToValue(node, ParallelState.class);
+                return mapper.treeToValue(node,
+                                          ParallelState.class);
             case END:
-                return mapper.treeToValue(node, EndState.class);
+                return mapper.treeToValue(node,
+                                          EndState.class);
             default:
-                return mapper.treeToValue(node, DefaultState.class);
+                return mapper.treeToValue(node,
+                                          DefaultState.class);
         }
     }
 }

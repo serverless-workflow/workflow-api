@@ -16,12 +16,20 @@
  *
  */
 
-package org.serverless.workflow.api;
+package org.serverless.workflow.api.testproviders;
 
-public interface ExpressionEvaluator {
+import org.serverless.workflow.api.ExpressionEvaluator;
 
-    String getName();
+public class TestExpressionEvaluator implements ExpressionEvaluator {
 
-    boolean evaluate(String expression,
-                     String triggerName);
+    @Override
+    public String getName() {
+        return "test";
+    }
+
+    @Override
+    public boolean evaluate(String expression,
+                            String triggerName) {
+        return false;
+    }
 }
