@@ -18,10 +18,21 @@
 
 package org.serverless.workflow.api;
 
-public interface ExpressionEvaluator {
+import java.util.List;
 
-    String getName();
+import org.serverless.workflow.api.validation.ValidationError;
 
-    boolean evaluate(String expression,
-                     String triggerName);
+public interface WorkflowValidator {
+
+    List<ValidationError> validate(WorkflowManager workflowManager);
+
+    boolean isValid();
+
+    void setEnabled(boolean enabled);
+
+    void setSchemaValidationEnabled(boolean schemaValidationEnabled);
+
+    void setStrictValidationEnabled(boolean strictValidationEnabled);
+
+    void reset();
 }

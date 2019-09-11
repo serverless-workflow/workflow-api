@@ -18,10 +18,29 @@
 
 package org.serverless.workflow.api;
 
-public interface ExpressionEvaluator {
+import com.fasterxml.jackson.databind.JsonNode;
 
-    String getName();
+public interface WorkflowManager {
 
-    boolean evaluate(String expression,
-                     String triggerName);
+    void setWorkflow(Workflow workflow);
+
+    Workflow getWorkflow();
+
+    void setJson(String json);
+
+    void setExpressionEvaluator(ExpressionEvaluator expressionEvaluator);
+
+    void setDefaultExpressionEvaluator(String evaluatorName);
+
+    ExpressionEvaluator getExpressionEvaluator();
+
+    ExpressionEvaluator getExpressionEvaluator(String evaluatorName);
+
+    WorkflowValidator getWorkflowValidator();
+
+    JsonNode toJson();
+
+    String toJsonString();
+
+    Workflow toWorkflow(String json);
 }

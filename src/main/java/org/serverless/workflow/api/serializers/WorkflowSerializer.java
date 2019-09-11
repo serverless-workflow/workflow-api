@@ -47,7 +47,8 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
                           SerializerProvider provider) throws IOException {
 
         gen.writeStartObject();
-        gen.writeStringField("name", workflow.getName());
+        gen.writeStringField("name",
+                             workflow.getName());
 
         if (workflow.getTriggerDefs() != null && !workflow.getTriggerDefs().isEmpty()) {
             gen.writeArrayFieldStart("trigger-defs");
