@@ -28,7 +28,7 @@ public class TestWorkflowValidator implements WorkflowValidator {
 
     @Override
     public void setWorkflowManager(WorkflowManager workflowManager) {
-        
+
     }
 
     @Override
