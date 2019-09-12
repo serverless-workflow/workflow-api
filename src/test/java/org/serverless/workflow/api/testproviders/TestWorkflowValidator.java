@@ -20,7 +20,6 @@ package org.serverless.workflow.api.testproviders;
 
 import java.util.List;
 
-import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.WorkflowManager;
 import org.serverless.workflow.api.WorkflowValidator;
 import org.serverless.workflow.api.validation.ValidationError;
@@ -28,7 +27,12 @@ import org.serverless.workflow.api.validation.ValidationError;
 public class TestWorkflowValidator implements WorkflowValidator {
 
     @Override
-    public List<ValidationError> validate(Workflow workflow) {
+    public void setWorkflowManager(WorkflowManager workflowManager) {
+        
+    }
+
+    @Override
+    public List<ValidationError> validate() {
         return null;
     }
 
