@@ -25,6 +25,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import org.serverless.workflow.api.InitializingContext;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
@@ -33,11 +36,21 @@ import org.serverless.workflow.api.states.EventState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.ParallelState;
 import org.serverless.workflow.api.states.SwitchState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StateDeserializer extends StdDeserializer<State> {
 
+    private InitializingContext context;
+    private static Logger logger = LoggerFactory.getLogger(StateDeserializer.class);
+
     public StateDeserializer() {
-        this(null);
+        this(String.class);
+    }
+
+    public StateDeserializer(InitializingContext context) {
+        this(State.class);
+        this.context = context;
     }
 
     public StateDeserializer(Class<?> vc) {
@@ -52,8 +65,24 @@ public class StateDeserializer extends StdDeserializer<State> {
         JsonNode node = jp.getCodec().readTree(jp);
         String typeValue = node.get("type").asText();
 
+        if (context != null && typeValue.trim().startsWith("$$")) {
+            try {
+                String path = typeValue.substring(1);
+                String result = JsonPath.using(Configuration.defaultConfiguration())
+                        .parse(context.getContext())
+                        .read(path);
+
+                if (result != null) {
+                    typeValue = result;
+                }
+            } catch (Exception e) {
+                logger.info("Exception trying to evaluate json path: " + e.getMessage());
+            }
+        }
+
         // based on statetype return the specific state impl
         DefaultState.Type type = DefaultState.Type.fromValue(typeValue);
+
         switch (type) {
             case EVENT:
                 return mapper.treeToValue(node,
