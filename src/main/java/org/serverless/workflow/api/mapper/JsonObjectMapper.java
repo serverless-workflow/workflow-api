@@ -20,13 +20,18 @@ package org.serverless.workflow.api.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.serverless.workflow.api.InitializingContext;
 
 public class JsonObjectMapper extends ObjectMapper {
 
     public JsonObjectMapper() {
+        this(null);
+    }
+
+    public JsonObjectMapper(InitializingContext context) {
         super();
         configure(SerializationFeature.INDENT_OUTPUT,
                   true);
-        registerModule(new WorkflowModule());
+        registerModule(new WorkflowModule(context));
     }
 }

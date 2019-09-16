@@ -21,14 +21,19 @@ package org.serverless.workflow.api.mapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.serverless.workflow.api.InitializingContext;
 
 public class YamlObjectMapper extends ObjectMapper {
 
     public YamlObjectMapper() {
+        this(null);
+    }
+
+    public YamlObjectMapper(InitializingContext context) {
         super(new YAMLFactory());
         configure(SerializationFeature.INDENT_OUTPUT,
                   true);
 
-        registerModule(new WorkflowModule());
+        registerModule(new WorkflowModule(context));
     }
 }
