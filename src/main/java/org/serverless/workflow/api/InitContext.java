@@ -15,20 +15,13 @@
  *   limitations under the License.
  *
  */
+package org.serverless.workflow.api;
 
-package org.serverless.workflow.api.mapper;
+import java.util.Properties;
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.serverless.workflow.api.InitContext;
+public interface InitContext {
 
-public class YamlObjectMapper extends BaseObjectMapper {
+    Properties getContext();
 
-    public YamlObjectMapper() {
-        this(null);
-    }
-
-    public YamlObjectMapper(InitContext context) {
-        super(new YAMLFactory(),
-              context);
-    }
+    void setContext(Properties context);
 }

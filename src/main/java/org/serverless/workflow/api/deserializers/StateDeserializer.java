@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import org.serverless.workflow.api.InitContext;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
@@ -33,15 +34,25 @@ import org.serverless.workflow.api.states.EventState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.ParallelState;
 import org.serverless.workflow.api.states.SwitchState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StateDeserializer extends StdDeserializer<State> {
 
+    private InitContext context;
+    private static Logger logger = LoggerFactory.getLogger(StateDeserializer.class);
+
     public StateDeserializer() {
-        this(null);
+        this(State.class);
     }
 
     public StateDeserializer(Class<?> vc) {
         super(vc);
+    }
+
+    public StateDeserializer(InitContext context) {
+        this(State.class);
+        this.context = context;
     }
 
     @Override
@@ -51,6 +62,18 @@ public class StateDeserializer extends StdDeserializer<State> {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode node = jp.getCodec().readTree(jp);
         String typeValue = node.get("type").asText();
+
+        if (context != null) {
+            try {
+                String result = context.getContext().getProperty(typeValue);
+
+                if (result != null) {
+                    typeValue = result;
+                }
+            } catch (Exception e) {
+                logger.info("Exception trying to evaluate property: " + e.getMessage());
+            }
+        }
 
         // based on statetype return the specific state impl
         DefaultState.Type type = DefaultState.Type.fromValue(typeValue);
