@@ -40,5 +40,9 @@ WorkflowManager manager = WorkflowManagerProvider.getInstance().get();
 ...
 ```
 
+### Markup object mapping
+This module provides object mappers for both Json and Yaml. 
+* To define serverless workflow markup in Json use JsonObjectMapper
+* To define servless workflwo markup in Yaml use YamlObjectMapper
 
 ### More to come soon!

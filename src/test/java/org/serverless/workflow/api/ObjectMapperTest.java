@@ -21,13 +21,14 @@ package org.serverless.workflow.api;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.serverless.workflow.api.mapper.WorkflowObjectMapper;
+import org.serverless.workflow.api.mapper.JsonObjectMapper;
+import org.serverless.workflow.api.mapper.YamlObjectMapper;
 
 public class ObjectMapperTest {
 
     @Test
-    public void testReadTreeToJson() throws Exception {
-        WorkflowObjectMapper mapper = new WorkflowObjectMapper();
+    public void testReadJson() throws Exception {
+        JsonObjectMapper mapper = new JsonObjectMapper();
 
         JsonNode node = mapper.readTree("{\n" +
                                                 "  \"name\": \"test-wf\",\n" +
@@ -46,8 +47,8 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testReadTreeToWorkflow() throws Exception {
-        WorkflowObjectMapper mapper = new WorkflowObjectMapper();
+    public void testReadJsonToWorkflow() throws Exception {
+        JsonObjectMapper mapper = new JsonObjectMapper();
 
         Workflow workflow = mapper.readValue("{\n" +
                                                      "  \"name\": \"test-wf\",\n" +
@@ -60,6 +61,37 @@ public class ObjectMapperTest {
                                                      "    }\n" +
                                                      "  ]\n" +
                                                      "}",
+                                             Workflow.class);
+
+        Assertions.assertNotNull(workflow);
+        Assertions.assertEquals("test-wf",
+                                workflow.getName());
+    }
+
+    @Test
+    public void testReadYaml() throws Exception {
+        YamlObjectMapper mapper = new YamlObjectMapper();
+        JsonNode node = mapper.readTree("name: test-wf\n" +
+                                                "states:\n" +
+                                                "- status: SUCCESS\n" +
+                                                "  name: test-state\n" +
+                                                "  type: END\n" +
+                                                "  start: false");
+        Assertions.assertNotNull(node);
+        Assertions.assertEquals("test-wf",
+                                node.get("name").textValue());
+    }
+
+    @Test
+    public void testReadYamlToWorkflow() throws Exception {
+        YamlObjectMapper mapper = new YamlObjectMapper();
+
+        Workflow workflow = mapper.readValue("name: test-wf\n" +
+                                                     "states:\n" +
+                                                     "- status: SUCCESS\n" +
+                                                     "  name: test-state\n" +
+                                                     "  type: END\n" +
+                                                     "  start: false",
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);

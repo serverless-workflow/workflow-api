@@ -18,7 +18,6 @@
 
 package org.serverless.workflow.api.testproviders;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.serverless.workflow.api.ExpressionEvaluator;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.WorkflowManager;
@@ -37,7 +36,7 @@ public class TestWorkflowManager implements WorkflowManager {
     }
 
     @Override
-    public void setJson(String json) {
+    public void setMarkup(String markup) {
 
     }
 
@@ -67,12 +66,12 @@ public class TestWorkflowManager implements WorkflowManager {
     }
 
     @Override
-    public JsonNode toJson() {
+    public String toJson() {
         return null;
     }
 
     @Override
-    public String toJsonString() {
+    public String toYaml() {
         return null;
     }
 

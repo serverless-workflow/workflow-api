@@ -16,29 +16,17 @@
  *
  */
 
-package org.serverless.workflow.api;
+package org.serverless.workflow.api.mapper;
 
-public interface WorkflowManager {
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
-    void setWorkflow(Workflow workflow);
+public class JsonObjectMapper extends ObjectMapper {
 
-    Workflow getWorkflow();
-
-    void setMarkup(String markup);
-
-    void setExpressionEvaluator(ExpressionEvaluator expressionEvaluator);
-
-    void setDefaultExpressionEvaluator(String evaluatorName);
-
-    ExpressionEvaluator getExpressionEvaluator();
-
-    ExpressionEvaluator getExpressionEvaluator(String evaluatorName);
-
-    WorkflowValidator getWorkflowValidator();
-
-    String toJson();
-
-    String toYaml();
-
-    Workflow toWorkflow(String json);
+    public JsonObjectMapper() {
+        super();
+        configure(SerializationFeature.INDENT_OUTPUT,
+                  true);
+        registerModule(new WorkflowModule());
+    }
 }

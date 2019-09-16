@@ -18,8 +18,6 @@
 
 package org.serverless.workflow.api.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.serverless.workflow.api.deserializers.ChoiceDeserializer;
 import org.serverless.workflow.api.deserializers.StateDeserializer;
@@ -34,30 +32,23 @@ import org.serverless.workflow.api.serializers.SwitchStateSerializer;
 import org.serverless.workflow.api.serializers.TriggerEventSerializer;
 import org.serverless.workflow.api.serializers.WorkflowSerializer;
 
-public class WorkflowObjectMapper extends ObjectMapper {
+public class WorkflowModule extends SimpleModule {
 
-    public WorkflowObjectMapper() {
-        super();
-        configure(SerializationFeature.INDENT_OUTPUT,
-                  true);
-
-        // serializers
-        SimpleModule module = new SimpleModule("workflow-module");
-        module.addSerializer(new WorkflowSerializer());
-        module.addSerializer(new EndStateSerializer());
-        module.addSerializer(new EventStateSerializer());
-        module.addSerializer(new DelayStateSerializer());
-        module.addSerializer(new OperationStateSerializer());
-        module.addSerializer(new ParallelStateSerializer());
-        module.addSerializer(new SwitchStateSerializer());
-        module.addSerializer(new TriggerEventSerializer());
+    public WorkflowModule() {
+        super("workflow-module");
+        addSerializer(new WorkflowSerializer());
+        addSerializer(new EndStateSerializer());
+        addSerializer(new EventStateSerializer());
+        addSerializer(new DelayStateSerializer());
+        addSerializer(new OperationStateSerializer());
+        addSerializer(new ParallelStateSerializer());
+        addSerializer(new SwitchStateSerializer());
+        addSerializer(new TriggerEventSerializer());
 
         // deserializers
-        module.addDeserializer(State.class,
-                               new StateDeserializer());
-        module.addDeserializer(Choice.class,
-                               new ChoiceDeserializer());
-
-        registerModule(module);
+        addDeserializer(State.class,
+                        new StateDeserializer());
+        addDeserializer(Choice.class,
+                        new ChoiceDeserializer());
     }
 }
