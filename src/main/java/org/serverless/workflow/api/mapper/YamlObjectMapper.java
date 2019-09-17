@@ -18,17 +18,11 @@
 
 package org.serverless.workflow.api.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-public class YamlObjectMapper extends ObjectMapper {
+public class YamlObjectMapper extends BaseObjectMapper {
 
     public YamlObjectMapper() {
         super(new YAMLFactory());
-        configure(SerializationFeature.INDENT_OUTPUT,
-                  true);
-
-        registerModule(new WorkflowModule());
     }
 }
