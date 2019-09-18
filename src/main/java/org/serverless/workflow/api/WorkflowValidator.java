@@ -24,7 +24,7 @@ import org.serverless.workflow.api.validation.ValidationError;
 
 public interface WorkflowValidator {
 
-    void setWorkflowManager(WorkflowManager workflowManager);
+    WorkflowValidator setWorkflowManager(WorkflowManager workflowManager);
 
     List<ValidationError> validate();
 

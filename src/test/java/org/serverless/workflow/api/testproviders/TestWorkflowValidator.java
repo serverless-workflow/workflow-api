@@ -27,8 +27,8 @@ import org.serverless.workflow.api.validation.ValidationError;
 public class TestWorkflowValidator implements WorkflowValidator {
 
     @Override
-    public void setWorkflowManager(WorkflowManager workflowManager) {
-
+    public WorkflowValidator setWorkflowManager(WorkflowManager workflowManager) {
+        return this;
     }
 
     @Override

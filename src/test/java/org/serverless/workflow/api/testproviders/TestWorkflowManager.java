@@ -36,8 +36,8 @@ public class TestWorkflowManager implements WorkflowManager {
     }
 
     @Override
-    public void setMarkup(String markup) {
-
+    public WorkflowManager setMarkup(String markup) {
+        return this;
     }
 
     @Override
