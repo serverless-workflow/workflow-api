@@ -20,6 +20,7 @@ package org.serverless.workflow.api.validation;
 
 public class ValidationError {
 
+    private static final String MSG_FORMAT = "%s:%s";
     public static final String SCHEMA_VALIDATION = "schemavalidation";
     public static final String WORKFLOW_VALIDATION = "workflowvalidation";
 
@@ -40,5 +41,10 @@ public class ValidationError {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(MSG_FORMAT, type, message);
     }
 }

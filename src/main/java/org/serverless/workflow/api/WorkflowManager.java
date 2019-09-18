@@ -24,7 +24,7 @@ public interface WorkflowManager {
 
     Workflow getWorkflow();
 
-    void setMarkup(String markup);
+    WorkflowManager setMarkup(String markup);
 
     void setExpressionEvaluator(ExpressionEvaluator expressionEvaluator);
 
