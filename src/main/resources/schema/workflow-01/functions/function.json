@@ -4,12 +4,22 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "function name",
+      "description": "Function name",
       "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "description": "Function type",
+      "minLength": 1
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Function parameters",
+      "existingJavaType": "java.util.Map<String, String>"
     },
     "metadata": {
       "$ref": "../metadata/metadata.json"
     }
   },
-  "required": ["name"]
+  "required": ["name", "type"]
 }
