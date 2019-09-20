@@ -23,6 +23,11 @@
             "type": "string",
             "description": "Workflow owner"
         },
+        "exec-status": {
+            "type" : "string",
+            "enum": ["SYS.Timeout", "SYS.Fail", "SYS.Success", "SYS.MatchAny", "SYS.Permission", "SYS.InvalidParameter", "SYS.FilterError"],
+            "description": "Execution status"
+        },
         "metadata": {
             "$ref": "metadata/metadata.json"
         },
