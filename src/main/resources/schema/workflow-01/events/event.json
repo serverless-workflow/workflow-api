@@ -14,8 +14,7 @@
         "action-mode": {
             "type" : "string",
             "enum": ["SEQUENTIAL", "PARALLEL"],
-            "description": "Specifies whether functions are executed in sequence or in parallel",
-            "format": "validactionmode"
+            "description": "Specifies whether functions are executed in sequence or in parallel"
         },
         "actions": {
             "type": "array",
