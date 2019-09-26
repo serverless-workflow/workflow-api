@@ -45,6 +45,8 @@ public class ValidationError {
 
     @Override
     public String toString() {
-        return String.format(MSG_FORMAT, type, message);
+        return String.format(MSG_FORMAT,
+                             type,
+                             message);
     }
 }

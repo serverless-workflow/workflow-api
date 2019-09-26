@@ -25,15 +25,17 @@ To use this project add the following dependency into your project pom.xml:
 </dependency>
 ```
 ### For implementors
-There are three interfaces which must be implemented:
+There are four interfaces which must be implemented:
 * WorflowManager - the main manager for wireless workflow implementations
 * WorkflowValidator - implementations define validation (both schema and workflow) for serverless workflow JSON
 * ExpressionEvaluator - implementations define expression evaluation capabilities for the serverless workflow
+* InitContext - implementation of initializing context (properties) that can be used to initialize workflow values
 
 This api also provides the Service Providers for the three interfaces, namely:
  * WorkflowManagerProvider
  * WorkflowValidatorProvider
  * ExpressionEvaluatorProvider
+ * InitContextProvider
  
  To use these in your implementation, or your app, you can for example do:
  
@@ -48,3 +50,4 @@ This module provides object mappers for both Json and Yaml.
 * To define servless workflwo markup in Yaml use YamlObjectMapper
 
 ### More to come soon!
+

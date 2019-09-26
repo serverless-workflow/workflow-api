@@ -18,10 +18,16 @@
 
 package org.serverless.workflow.api.mapper;
 
+import org.serverless.workflow.api.InitContext;
 
 public class JsonObjectMapper extends BaseObjectMapper {
 
     public JsonObjectMapper() {
-        super(null);
+        this(null);
+    }
+
+    public JsonObjectMapper(InitContext context) {
+        super(null,
+              context);
     }
 }
