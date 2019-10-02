@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.events.TriggerEvent;
+import org.serverless.workflow.api.interfaces.Extension;
 import org.serverless.workflow.api.interfaces.State;
 
 public class WorkflowSerializer extends StdSerializer<Workflow> {
@@ -50,6 +51,31 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
         gen.writeStringField("name",
                              workflow.getName());
 
+        if(workflow.getDescription() != null && !workflow.getDescription().isEmpty()) {
+            gen.writeStringField("description",
+                                 workflow.getDescription());
+        }
+
+        if(workflow.getVersion() != null && !workflow.getVersion().isEmpty()) {
+            gen.writeStringField("version",
+                                 workflow.getVersion());
+        }
+
+        if(workflow.getOwner() != null && !workflow.getOwner().isEmpty()) {
+            gen.writeStringField("owner",
+                                 workflow.getOwner());
+        }
+
+        if (workflow.getMetadata() != null && !workflow.getMetadata().isEmpty()) {
+            gen.writeObjectField("metadata",
+                                 workflow.getMetadata());
+        }
+
+        if (workflow.getExecStatus() != null) {
+            gen.writeObjectField("exec-status",
+                                 workflow.getExecStatus().value());
+        }
+
         if (workflow.getTriggerDefs() != null && !workflow.getTriggerDefs().isEmpty()) {
             gen.writeArrayFieldStart("trigger-defs");
             for (TriggerEvent triggerEvent : workflow.getTriggerDefs()) {
@@ -69,9 +95,12 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
             gen.writeEndArray();
         }
 
-        if (workflow.getMetadata() != null && !workflow.getMetadata().isEmpty()) {
-            gen.writeObjectField("metadata",
-                                 workflow.getMetadata());
+        if(workflow.getExtensions() != null && !workflow.getExtensions().isEmpty()) {
+            gen.writeArrayFieldStart("extensions");
+            for (Extension extension : workflow.getExtensions()) {
+                gen.writeObject(extension);
+            }
+            gen.writeEndArray();
         }
 
         gen.writeEndObject();

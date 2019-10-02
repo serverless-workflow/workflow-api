@@ -55,6 +55,14 @@
                     { "$ref": "states/switchstate.json" }
                 ]
             }
+        },
+        "extensions" :{
+            "type": "array",
+            "description": "Workflow Extensions",
+            "items": {
+                "type": "object",
+                "existingJavaType": "org.serverless.workflow.api.interfaces.Extension"
+            }
         }
     },
     "required": ["name", "states"]

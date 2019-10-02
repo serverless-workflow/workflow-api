@@ -22,6 +22,7 @@ import org.serverless.workflow.api.ExpressionEvaluator;
 import org.serverless.workflow.api.Workflow;
 import org.serverless.workflow.api.WorkflowManager;
 import org.serverless.workflow.api.WorkflowValidator;
+import org.serverless.workflow.api.interfaces.Extension;
 
 public class TestWorkflowManager implements WorkflowManager {
 
@@ -78,5 +79,11 @@ public class TestWorkflowManager implements WorkflowManager {
     @Override
     public Workflow toWorkflow(String json) {
         return null;
+    }
+
+    @Override
+    public void registerExtension(String extensionId,
+                                  Class<? extends Extension> extensionHandlerClass) {
+
     }
 }
