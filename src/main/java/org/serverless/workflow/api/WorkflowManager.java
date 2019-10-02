@@ -18,6 +18,8 @@
 
 package org.serverless.workflow.api;
 
+import org.serverless.workflow.api.interfaces.Extension;
+
 public interface WorkflowManager {
 
     void setWorkflow(Workflow workflow);
@@ -41,4 +43,6 @@ public interface WorkflowManager {
     String toYaml();
 
     Workflow toWorkflow(String json);
+
+    void registerExtension(String extensionId, Class<? extends Extension> extensionHandlerClass);
 }

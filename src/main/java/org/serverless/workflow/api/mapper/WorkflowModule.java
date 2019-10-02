@@ -26,15 +26,18 @@ import org.serverless.workflow.api.deserializers.DefaultChoiceOperatorDeserializ
 import org.serverless.workflow.api.deserializers.DefaultStateTypeDeserializer;
 import org.serverless.workflow.api.deserializers.EndStateStatusDeserializer;
 import org.serverless.workflow.api.deserializers.EventActionModeDeserializer;
+import org.serverless.workflow.api.deserializers.ExtensionDeserializer;
 import org.serverless.workflow.api.deserializers.OperationStateActionModeDeserializer;
 import org.serverless.workflow.api.deserializers.StateDeserializer;
 import org.serverless.workflow.api.deserializers.StringValueDeserializer;
 import org.serverless.workflow.api.events.Event;
 import org.serverless.workflow.api.interfaces.Choice;
+import org.serverless.workflow.api.interfaces.Extension;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.serializers.DelayStateSerializer;
 import org.serverless.workflow.api.serializers.EndStateSerializer;
 import org.serverless.workflow.api.serializers.EventStateSerializer;
+import org.serverless.workflow.api.serializers.ExtensionSerializer;
 import org.serverless.workflow.api.serializers.OperationStateSerializer;
 import org.serverless.workflow.api.serializers.ParallelStateSerializer;
 import org.serverless.workflow.api.serializers.SwitchStateSerializer;
@@ -50,12 +53,24 @@ import org.serverless.workflow.api.states.SwitchState;
 
 public class WorkflowModule extends SimpleModule {
 
+    private InitContext initContext;
+    private ExtensionSerializer extensionSerializer;
+    private ExtensionDeserializer extensionDeserializer;
+
     public WorkflowModule() {
         this(null);
     }
 
-    public WorkflowModule(InitContext context) {
+    public WorkflowModule(InitContext initContext) {
         super("workflow-module");
+        this.initContext = initContext;
+        extensionSerializer = new ExtensionSerializer();
+        extensionDeserializer = new ExtensionDeserializer(initContext);
+        addDefaultSerializers();
+        addDefaultDeserializers();
+    }
+
+    private void addDefaultSerializers() {
         addSerializer(new WorkflowSerializer());
         addSerializer(new EndStateSerializer());
         addSerializer(new EventStateSerializer());
@@ -64,35 +79,46 @@ public class WorkflowModule extends SimpleModule {
         addSerializer(new ParallelStateSerializer());
         addSerializer(new SwitchStateSerializer());
         addSerializer(new TriggerEventSerializer());
+        addSerializer(extensionSerializer);
+    }
 
-        // deserializers
+    private void addDefaultDeserializers() {
         addDeserializer(State.class,
-                        new StateDeserializer(context));
+                        new StateDeserializer(initContext));
         addDeserializer(Choice.class,
                         new ChoiceDeserializer());
         addDeserializer(String.class,
-                        new StringValueDeserializer(context));
+                        new StringValueDeserializer(initContext));
         addDeserializer(Event.ActionMode.class,
-                        new EventActionModeDeserializer(context));
+                        new EventActionModeDeserializer(initContext));
         addDeserializer(OperationState.ActionMode.class,
-                        new OperationStateActionModeDeserializer(context));
+                        new OperationStateActionModeDeserializer(initContext));
         addDeserializer(EndState.Status.class,
-                        new EndStateStatusDeserializer(context));
+                        new EndStateStatusDeserializer(initContext));
         addDeserializer(DefaultState.Type.class,
-                        new DefaultStateTypeDeserializer(context));
+                        new DefaultStateTypeDeserializer(initContext));
         addDeserializer(DelayState.Type.class,
-                        new DefaultStateTypeDeserializer(context));
+                        new DefaultStateTypeDeserializer(initContext));
         addDeserializer(EndState.Type.class,
-                        new DefaultStateTypeDeserializer(context));
+                        new DefaultStateTypeDeserializer(initContext));
         addDeserializer(EventState.Type.class,
-                        new DefaultStateTypeDeserializer(context));
+                        new DefaultStateTypeDeserializer(initContext));
         addDeserializer(OperationState.Type.class,
-                        new DefaultStateTypeDeserializer(context));
+                        new DefaultStateTypeDeserializer(initContext));
         addDeserializer(ParallelState.Type.class,
-                        new DefaultStateTypeDeserializer(context));
+                        new DefaultStateTypeDeserializer(initContext));
         addDeserializer(SwitchState.Type.class,
-                        new DefaultStateTypeDeserializer(context));
+                        new DefaultStateTypeDeserializer(initContext));
         addDeserializer(DefaultChoice.Operator.class,
-                        new DefaultChoiceOperatorDeserializer(context));
+                        new DefaultChoiceOperatorDeserializer(initContext));
+        addDeserializer(Extension.class, extensionDeserializer);
+    }
+
+    public ExtensionSerializer getExtensionSerializer() {
+        return extensionSerializer;
+    }
+
+    public ExtensionDeserializer getExtensionDeserializer() {
+        return extensionDeserializer;
     }
 }

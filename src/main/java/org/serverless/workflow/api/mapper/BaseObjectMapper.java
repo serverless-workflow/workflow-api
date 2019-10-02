@@ -25,11 +25,20 @@ import org.serverless.workflow.api.InitContext;
 
 public class BaseObjectMapper extends ObjectMapper {
 
+    private WorkflowModule workflowModule;
+
     public BaseObjectMapper(JsonFactory factory,
                             InitContext initContext) {
         super(factory);
+
+        workflowModule = new WorkflowModule((initContext));
+
         configure(SerializationFeature.INDENT_OUTPUT,
                   true);
-        registerModule(new WorkflowModule(initContext));
+        registerModule(workflowModule);
+    }
+
+    public WorkflowModule getWorkflowModule() {
+        return workflowModule;
     }
 }

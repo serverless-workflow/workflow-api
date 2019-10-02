@@ -217,4 +217,17 @@ public class ObjectMapperTest {
         Assertions.assertEquals(EndState.Status.SUCCESS,
                                 endstate.getStatus());
     }
+
+    @Test
+    public void testGetWorkflowModule() throws Exception {
+        JsonObjectMapper jsonObjectMapper = new JsonObjectMapper(InitContextProvider.getInstance().get());
+        YamlObjectMapper yamlObjectMapper = new YamlObjectMapper(InitContextProvider.getInstance().get());
+
+        Assertions.assertNotNull(jsonObjectMapper);
+        Assertions.assertNotNull(jsonObjectMapper.getWorkflowModule());
+
+        Assertions.assertNotNull(yamlObjectMapper);
+        Assertions.assertNotNull(yamlObjectMapper.getWorkflowModule());
+
+    }
 }
