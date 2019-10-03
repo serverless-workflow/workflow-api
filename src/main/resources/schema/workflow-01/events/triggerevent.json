@@ -11,17 +11,13 @@
             "type": "string",
             "description": "CloudEvent source UUID"
         },
-        "eventID": {
+        "type": {
             "type": "string",
-            "description": "CloudEvent eventID"
+            "description": "CloudEvent type"
         },
         "correlation-token": {
             "type": "string",
-            "description": "Path string to an identity label field in the event message"
-        },
-        "message": {
-            "type": "string",
-            "description": "Trigger event message"
+            "description": "Path used for event correlation"
         },
         "metadata": {
             "$ref": "../metadata/metadata.json"
