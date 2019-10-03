@@ -18,10 +18,12 @@
 
 package org.serverless.workflow.api;
 
+import org.serverless.workflow.api.events.TriggerEvent;
+
 public interface ExpressionEvaluator {
 
     String getName();
 
     boolean evaluate(String expression,
-                     String triggerName);
+                     TriggerEvent triggerEvent);
 }

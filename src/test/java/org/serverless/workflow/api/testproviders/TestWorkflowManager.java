@@ -62,6 +62,11 @@ public class TestWorkflowManager implements WorkflowManager {
     }
 
     @Override
+    public void resetExpressionValidator() {
+
+    }
+
+    @Override
     public WorkflowValidator getWorkflowValidator() {
         return null;
     }
