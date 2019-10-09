@@ -19,6 +19,10 @@
             "type": "string",
             "description": "Path used for event correlation"
         },
+        "message": {
+            "type": "string",
+            "description": "Trigger event message"
+        },
         "metadata": {
             "$ref": "../metadata/metadata.json"
         }
