@@ -21,5 +21,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": ["Or"]
+    "required": ["or"]
 }

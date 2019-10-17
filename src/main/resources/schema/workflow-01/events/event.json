@@ -36,5 +36,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": []
+    "required": ["event-expression", "actions"]
 }

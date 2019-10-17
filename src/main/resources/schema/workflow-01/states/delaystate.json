@@ -22,5 +22,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": []
+    "required": ["name", "type", "time-delay"]
 }

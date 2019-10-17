@@ -29,5 +29,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": []
+    "required": ["name", "action-mode", "actions", "type"]
 }

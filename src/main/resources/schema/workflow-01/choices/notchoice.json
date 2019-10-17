@@ -18,5 +18,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": ["Not"]
+    "required": ["not"]
 }
