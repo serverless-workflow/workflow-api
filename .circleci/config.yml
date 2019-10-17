@@ -39,3 +39,5 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
+      # Deploy to GitHub package repository
+      - run: mvn -s .circleci/settings.xml -DskipTests deploy || true
