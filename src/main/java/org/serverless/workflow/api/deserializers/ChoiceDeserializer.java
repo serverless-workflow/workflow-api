@@ -30,6 +30,7 @@ import org.serverless.workflow.api.choices.AndChoice;
 import org.serverless.workflow.api.choices.DefaultChoice;
 import org.serverless.workflow.api.choices.NotChoice;
 import org.serverless.workflow.api.choices.OrChoice;
+import org.serverless.workflow.api.choices.SingleChoice;
 import org.serverless.workflow.api.interfaces.Choice;
 
 public class ChoiceDeserializer extends StdDeserializer<Choice> {
@@ -59,6 +60,9 @@ public class ChoiceDeserializer extends StdDeserializer<Choice> {
         } else if (node.get("or") != null) {
             return mapper.treeToValue(node,
                                       OrChoice.class);
+        } else if (node.get("single") != null) {
+            return mapper.treeToValue(node,
+                                      SingleChoice.class);
         } else {
             return mapper.treeToValue(node,
                                       DefaultChoice.class);

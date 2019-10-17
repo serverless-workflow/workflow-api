@@ -19,5 +19,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": []
+    "required": ["name", "type", "events"]
 }

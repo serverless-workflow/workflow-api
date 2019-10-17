@@ -14,7 +14,7 @@
                 "type": "object",
                 "existingJavaType": "org.serverless.workflow.api.interfaces.Choice",
                 "anyOf": [
-                    { "$ref": "../choices/defaultchoice.json" },
+                    { "$ref": "../choices/singlechoice.json" },
                     { "$ref": "../choices/andchoice.json" },
                     { "$ref": "../choices/notchoice.json" },
                     { "$ref": "../choices/orchoice.json" }
@@ -29,5 +29,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": []
+    "required": ["name", "type", "choices", "default"]
 }

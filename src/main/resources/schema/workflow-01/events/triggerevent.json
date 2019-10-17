@@ -23,5 +23,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": ["name"]
+    "required": ["name", "source", "type"]
 }

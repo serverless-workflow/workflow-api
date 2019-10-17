@@ -24,5 +24,5 @@
             "$ref": "../metadata/metadata.json"
         }
     },
-    "required": ["name"]
+    "required": ["name", "states", "wait-for-completion"]
 }
