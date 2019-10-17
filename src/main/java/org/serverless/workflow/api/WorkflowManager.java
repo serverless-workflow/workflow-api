@@ -36,6 +36,8 @@ public interface WorkflowManager {
 
     ExpressionEvaluator getExpressionEvaluator(String evaluatorName);
 
+    void resetExpressionValidator();
+
     WorkflowValidator getWorkflowValidator();
 
     String toJson();

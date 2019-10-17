@@ -19,6 +19,7 @@
 package org.serverless.workflow.api.testproviders;
 
 import org.serverless.workflow.api.ExpressionEvaluator;
+import org.serverless.workflow.api.events.TriggerEvent;
 
 public class TestExpressionEvaluator implements ExpressionEvaluator {
 
@@ -29,7 +30,7 @@ public class TestExpressionEvaluator implements ExpressionEvaluator {
 
     @Override
     public boolean evaluate(String expression,
-                            String triggerName) {
+                            TriggerEvent triggerEvent) {
         return false;
     }
 }
