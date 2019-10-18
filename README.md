@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/serverless-workflow/workflow-api.svg?style=svg)](https://circleci.com/gh/serverless-workflow/workflow-api)
 
+[![Release](https://jitpack.io/v/User/Repo.svg)](https://jitpack.io/#User/Repo)
+
 Provides the API/SPI for the
 Serverless Workflow Specification Version 0.1 - https://github.com/cncf/wg-serverless/blob/master/workflow/spec/spec.md
 
