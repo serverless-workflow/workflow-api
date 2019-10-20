@@ -11,13 +11,16 @@ It is the base for implementors of the Serverless Workflow Specification.
 
 ### Getting Started
 
-To build project and run tets:
+#### Building locally
+To build project and run tets locally:
 
 ```
+git clone https://github.com/serverless-workflow/workflow-api.git
+cd workflow-api
 mvn clean install
 ```
 
-To use this project add the following dependency into your project pom.xml:
+Then to use it in your project pom.xml add:
 
 ```xml
 <dependency>
@@ -26,6 +29,27 @@ To use this project add the following dependency into your project pom.xml:
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
+
+#### Using JitPack repository
+Add the JitPack repository and the dependency to your pom.xml:
+
+```xml
+<dependency>
+    <groupId>com.github.serverless-workflow</groupId>
+    <artifactId>workflow-api</artifactId>
+    <version>Tag</version>
+</dependency>
+...
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+You can find the list of Tags and future releases here: https://jitpack.io/#serverless-workflow/workflow-api
+
 ### For implementors
 There are four interfaces which must be implemented:
 * WorflowManager - the main manager for wireless workflow implementations
