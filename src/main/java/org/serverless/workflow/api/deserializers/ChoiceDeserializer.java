@@ -21,7 +21,6 @@ package org.serverless.workflow.api.deserializers;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +45,7 @@ public class ChoiceDeserializer extends StdDeserializer<Choice> {
     @Override
     public Choice deserialize(JsonParser jp,
                               DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+            throws IOException {
 
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode node = jp.getCodec().readTree(jp);
@@ -60,12 +59,14 @@ public class ChoiceDeserializer extends StdDeserializer<Choice> {
         } else if (node.get("or") != null) {
             return mapper.treeToValue(node,
                                       OrChoice.class);
-        } else if (node.get("single") != null) {
-            return mapper.treeToValue(node,
-                                      SingleChoice.class);
         } else {
-            return mapper.treeToValue(node,
-                                      DefaultChoice.class);
+            if(node.get("next-state") != null) {
+                return mapper.treeToValue(node,
+                                          SingleChoice.class);
+            } else {
+                return mapper.treeToValue(node,
+                                          DefaultChoice.class);
+            }
         }
     }
 }

@@ -1,30 +1,32 @@
 {
-    "type": "object",
-    "javaType": "org.serverless.workflow.api.choices.DefaultChoice",
-    "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
-    "description": "Default Choice",
-    "properties": {
-        "path": {
-            "type": "string",
-            "description": "JSON Path that selects the value of the input data to be matched"
-        },
-        "value": {
-            "type": "string",
-            "description": "Matching value"
-        },
-        "operator": {
-            "type" : "string",
-            "enum": ["EQ", "LT", "LTEQ", "GT", "GTEQ", "StrEQ", "StrLT", "StrLTEQ", "StrGT", "StrGTEQ"],
-            "description": "Specifies how the input data is compared with the values"
-        },
-        "next-state": {
-            "type": "string",
-            "description": "Specifies the name of the next state to transition to if there is a value match",
-            "minLength": 1
-        },
-        "metadata": {
-            "$ref": "../metadata/metadata.json"
-        }
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.choices.DefaultChoice",
+  "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
+  "description": "Default Choice",
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "JSON Path that selects the value of the input data to be matched"
     },
-    "required": []
+    "value": {
+      "type": "string",
+      "description": "Matching value"
+    },
+    "operator": {
+      "type": "string",
+      "enum": [
+        "Equals",
+        "LessThan",
+        "LessThanEquals",
+        "GreaterThan",
+        "GreaterThanEquals"
+      ],
+      "description": "Specifies how the input data is compared with the values"
+    }
+  },
+  "required": [
+    "path",
+    "value",
+    "operator"
+  ]
 }
