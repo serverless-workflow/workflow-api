@@ -1,26 +1,32 @@
 {
-    "type": "object",
-    "javaType": "org.serverless.workflow.api.states.DelayState",
-    "javaInterfaces": ["org.serverless.workflow.api.interfaces.State"],
-    "description": "This state is used to wait for events from event sources and then transitioning to a next state",
-    "extends": {
-        "$ref": "defaultstate.json"
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.states.DelayState",
+  "javaInterfaces": [
+    "org.serverless.workflow.api.interfaces.State"
+  ],
+  "description": "This state is used to wait for events from event sources and then transitioning to a next state",
+  "extends": {
+    "$ref": "defaultstate.json"
+  },
+  "properties": {
+    "time-delay": {
+      "type": "integer",
+      "default": "0",
+      "minimum": 0,
+      "description": "Amount of time in seconds to delay in this state"
     },
-    "properties": {
-        "time-delay": {
-            "type": "integer",
-            "default":"0",
-            "minimum": 0,
-            "description": "Amount of time in seconds to delay in this state"
-        },
-        "next-state": {
-            "type": "string",
-            "description": "Name of the next state to transition to after all the actions for the matching event have been successfully executed",
-            "minLength": 1
-        },
-        "metadata": {
-            "$ref": "../metadata/metadata.json"
-        }
+    "next-state": {
+      "type": "string",
+      "description": "Name of the next state to transition to after all the actions for the matching event have been successfully executed",
+      "minLength": 1
     },
-    "required": ["name", "type", "time-delay"]
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "time-delay"
+  ]
 }

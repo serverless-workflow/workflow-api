@@ -1,28 +1,34 @@
 {
-    "type": "object",
-    "javaType": "org.serverless.workflow.api.states.ParallelState",
-    "javaInterfaces": ["org.serverless.workflow.api.interfaces.State"],
-    "description": "Consists of a number of states that are executed in parallel",
-    "extends": {
-        "$ref": "defaultstate.json"
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.states.ParallelState",
+  "javaInterfaces": [
+    "org.serverless.workflow.api.interfaces.State"
+  ],
+  "description": "Consists of a number of states that are executed in parallel",
+  "extends": {
+    "$ref": "defaultstate.json"
+  },
+  "properties": {
+    "branches": {
+      "type": "array",
+      "description": "Branch Definitions",
+      "items": {
+        "type": "object",
+        "$ref": "../branches/branch.json"
+      }
     },
-    "properties": {
-        "branches": {
-            "type": "array",
-            "description": "Branch Definitions",
-            "items": {
-                "type": "object",
-                "$ref": "../branches/branch.json"
-            }
-        },
-        "next-state": {
-            "type": "string",
-            "description": "Specifies the name of the next state to transition to after all branches have completed execution",
-            "minLength": 1
-        },
-        "metadata": {
-            "$ref": "../metadata/metadata.json"
-        }
+    "next-state": {
+      "type": "string",
+      "description": "Specifies the name of the next state to transition to after all branches have completed execution",
+      "minLength": 1
     },
-    "required": ["name", "type", "branches"]
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "branches"
+  ]
 }

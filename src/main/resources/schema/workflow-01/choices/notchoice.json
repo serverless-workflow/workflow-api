@@ -1,22 +1,26 @@
 {
-    "type": "object",
-    "javaType": "org.serverless.workflow.api.choices.NotChoice",
-    "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
-    "description": "Not Choice",
-    "properties": {
-        "not": {
-            "type": "object",
-            "$ref": "defaultchoice.json",
-            "description": "Single Choice"
-        },
-        "next-state": {
-            "type": "string",
-            "description": "Specifies the name of the next state to transition to if there is a value match",
-            "minLength": 1
-        },
-        "metadata": {
-            "$ref": "../metadata/metadata.json"
-        }
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.choices.NotChoice",
+  "javaInterfaces": [
+    "org.serverless.workflow.api.interfaces.Choice"
+  ],
+  "description": "Not Choice",
+  "properties": {
+    "not": {
+      "type": "object",
+      "$ref": "defaultchoice.json",
+      "description": "Single Choice"
     },
-    "required": ["not"]
+    "next-state": {
+      "type": "string",
+      "description": "Specifies the name of the next state to transition to if there is a value match",
+      "minLength": 1
+    },
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
+    }
+  },
+  "required": [
+    "not"
+  ]
 }

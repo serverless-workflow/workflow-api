@@ -1,25 +1,29 @@
 {
-    "type": "object",
-    "javaType": "org.serverless.workflow.api.choices.OrChoice",
-    "javaInterfaces": ["org.serverless.workflow.api.interfaces.Choice"],
-    "description": "Or Choice",
-    "properties": {
-        "or": {
-            "type": "array",
-            "description": "List of choices",
-            "items": {
-                "type": "object",
-                "$ref": "defaultchoice.json"
-            }
-        },
-        "next-state": {
-            "type": "string",
-            "description": "Specifies the name of the next state to transition to if there is a value match",
-            "minLength": 1
-        },
-        "metadata": {
-            "$ref": "../metadata/metadata.json"
-        }
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.choices.OrChoice",
+  "javaInterfaces": [
+    "org.serverless.workflow.api.interfaces.Choice"
+  ],
+  "description": "Or Choice",
+  "properties": {
+    "or": {
+      "type": "array",
+      "description": "List of choices",
+      "items": {
+        "type": "object",
+        "$ref": "defaultchoice.json"
+      }
     },
-    "required": ["or"]
+    "next-state": {
+      "type": "string",
+      "description": "Specifies the name of the next state to transition to if there is a value match",
+      "minLength": 1
+    },
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
+    }
+  },
+  "required": [
+    "or"
+  ]
 }

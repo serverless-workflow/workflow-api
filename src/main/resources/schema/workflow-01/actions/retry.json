@@ -1,32 +1,34 @@
 {
-    "type": "object",
-    "javaType": "org.serverless.workflow.api.actions.Retry",
-    "description": "Retry Definition",
-    "properties": {
-        "match": {
-            "type": "string",
-            "description": "Specifies the matching value for the result"
-        },
-        "retry-interval": {
-            "type": "integer",
-            "default":"0",
-            "minimum": 0,
-            "description": "Specifies retry interval"
-        },
-        "max-retry": {
-            "type": "integer",
-            "default":"0",
-            "minimum": 0,
-            "description": "Specifies the max retry"
-        },
-        "next-state": {
-            "type": "string",
-            "description": "Name of the next state to transition to when exceeding max-retry limit",
-            "minLength": 1
-        },
-        "metadata": {
-            "$ref": "../metadata/metadata.json"
-        }
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.actions.Retry",
+  "description": "Retry Definition",
+  "properties": {
+    "match": {
+      "type": "string",
+      "description": "Specifies the matching value for the result"
     },
-    "required": ["match"]
+    "retry-interval": {
+      "type": "integer",
+      "default": "0",
+      "minimum": 0,
+      "description": "Specifies retry interval"
+    },
+    "max-retry": {
+      "type": "integer",
+      "default": "0",
+      "minimum": 0,
+      "description": "Specifies the max retry"
+    },
+    "next-state": {
+      "type": "string",
+      "description": "Name of the next state to transition to when exceeding max-retry limit",
+      "minLength": 1
+    },
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
+    }
+  },
+  "required": [
+    "match"
+  ]
 }

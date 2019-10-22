@@ -18,11 +18,5 @@
 
 package org.serverless.workflow.api.interfaces;
 
-import java.util.Map;
-
 public interface Choice {
-
-    String getNextState();
-
-    Map<String, String> getMetadata();
 }
