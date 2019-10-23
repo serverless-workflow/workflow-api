@@ -21,31 +21,31 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.serverless.workflow.api.InitContext;
+import org.serverless.workflow.api.WorkflowPropertySource;
 
-public class TestInitContext implements InitContext {
+public class TestWorkflowPropertySource implements WorkflowPropertySource {
 
-    private Properties context = new Properties();
+    private Properties source = new Properties();
 
     @Override
-    public Properties getContext() {
-        Map<String, String> initContextMap = new HashMap<>();
-        initContextMap.put("wfname",
+    public Properties getPropertySource() {
+        Map<String, String> propertySourcetMap = new HashMap<>();
+        propertySourcetMap.put("wfname",
                            "test-wf");
-        initContextMap.put("endstate.name",
+        propertySourcetMap.put("endstate.name",
                            "test-state");
-        initContextMap.put("endstate.status",
+        propertySourcetMap.put("endstate.status",
                            "SUCCESS");
-        initContextMap.put("endstate.type",
+        propertySourcetMap.put("endstate.type",
                            "END");
 
-        context.putAll(initContextMap);
+        source.putAll(propertySourcetMap);
 
-        return context;
+        return source;
     }
 
     @Override
-    public void setContext(Properties context) {
-        this.context = context;
+    public void setPropertySource(Properties source) {
+        this.source = source;
     }
 }

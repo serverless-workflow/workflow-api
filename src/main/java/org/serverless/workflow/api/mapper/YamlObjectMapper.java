@@ -20,7 +20,7 @@ package org.serverless.workflow.api.mapper;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
-import org.serverless.workflow.api.InitContext;
+import org.serverless.workflow.api.WorkflowPropertySource;
 
 public class YamlObjectMapper extends BaseObjectMapper {
 
@@ -28,7 +28,7 @@ public class YamlObjectMapper extends BaseObjectMapper {
         this(null);
     }
 
-    public YamlObjectMapper(InitContext context) {
+    public YamlObjectMapper(WorkflowPropertySource context) {
         super(new YAMLFactory().enable(YAMLGenerator.Feature.MINIMIZE_QUOTES),
               context);
     }

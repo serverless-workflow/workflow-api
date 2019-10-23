@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.serverless.workflow.api.mapper.JsonObjectMapper;
 import org.serverless.workflow.api.mapper.YamlObjectMapper;
 import org.serverless.workflow.api.states.EndState;
-import org.serverless.workflow.spi.InitContextProvider;
+import org.serverless.workflow.spi.WorkflowPropertySourceProvider;
 
 public class ObjectMapperTest {
 
@@ -40,7 +40,7 @@ public class ObjectMapperTest {
             "  ]\n" +
             "}";
 
-    private static final String testEndStateInitContext = "{\n" +
+    private static final String testEndStatePropertySource = "{\n" +
             "  \"name\": \"wfname\",\n" +
             "  \"states\": [\n" +
             "    {\n" +
@@ -59,7 +59,7 @@ public class ObjectMapperTest {
             "  type: END\n" +
             "  start: false";
 
-    private static final String testEndStateYamlInitContext = "name: wfname\n" +
+    private static final String testEndStateYamlPropertySource= "name: wfname\n" +
             "states:\n" +
             "- status: endstate.status\n" +
             "  name: endstate.name\n" +
@@ -68,7 +68,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testReadJson() throws Exception {
-        JsonObjectMapper mapper = new JsonObjectMapper(InitContextProvider.getInstance().get());
+        JsonObjectMapper mapper = new JsonObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
         JsonNode node = mapper.readTree(testEndState);
         Assertions.assertNotNull(node);
@@ -129,10 +129,10 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testReadJsonInitContext() throws Exception {
-        JsonObjectMapper mapper = new JsonObjectMapper(InitContextProvider.getInstance().get());
+    public void testReadJsonPropertySource() throws Exception {
+        JsonObjectMapper mapper = new JsonObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
-        JsonNode node = mapper.readTree(testEndStateInitContext);
+        JsonNode node = mapper.readTree(testEndStatePropertySource);
 
         Workflow workflow = mapper.treeToValue(node,
                                                Workflow.class);
@@ -153,10 +153,10 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testReadJsonToWorkflowInitContext() throws Exception {
-        JsonObjectMapper mapper = new JsonObjectMapper(InitContextProvider.getInstance().get());
+    public void testReadJsonToWorkflowPropertySource() throws Exception {
+        JsonObjectMapper mapper = new JsonObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
-        Workflow workflow = mapper.readValue(testEndStateInitContext,
+        Workflow workflow = mapper.readValue(testEndStatePropertySource,
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);
@@ -174,9 +174,9 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testReadYamlInitContext() throws Exception {
-        YamlObjectMapper mapper = new YamlObjectMapper(InitContextProvider.getInstance().get());
-        JsonNode node = mapper.readTree(testEndStateYamlInitContext);
+    public void testReadYamlPropertySource() throws Exception {
+        YamlObjectMapper mapper = new YamlObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
+        JsonNode node = mapper.readTree(testEndStateYamlPropertySource);
 
         Workflow workflow = mapper.treeToValue(node,
                                                Workflow.class);
@@ -197,10 +197,10 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testReadYamlToWorkflowInitContext() throws Exception {
-        YamlObjectMapper mapper = new YamlObjectMapper(InitContextProvider.getInstance().get());
+    public void testReadYamlToWorkflowPropertySource() throws Exception {
+        YamlObjectMapper mapper = new YamlObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
-        Workflow workflow = mapper.readValue(testEndStateYamlInitContext,
+        Workflow workflow = mapper.readValue(testEndStateYamlPropertySource,
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);
@@ -220,8 +220,8 @@ public class ObjectMapperTest {
 
     @Test
     public void testGetWorkflowModule() throws Exception {
-        JsonObjectMapper jsonObjectMapper = new JsonObjectMapper(InitContextProvider.getInstance().get());
-        YamlObjectMapper yamlObjectMapper = new YamlObjectMapper(InitContextProvider.getInstance().get());
+        JsonObjectMapper jsonObjectMapper = new JsonObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
+        YamlObjectMapper yamlObjectMapper = new YamlObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
         Assertions.assertNotNull(jsonObjectMapper);
         Assertions.assertNotNull(jsonObjectMapper.getWorkflowModule());

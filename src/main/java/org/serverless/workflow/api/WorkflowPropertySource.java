@@ -19,9 +19,9 @@ package org.serverless.workflow.api;
 
 import java.util.Properties;
 
-public interface InitContext {
+public interface WorkflowPropertySource {
 
-    Properties getContext();
+    Properties getPropertySource();
 
-    void setContext(Properties context);
+    void setPropertySource(Properties source);
 }

@@ -23,20 +23,20 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.serverless.workflow.api.InitContext;
+import org.serverless.workflow.api.WorkflowPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class StringValueDeserializer extends StdDeserializer<String> {
 
-    private InitContext context;
+    private WorkflowPropertySource context;
     private static Logger logger = LoggerFactory.getLogger(StringValueDeserializer.class);
 
     public StringValueDeserializer() {
         this(String.class);
     }
 
-    public StringValueDeserializer(InitContext context) {
+    public StringValueDeserializer(WorkflowPropertySource context) {
         this(String.class);
         this.context = context;
     }
@@ -52,7 +52,7 @@ public class StringValueDeserializer extends StdDeserializer<String> {
         String value = jp.getText();
         if (context != null) {
             try {
-                String result = context.getContext().getProperty(value);
+                String result = context.getPropertySource().getProperty(value);
 
                 if (result != null) {
                     return result;
