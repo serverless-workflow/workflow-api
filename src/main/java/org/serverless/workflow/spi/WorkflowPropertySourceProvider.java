@@ -20,35 +20,35 @@ package org.serverless.workflow.spi;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-import org.serverless.workflow.api.InitContext;
+import org.serverless.workflow.api.WorkflowPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class InitContextProvider {
+public class WorkflowPropertySourceProvider {
 
-    private InitContext initContext;
+    private WorkflowPropertySource workflowPropertySource;
 
     private static Logger logger = LoggerFactory.getLogger(WorkflowValidatorProvider.class);
 
-    public InitContextProvider() {
-        ServiceLoader<InitContext> foundInitContext = ServiceLoader.load(InitContext.class);
-        Iterator<InitContext> it = foundInitContext.iterator();
+    public WorkflowPropertySourceProvider() {
+        ServiceLoader<WorkflowPropertySource> foundPropertyContext = ServiceLoader.load(WorkflowPropertySource.class);
+        Iterator<WorkflowPropertySource> it = foundPropertyContext.iterator();
         if (it.hasNext()) {
-            initContext = it.next();
-            logger.info("Found init context: " + initContext.toString());
+            workflowPropertySource = it.next();
+            logger.info("Found property source: " + workflowPropertySource.toString());
         }
     }
 
     private static class LazyHolder {
 
-        static final InitContextProvider INSTANCE = new InitContextProvider();
+        static final WorkflowPropertySourceProvider INSTANCE = new WorkflowPropertySourceProvider();
     }
 
-    public static InitContextProvider getInstance() {
-        return InitContextProvider.LazyHolder.INSTANCE;
+    public static WorkflowPropertySourceProvider getInstance() {
+        return WorkflowPropertySourceProvider.LazyHolder.INSTANCE;
     }
 
-    public InitContext get() {
-        return initContext;
+    public WorkflowPropertySource get() {
+        return workflowPropertySource;
     }
 }

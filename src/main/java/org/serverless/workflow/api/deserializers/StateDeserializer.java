@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.serverless.workflow.api.InitContext;
+import org.serverless.workflow.api.WorkflowPropertySource;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 
 public class StateDeserializer extends StdDeserializer<State> {
 
-    private InitContext context;
+    private WorkflowPropertySource context;
     private static Logger logger = LoggerFactory.getLogger(StateDeserializer.class);
 
     public StateDeserializer() {
@@ -50,7 +50,7 @@ public class StateDeserializer extends StdDeserializer<State> {
         super(vc);
     }
 
-    public StateDeserializer(InitContext context) {
+    public StateDeserializer(WorkflowPropertySource context) {
         this(State.class);
         this.context = context;
     }
@@ -65,7 +65,7 @@ public class StateDeserializer extends StdDeserializer<State> {
 
         if (context != null) {
             try {
-                String result = context.getContext().getProperty(typeValue);
+                String result = context.getPropertySource().getProperty(typeValue);
 
                 if (result != null) {
                     typeValue = result;

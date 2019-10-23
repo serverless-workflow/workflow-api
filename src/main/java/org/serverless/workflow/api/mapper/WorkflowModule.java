@@ -19,7 +19,7 @@
 package org.serverless.workflow.api.mapper;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.serverless.workflow.api.InitContext;
+import org.serverless.workflow.api.WorkflowPropertySource;
 import org.serverless.workflow.api.choices.DefaultChoice;
 import org.serverless.workflow.api.deserializers.ChoiceDeserializer;
 import org.serverless.workflow.api.deserializers.DefaultChoiceOperatorDeserializer;
@@ -53,7 +53,7 @@ import org.serverless.workflow.api.states.SwitchState;
 
 public class WorkflowModule extends SimpleModule {
 
-    private InitContext initContext;
+    private WorkflowPropertySource workflowPropertySource;
     private ExtensionSerializer extensionSerializer;
     private ExtensionDeserializer extensionDeserializer;
 
@@ -61,11 +61,11 @@ public class WorkflowModule extends SimpleModule {
         this(null);
     }
 
-    public WorkflowModule(InitContext initContext) {
+    public WorkflowModule(WorkflowPropertySource workflowPropertySource) {
         super("workflow-module");
-        this.initContext = initContext;
+        this.workflowPropertySource = workflowPropertySource;
         extensionSerializer = new ExtensionSerializer();
-        extensionDeserializer = new ExtensionDeserializer(initContext);
+        extensionDeserializer = new ExtensionDeserializer(workflowPropertySource);
         addDefaultSerializers();
         addDefaultDeserializers();
     }
@@ -84,33 +84,33 @@ public class WorkflowModule extends SimpleModule {
 
     private void addDefaultDeserializers() {
         addDeserializer(State.class,
-                        new StateDeserializer(initContext));
+                        new StateDeserializer(workflowPropertySource));
         addDeserializer(Choice.class,
                         new ChoiceDeserializer());
         addDeserializer(String.class,
-                        new StringValueDeserializer(initContext));
+                        new StringValueDeserializer(workflowPropertySource));
         addDeserializer(Event.ActionMode.class,
-                        new EventActionModeDeserializer(initContext));
+                        new EventActionModeDeserializer(workflowPropertySource));
         addDeserializer(OperationState.ActionMode.class,
-                        new OperationStateActionModeDeserializer(initContext));
+                        new OperationStateActionModeDeserializer(workflowPropertySource));
         addDeserializer(EndState.Status.class,
-                        new EndStateStatusDeserializer(initContext));
+                        new EndStateStatusDeserializer(workflowPropertySource));
         addDeserializer(DefaultState.Type.class,
-                        new DefaultStateTypeDeserializer(initContext));
+                        new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(DelayState.Type.class,
-                        new DefaultStateTypeDeserializer(initContext));
+                        new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(EndState.Type.class,
-                        new DefaultStateTypeDeserializer(initContext));
+                        new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(EventState.Type.class,
-                        new DefaultStateTypeDeserializer(initContext));
+                        new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(OperationState.Type.class,
-                        new DefaultStateTypeDeserializer(initContext));
+                        new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(ParallelState.Type.class,
-                        new DefaultStateTypeDeserializer(initContext));
+                        new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(SwitchState.Type.class,
-                        new DefaultStateTypeDeserializer(initContext));
+                        new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(DefaultChoice.Operator.class,
-                        new DefaultChoiceOperatorDeserializer(initContext));
+                        new DefaultChoiceOperatorDeserializer(workflowPropertySource));
         addDeserializer(Extension.class, extensionDeserializer);
     }
 

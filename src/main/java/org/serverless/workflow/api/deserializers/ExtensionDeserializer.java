@@ -27,14 +27,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.serverless.workflow.api.InitContext;
+import org.serverless.workflow.api.WorkflowPropertySource;
 import org.serverless.workflow.api.interfaces.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExtensionDeserializer extends StdDeserializer<Extension> {
 
-    private InitContext context;
+    private WorkflowPropertySource context;
     private Map<String, Class<? extends Extension>> extensionsMap = new HashMap<>();
     private static Logger logger = LoggerFactory.getLogger(ExtensionDeserializer.class);
 
@@ -46,7 +46,7 @@ public class ExtensionDeserializer extends StdDeserializer<Extension> {
         super(vc);
     }
 
-    public ExtensionDeserializer(InitContext context) {
+    public ExtensionDeserializer(WorkflowPropertySource context) {
         this(Extension.class);
         this.context = context;
     }
@@ -66,7 +66,7 @@ public class ExtensionDeserializer extends StdDeserializer<Extension> {
 
         if (context != null) {
             try {
-                String result = context.getContext().getProperty(extensionId);
+                String result = context.getPropertySource().getProperty(extensionId);
 
                 if (result != null) {
                     extensionId = result;
