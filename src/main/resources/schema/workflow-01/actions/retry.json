@@ -8,10 +8,8 @@
       "description": "Specifies the matching value for the result"
     },
     "retry-interval": {
-      "type": "integer",
-      "default": "0",
-      "minimum": 0,
-      "description": "Specifies retry interval"
+      "type": "string",
+      "description": "Specifies retry interval (ISO 8601 format)"
     },
     "max-retry": {
       "type": "integer",

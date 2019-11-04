@@ -8,10 +8,8 @@
       "description": "Specifies the function that must be invoked"
     },
     "timeout": {
-      "type": "integer",
-      "default": "0",
-      "minimum": 0,
-      "description": "Specifies the time period waiting for the events in the EVENTS-EXPRESSION"
+      "type": "string",
+      "description": "Specifies the time period waiting for the events in the EVENTS-EXPRESSION (ISO 8601 format)"
     },
     "retry": {
       "type": "object",
