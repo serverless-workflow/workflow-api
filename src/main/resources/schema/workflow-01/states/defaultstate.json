@@ -23,10 +23,10 @@
       ],
       "description": "State type"
     },
-    "start": {
+    "end": {
       "type": "boolean",
       "default": false,
-      "description": "Is the start event"
+      "description": "Is this state an end state"
     },
     "filter": {
       "$ref": "../filters/filter.json"

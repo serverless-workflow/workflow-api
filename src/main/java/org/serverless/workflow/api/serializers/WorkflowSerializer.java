@@ -66,14 +66,22 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
                                  workflow.getOwner());
         }
 
-        if (workflow.getMetadata() != null && !workflow.getMetadata().isEmpty()) {
-            gen.writeObjectField("metadata",
-                                 workflow.getMetadata());
+        if (workflow.getStartsAt() != null && !workflow.getStartsAt().isEmpty()) {
+            gen.writeObjectField("starts-at",
+                                 workflow.getStartsAt());
+        } else {
+            gen.writeObjectField("starts-at",
+                                 "");
         }
 
         if (workflow.getExecStatus() != null) {
             gen.writeObjectField("exec-status",
                                  workflow.getExecStatus().value());
+        }
+
+        if (workflow.getMetadata() != null && !workflow.getMetadata().isEmpty()) {
+            gen.writeObjectField("metadata",
+                                 workflow.getMetadata());
         }
 
         if (workflow.getTriggerDefs() != null && !workflow.getTriggerDefs().isEmpty()) {

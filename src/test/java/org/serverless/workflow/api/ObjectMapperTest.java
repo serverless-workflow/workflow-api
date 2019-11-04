@@ -23,54 +23,60 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.serverless.workflow.api.mapper.JsonObjectMapper;
 import org.serverless.workflow.api.mapper.YamlObjectMapper;
-import org.serverless.workflow.api.states.EndState;
+import org.serverless.workflow.api.states.DelayState;
 import org.serverless.workflow.spi.WorkflowPropertySourceProvider;
 
 public class ObjectMapperTest {
 
-    private static final String testEndState = "{\n" +
+    private static final String testDelayState = "{\n" +
             "  \"name\": \"test-wf\",\n" +
+            "  \"starts-at\": \"delay-state\",\n" +
             "  \"states\": [\n" +
             "    {\n" +
-            "      \"status\": \"SUCCESS\",\n" +
-            "      \"name\": \"test-state\",\n" +
-            "      \"type\": \"END\",\n" +
-            "      \"start\": false\n" +
+            "      \"name\": \"delay-state\",\n" +
+            "      \"time-delay\": \"PT5S\",\n" +
+            "      \"type\": \"DELAY\",\n" +
+            "      \"end\": true\n" +
             "    }\n" +
             "  ]\n" +
             "}";
 
-    private static final String testEndStatePropertySource = "{\n" +
-            "  \"name\": \"wfname\",\n" +
+    private static final String testDelayStatePropertySource = "{\n" +
+            "  \"name\": \"test-wf\",\n" +
+            "  \"starts-at\": \"delay-state\",\n" +
             "  \"states\": [\n" +
             "    {\n" +
-            "      \"status\": \"endstate.status\",\n" +
-            "      \"name\": \"endstate.name\",\n" +
-            "      \"type\": \"endstate.type\",\n" +
-            "      \"start\": false\n" +
+            "      \"name\": \"delaystate.name\",\n" +
+            "      \"time-delay\": \"delaystate.timedelay\",\n" +
+            "      \"type\": \"delaystate.type\",\n" +
+            "      \"end\": true\n" +
             "    }\n" +
             "  ]\n" +
             "}";
 
-    private static final String testEndStateYaml = "name: test-wf\n" +
+    private static final String testDelayStateYaml =
+            "name: test-wf\n" +
+            "starts-at: delay-state\n" +
             "states:\n" +
-            "- status: SUCCESS\n" +
-            "  name: test-state\n" +
-            "  type: END\n" +
-            "  start: false";
+            "- name: delay-state\n" +
+            "  time-delay: PT5S\n" +
+            "  type: DELAY\n" +
+            "  end: true";
 
-    private static final String testEndStateYamlPropertySource= "name: wfname\n" +
+    private static final String testDelayStateYamlPropertySource =
+            "name: test-wf\n" +
+            "starts-at: delay-state\n" +
             "states:\n" +
-            "- status: endstate.status\n" +
-            "  name: endstate.name\n" +
-            "  type: endstate.type\n" +
-            "  start: false";
+            "- name: delaystate.name\n" +
+            "  time-delay: delaystate.timedelay\n" +
+            "  type: delaystate.type\n" +
+            "  end: true";
 
     @Test
     public void testReadJson() throws Exception {
         JsonObjectMapper mapper = new JsonObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
-        JsonNode node = mapper.readTree(testEndState);
+        JsonNode node = mapper.readTree(testDelayState);
         Assertions.assertNotNull(node);
         Assertions.assertEquals("test-wf",
                                 node.get("name").textValue());
@@ -80,7 +86,7 @@ public class ObjectMapperTest {
     public void testReadJsonToWorkflow() throws Exception {
         JsonObjectMapper mapper = new JsonObjectMapper();
 
-        Workflow workflow = mapper.readValue(testEndState,
+        Workflow workflow = mapper.readValue(testDelayState,
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);
@@ -89,18 +95,19 @@ public class ObjectMapperTest {
         Assertions.assertNotNull(workflow.getStates());
         Assertions.assertEquals(1,
                                 workflow.getStates().size());
-        Assertions.assertTrue(workflow.getStates().get(0) instanceof EndState);
-        EndState endstate = (EndState) workflow.getStates().get(0);
-        Assertions.assertEquals("test-state",
-                                endstate.getName());
-        Assertions.assertEquals(EndState.Status.SUCCESS,
-                                endstate.getStatus());
+        Assertions.assertTrue(workflow.getStates().get(0) instanceof DelayState);
+        DelayState delayState = (DelayState) workflow.getStates().get(0);
+        Assertions.assertEquals("delay-state",
+                                delayState.getName());
+        Assertions.assertEquals("PT5S",
+                                delayState.getTimeDelay());
+        Assertions.assertTrue(delayState.isEnd());
     }
 
     @Test
     public void testReadYaml() throws Exception {
         YamlObjectMapper mapper = new YamlObjectMapper();
-        JsonNode node = mapper.readTree(testEndStateYaml);
+        JsonNode node = mapper.readTree(testDelayStateYaml);
         Assertions.assertNotNull(node);
         Assertions.assertEquals("test-wf",
                                 node.get("name").textValue());
@@ -110,29 +117,29 @@ public class ObjectMapperTest {
     public void testReadYamlToWorkflow() throws Exception {
         YamlObjectMapper mapper = new YamlObjectMapper();
 
-        Workflow workflow = mapper.readValue(testEndStateYaml,
+        Workflow workflow = mapper.readValue(testDelayStateYaml,
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);
         Assertions.assertEquals("test-wf",
                                 workflow.getName());
-
         Assertions.assertNotNull(workflow.getStates());
         Assertions.assertEquals(1,
                                 workflow.getStates().size());
-        Assertions.assertTrue(workflow.getStates().get(0) instanceof EndState);
-        EndState endstate = (EndState) workflow.getStates().get(0);
-        Assertions.assertEquals("test-state",
-                                endstate.getName());
-        Assertions.assertEquals(EndState.Status.SUCCESS,
-                                endstate.getStatus());
+        Assertions.assertTrue(workflow.getStates().get(0) instanceof DelayState);
+        DelayState delayState = (DelayState) workflow.getStates().get(0);
+        Assertions.assertEquals("delay-state",
+                                delayState.getName());
+        Assertions.assertEquals("PT5S",
+                                delayState.getTimeDelay());
+        Assertions.assertTrue(delayState.isEnd());
     }
 
     @Test
     public void testReadJsonPropertySource() throws Exception {
         JsonObjectMapper mapper = new JsonObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
-        JsonNode node = mapper.readTree(testEndStatePropertySource);
+        JsonNode node = mapper.readTree(testDelayStatePropertySource);
 
         Workflow workflow = mapper.treeToValue(node,
                                                Workflow.class);
@@ -141,22 +148,26 @@ public class ObjectMapperTest {
         Assertions.assertEquals("test-wf",
                                 workflow.getName());
 
+        Assertions.assertNotNull(workflow);
+        Assertions.assertEquals("test-wf",
+                                workflow.getName());
         Assertions.assertNotNull(workflow.getStates());
         Assertions.assertEquals(1,
                                 workflow.getStates().size());
-        Assertions.assertTrue(workflow.getStates().get(0) instanceof EndState);
-        EndState endstate = (EndState) workflow.getStates().get(0);
-        Assertions.assertEquals("test-state",
-                                endstate.getName());
-        Assertions.assertEquals(EndState.Status.SUCCESS,
-                                endstate.getStatus());
+        Assertions.assertTrue(workflow.getStates().get(0) instanceof DelayState);
+        DelayState delayState = (DelayState) workflow.getStates().get(0);
+        Assertions.assertEquals("delay-state",
+                                delayState.getName());
+        Assertions.assertEquals("PT5S",
+                                delayState.getTimeDelay());
+        Assertions.assertTrue(delayState.isEnd());
     }
 
     @Test
     public void testReadJsonToWorkflowPropertySource() throws Exception {
         JsonObjectMapper mapper = new JsonObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
-        Workflow workflow = mapper.readValue(testEndStatePropertySource,
+        Workflow workflow = mapper.readValue(testDelayStatePropertySource,
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);
@@ -165,18 +176,19 @@ public class ObjectMapperTest {
         Assertions.assertNotNull(workflow.getStates());
         Assertions.assertEquals(1,
                                 workflow.getStates().size());
-        Assertions.assertTrue(workflow.getStates().get(0) instanceof EndState);
-        EndState endstate = (EndState) workflow.getStates().get(0);
-        Assertions.assertEquals("test-state",
-                                endstate.getName());
-        Assertions.assertEquals(EndState.Status.SUCCESS,
-                                endstate.getStatus());
+        Assertions.assertTrue(workflow.getStates().get(0) instanceof DelayState);
+        DelayState delayState = (DelayState) workflow.getStates().get(0);
+        Assertions.assertEquals("delay-state",
+                                delayState.getName());
+        Assertions.assertEquals("PT5S",
+                                delayState.getTimeDelay());
+        Assertions.assertTrue(delayState.isEnd());
     }
 
     @Test
     public void testReadYamlPropertySource() throws Exception {
         YamlObjectMapper mapper = new YamlObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
-        JsonNode node = mapper.readTree(testEndStateYamlPropertySource);
+        JsonNode node = mapper.readTree(testDelayStateYamlPropertySource);
 
         Workflow workflow = mapper.treeToValue(node,
                                                Workflow.class);
@@ -184,38 +196,42 @@ public class ObjectMapperTest {
         Assertions.assertNotNull(workflow);
         Assertions.assertEquals("test-wf",
                                 workflow.getName());
-
         Assertions.assertNotNull(workflow.getStates());
         Assertions.assertEquals(1,
                                 workflow.getStates().size());
-        Assertions.assertTrue(workflow.getStates().get(0) instanceof EndState);
-        EndState endstate = (EndState) workflow.getStates().get(0);
-        Assertions.assertEquals("test-state",
-                                endstate.getName());
-        Assertions.assertEquals(EndState.Status.SUCCESS,
-                                endstate.getStatus());
+        Assertions.assertTrue(workflow.getStates().get(0) instanceof DelayState);
+        DelayState delayState = (DelayState) workflow.getStates().get(0);
+        Assertions.assertEquals("delay-state",
+                                delayState.getName());
+        Assertions.assertEquals("PT5S",
+                                delayState.getTimeDelay());
+        Assertions.assertTrue(delayState.isEnd());
     }
 
     @Test
     public void testReadYamlToWorkflowPropertySource() throws Exception {
         YamlObjectMapper mapper = new YamlObjectMapper(WorkflowPropertySourceProvider.getInstance().get());
 
-        Workflow workflow = mapper.readValue(testEndStateYamlPropertySource,
+        Workflow workflow = mapper.readValue(testDelayStateYamlPropertySource,
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);
         Assertions.assertEquals("test-wf",
                                 workflow.getName());
 
+        Assertions.assertNotNull(workflow);
+        Assertions.assertEquals("test-wf",
+                                workflow.getName());
         Assertions.assertNotNull(workflow.getStates());
         Assertions.assertEquals(1,
                                 workflow.getStates().size());
-        Assertions.assertTrue(workflow.getStates().get(0) instanceof EndState);
-        EndState endstate = (EndState) workflow.getStates().get(0);
-        Assertions.assertEquals("test-state",
-                                endstate.getName());
-        Assertions.assertEquals(EndState.Status.SUCCESS,
-                                endstate.getStatus());
+        Assertions.assertTrue(workflow.getStates().get(0) instanceof DelayState);
+        DelayState delayState = (DelayState) workflow.getStates().get(0);
+        Assertions.assertEquals("delay-state",
+                                delayState.getName());
+        Assertions.assertEquals("PT5S",
+                                delayState.getTimeDelay());
+        Assertions.assertTrue(delayState.isEnd());
     }
 
     @Test

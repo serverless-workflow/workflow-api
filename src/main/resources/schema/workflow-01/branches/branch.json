@@ -7,6 +7,10 @@
       "type": "string",
       "description": "Branch name"
     },
+    "starts-at": {
+      "type": "string",
+      "description": "Starts at state name"
+    },
     "states": {
       "type": "array",
       "description": "State Definitions",
@@ -26,6 +30,7 @@
   },
   "required": [
     "name",
+    "starts-at",
     "states",
     "wait-for-completion"
   ]
