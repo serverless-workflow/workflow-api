@@ -29,7 +29,7 @@ public interface State {
 
     Type getType();
 
-    boolean isStart();
+    boolean isEnd();
 
     Filter getFilter();
 

@@ -24,7 +24,6 @@ import org.serverless.workflow.api.choices.DefaultChoice;
 import org.serverless.workflow.api.deserializers.ChoiceDeserializer;
 import org.serverless.workflow.api.deserializers.DefaultChoiceOperatorDeserializer;
 import org.serverless.workflow.api.deserializers.DefaultStateTypeDeserializer;
-import org.serverless.workflow.api.deserializers.EndStateStatusDeserializer;
 import org.serverless.workflow.api.deserializers.EventActionModeDeserializer;
 import org.serverless.workflow.api.deserializers.ExtensionDeserializer;
 import org.serverless.workflow.api.deserializers.OperationStateActionModeDeserializer;
@@ -35,7 +34,6 @@ import org.serverless.workflow.api.interfaces.Choice;
 import org.serverless.workflow.api.interfaces.Extension;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.serializers.DelayStateSerializer;
-import org.serverless.workflow.api.serializers.EndStateSerializer;
 import org.serverless.workflow.api.serializers.EventStateSerializer;
 import org.serverless.workflow.api.serializers.ExtensionSerializer;
 import org.serverless.workflow.api.serializers.OperationStateSerializer;
@@ -45,7 +43,6 @@ import org.serverless.workflow.api.serializers.TriggerEventSerializer;
 import org.serverless.workflow.api.serializers.WorkflowSerializer;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
-import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.ParallelState;
@@ -72,7 +69,6 @@ public class WorkflowModule extends SimpleModule {
 
     private void addDefaultSerializers() {
         addSerializer(new WorkflowSerializer());
-        addSerializer(new EndStateSerializer());
         addSerializer(new EventStateSerializer());
         addSerializer(new DelayStateSerializer());
         addSerializer(new OperationStateSerializer());
@@ -93,13 +89,9 @@ public class WorkflowModule extends SimpleModule {
                         new EventActionModeDeserializer(workflowPropertySource));
         addDeserializer(OperationState.ActionMode.class,
                         new OperationStateActionModeDeserializer(workflowPropertySource));
-        addDeserializer(EndState.Status.class,
-                        new EndStateStatusDeserializer(workflowPropertySource));
         addDeserializer(DefaultState.Type.class,
                         new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(DelayState.Type.class,
-                        new DefaultStateTypeDeserializer(workflowPropertySource));
-        addDeserializer(EndState.Type.class,
                         new DefaultStateTypeDeserializer(workflowPropertySource));
         addDeserializer(EventState.Type.class,
                         new DefaultStateTypeDeserializer(workflowPropertySource));

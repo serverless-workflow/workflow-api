@@ -29,7 +29,6 @@ import org.serverless.workflow.api.WorkflowPropertySource;
 import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
-import org.serverless.workflow.api.states.EndState;
 import org.serverless.workflow.api.states.EventState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.ParallelState;
@@ -93,9 +92,6 @@ public class StateDeserializer extends StdDeserializer<State> {
             case PARALLEL:
                 return mapper.treeToValue(node,
                                           ParallelState.class);
-            case END:
-                return mapper.treeToValue(node,
-                                          EndState.class);
             default:
                 return mapper.treeToValue(node,
                                           DefaultState.class);

@@ -32,12 +32,12 @@ public class TestWorkflowPropertySource implements WorkflowPropertySource {
         Map<String, String> propertySourcetMap = new HashMap<>();
         propertySourcetMap.put("wfname",
                            "test-wf");
-        propertySourcetMap.put("endstate.name",
-                           "test-state");
-        propertySourcetMap.put("endstate.status",
-                           "SUCCESS");
-        propertySourcetMap.put("endstate.type",
-                           "END");
+        propertySourcetMap.put("delaystate.name",
+                           "delay-state");
+        propertySourcetMap.put("delaystate.timedelay",
+                           "PT5S");
+        propertySourcetMap.put("delaystate.type",
+                           "DELAY");
 
         source.putAll(propertySourcetMap);
 

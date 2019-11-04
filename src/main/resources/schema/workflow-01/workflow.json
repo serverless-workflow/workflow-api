@@ -25,15 +25,19 @@
       "type": "string",
       "description": "Workflow owner"
     },
+    "starts-at": {
+      "type": "string",
+      "description": "Starts at state name"
+    },
     "exec-status": {
       "type": "string",
       "enum": [
-        "SYS.Timeout",
-        "SYS.Fail",
-        "SYS.Success",
-        "SYS.InvalidParameter"
+        "Success",
+        "Fail",
+        "Timeout",
+        "Invalid"
       ],
-      "description": "Execution status"
+      "description": "Workflow execution status"
     },
     "metadata": {
       "$ref": "metadata/metadata.json"
@@ -58,9 +62,6 @@
           },
           {
             "$ref": "states/delaystate.json"
-          },
-          {
-            "$ref": "states/endstate.json"
           },
           {
             "$ref": "states/eventstate.json"
@@ -88,6 +89,7 @@
   },
   "required": [
     "name",
+    "starts-at",
     "states"
   ]
 }
