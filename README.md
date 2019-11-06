@@ -4,10 +4,7 @@
 
 [![Release](https://jitpack.io/v/serverless-workflow/workflow-api.svg)](https://jitpack.io/#serverless-workflow/workflow-api)
 
-Provides the API/SPI for the
-Serverless Workflow Specification Version 0.1 - https://github.com/cncf/wg-serverless/blob/master/workflow/spec/spec.md
-
-It is the base for implementors of the Serverless Workflow Specification.
+Provides the API/SPI for Serverless Workflow capabilities for Kogito
 
 ### Getting Started
 
