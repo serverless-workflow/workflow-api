@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "javaType": "org.serverless.workflow.api.states.InvokeState",
+  "javaInterfaces": [
+    "org.serverless.workflow.api.interfaces.State"
+  ],
+  "description": "Defines a workflow to be executed",
+  "extends": {
+    "$ref": "defaultstate.json"
+  },
+  "properties": {
+    "wait-for-completion": {
+      "type": "boolean",
+      "default": false,
+      "description": "Workflow execution must wait for local workflow to finish before continuing."
+    },
+    "workflow-id": {
+      "type": "string",
+      "description": "Local workflow unique id."
+    },
+    "workflow-version": {
+      "type": "string",
+      "description": "Local workflow version"
+    },
+    "next-state": {
+      "type": "string",
+      "description": "Specifies the name of the next state to transition to after local workflow has completed execution."
+    },
+    "metadata": {
+      "$ref": "../metadata/metadata.json"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "workflow-id",
+    "next-state"
+  ]
+}

@@ -19,7 +19,7 @@
         "SWITCH",
         "DELAY",
         "PARALLEL",
-        "END"
+        "INVOKE"
       ],
       "description": "State type"
     },

@@ -8,6 +8,11 @@
     "java.io.Serializable"
   ],
   "properties": {
+    "id": {
+      "type": "string",
+      "description": "Workflow unique identifier",
+      "minLength": 1
+    },
     "name": {
       "type": "string",
       "description": "Workflow name",
@@ -20,6 +25,10 @@
     "version": {
       "type": "string",
       "description": "Workflow version"
+    },
+    "schema-version": {
+      "type": "string",
+      "description": "Serverless Workflow schema version"
     },
     "owner": {
       "type": "string",
@@ -74,6 +83,9 @@
           },
           {
             "$ref": "states/switchstate.json"
+          },
+          {
+            "$ref": "states/invokestate.json"
           }
         ]
       }
