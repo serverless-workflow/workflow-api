@@ -96,7 +96,7 @@ public class StateDeserializer extends StdDeserializer<State> {
 
             case INVOKE:
                 return mapper.treeToValue(node,
-                                          InvokeState.class);
+                                          InvokeState.class); 
             default:
                 return mapper.treeToValue(node,
                                           DefaultState.class);
