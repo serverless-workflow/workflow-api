@@ -49,6 +49,9 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
 
         gen.writeStartObject();
 
+        gen.writeStringField("name",
+                             workflow.getName());
+
         if(workflow.getId() !=null && !workflow.getId().isEmpty()) {
             gen.writeStringField("id",
                                  workflow.getId());
@@ -56,9 +59,6 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
             gen.writeStringField("id",
                                  generateUniqueId());
         }
-
-        gen.writeStringField("name",
-                             workflow.getName());
 
         if(workflow.getDescription() != null && !workflow.getDescription().isEmpty()) {
             gen.writeStringField("description",
