@@ -49,7 +49,7 @@ public class InvokeStateSerializer extends StdSerializer<InvokeState> {
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
-                                                        TypeFactory.defaultInstance().constructType(EventState.class)).serialize(invokeState,
+                                                        TypeFactory.defaultInstance().constructType(InvokeState.class)).serialize(invokeState,
                                                                                                                                  gen,
                                                                                                                                  provider);
     }
