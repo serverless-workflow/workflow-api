@@ -48,6 +48,15 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
                           SerializerProvider provider) throws IOException {
 
         gen.writeStartObject();
+
+        if(workflow.getId() !=null && !workflow.getId().isEmpty()) {
+            gen.writeStringField("id",
+                                 workflow.getId());
+        } else {
+            gen.writeStringField("id",
+                                 generateUniqueId());
+        }
+
         gen.writeStringField("name",
                              workflow.getName());
 
@@ -59,6 +68,11 @@ public class WorkflowSerializer extends StdSerializer<Workflow> {
         if(workflow.getVersion() != null && !workflow.getVersion().isEmpty()) {
             gen.writeStringField("version",
                                  workflow.getVersion());
+        }
+
+        if(workflow.getSchemaVersion() != null && !workflow.getSchemaVersion().isEmpty()) {
+            gen.writeStringField("schema-version",
+                                 workflow.getSchemaVersion());
         }
 
         if(workflow.getOwner() != null && !workflow.getOwner().isEmpty()) {
