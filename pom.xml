@@ -27,14 +27,6 @@
     <commons-jexl3.version>3.1</commons-jexl3.version>
     <spel.version>5.1.9.RELEASE</spel.version>
   </properties>
-
-  <distributionManagement>
-   <repository>
-     <id>github</id>
-     <name>GitHub ${OWNER} Apache Maven Packages</name>
-     <url>https://maven.pkg.github.com/${OWNER}/${project.name}</url>
-   </repository>
-  </distributionManagement>
   
   <repositories>
     <repository>
