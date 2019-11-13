@@ -1,9 +1,5 @@
 # Serverless Workflow API
 
-[![CircleCI](https://circleci.com/gh/serverless-workflow/workflow-api.svg?style=svg)](https://circleci.com/gh/serverless-workflow/workflow-api) 
-
-[![Release](https://jitpack.io/v/serverless-workflow/workflow-api.svg)](https://jitpack.io/#serverless-workflow/workflow-api)
-
 Provides the API/SPI for the
 Serverless Workflow Specification Version 0.1 - https://github.com/cncf/wg-serverless/blob/master/workflow/spec/spec.md
 
@@ -29,26 +25,6 @@ Then to use it in your project pom.xml add:
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
-
-#### Using JitPack repository
-Add the JitPack repository and the dependency to your pom.xml:
-
-```xml
-<dependency>
-    <groupId>com.github.serverless-workflow</groupId>
-    <artifactId>workflow-api</artifactId>
-    <version>Tag</version>
-</dependency>
-...
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-```
-
-You can find the list of Tags and future releases here: https://jitpack.io/#serverless-workflow/workflow-api
 
 ### For implementors
 There are four interfaces which must be implemented:
