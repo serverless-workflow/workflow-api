@@ -36,7 +36,7 @@ import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.serializers.DelayStateSerializer;
 import org.serverless.workflow.api.serializers.EventStateSerializer;
 import org.serverless.workflow.api.serializers.ExtensionSerializer;
-import org.serverless.workflow.api.serializers.InvokeStateSerializer;
+import org.serverless.workflow.api.serializers.SubflowStateSerializer;
 import org.serverless.workflow.api.serializers.OperationStateSerializer;
 import org.serverless.workflow.api.serializers.ParallelStateSerializer;
 import org.serverless.workflow.api.serializers.SwitchStateSerializer;
@@ -76,7 +76,7 @@ public class WorkflowModule extends SimpleModule {
         addSerializer(new ParallelStateSerializer());
         addSerializer(new SwitchStateSerializer());
         addSerializer(new TriggerEventSerializer());
-        addSerializer(new InvokeStateSerializer());
+        addSerializer(new SubflowStateSerializer());
         addSerializer(extensionSerializer);
     }
 

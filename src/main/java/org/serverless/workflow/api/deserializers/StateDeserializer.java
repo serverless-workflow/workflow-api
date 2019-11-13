@@ -30,9 +30,9 @@ import org.serverless.workflow.api.interfaces.State;
 import org.serverless.workflow.api.states.DefaultState;
 import org.serverless.workflow.api.states.DelayState;
 import org.serverless.workflow.api.states.EventState;
-import org.serverless.workflow.api.states.InvokeState;
 import org.serverless.workflow.api.states.OperationState;
 import org.serverless.workflow.api.states.ParallelState;
+import org.serverless.workflow.api.states.SubflowState;
 import org.serverless.workflow.api.states.SwitchState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,9 +94,9 @@ public class StateDeserializer extends StdDeserializer<State> {
                 return mapper.treeToValue(node,
                                           ParallelState.class);
 
-            case INVOKE:
+            case SUBFLOW:
                 return mapper.treeToValue(node,
-                                          InvokeState.class); 
+                                          SubflowState.class);
             default:
                 return mapper.treeToValue(node,
                                           DefaultState.class);

@@ -26,30 +26,29 @@ import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.serverless.workflow.api.states.DefaultState;
-import org.serverless.workflow.api.states.EventState;
-import org.serverless.workflow.api.states.InvokeState;
+import org.serverless.workflow.api.states.SubflowState;
 
-public class InvokeStateSerializer extends StdSerializer<InvokeState> {
+public class SubflowStateSerializer extends StdSerializer<SubflowState> {
 
-    public InvokeStateSerializer() {
-        this(InvokeState.class);
+    public SubflowStateSerializer() {
+        this(SubflowState.class);
     }
 
-    protected InvokeStateSerializer(Class<InvokeState> t) {
+    protected SubflowStateSerializer(Class<SubflowState> t) {
         super(t);
     }
 
     @Override
-    public void serialize(InvokeState invokeState,
+    public void serialize(SubflowState subflowState,
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
 
         // set defaults for end state
-        invokeState.setType(DefaultState.Type.INVOKE);
+        subflowState.setType(DefaultState.Type.SUBFLOW);
 
         // serialize after setting default bean values...
         BeanSerializerFactory.instance.createSerializer(provider,
-                                                        TypeFactory.defaultInstance().constructType(InvokeState.class)).serialize(invokeState,
+                                                        TypeFactory.defaultInstance().constructType(SubflowState.class)).serialize(subflowState,
                                                                                                                                  gen,
                                                                                                                                  provider);
     }

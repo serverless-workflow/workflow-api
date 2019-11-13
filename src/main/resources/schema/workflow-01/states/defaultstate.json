@@ -19,7 +19,7 @@
         "SWITCH",
         "DELAY",
         "PARALLEL",
-        "INVOKE"
+        "SUBFLOW"
       ],
       "description": "State type"
     },
