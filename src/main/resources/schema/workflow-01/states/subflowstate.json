@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "javaType": "org.serverless.workflow.api.states.InvokeState",
+  "javaType": "org.serverless.workflow.api.states.SubflowState",
   "javaInterfaces": [
     "org.serverless.workflow.api.interfaces.State"
   ],

@@ -85,7 +85,7 @@
             "$ref": "states/switchstate.json"
           },
           {
-            "$ref": "states/invokestate.json"
+            "$ref": "states/subflowstate.json"
           }
         ]
       }

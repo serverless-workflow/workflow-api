@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.serverless.workflow.api.mapper.JsonObjectMapper;
 import org.serverless.workflow.api.mapper.YamlObjectMapper;
 import org.serverless.workflow.api.states.DelayState;
-import org.serverless.workflow.api.states.InvokeState;
+import org.serverless.workflow.api.states.SubflowState;
 import org.serverless.workflow.spi.WorkflowPropertySourceProvider;
 
 public class ObjectMapperTest {
@@ -73,14 +73,14 @@ public class ObjectMapperTest {
             "  type: delaystate.type\n" +
             "  end: true";
 
-    private static final String testInvokeState = "{\n" +
+    private static final String testSubflowState = "{\n" +
             "  \"name\": \"test-wf\",\n" +
-            "  \"starts-at\": \"invoke-state\",\n" +
+            "  \"starts-at\": \"subflow-state\",\n" +
             "  \"states\": [\n" +
             "      {\n" +
-            "        \"name\": \"invoke-state\",\n" +
+            "        \"name\": \"subflow-state\",\n" +
             "        \"end\": true,\n" +
-            "        \"type\": \"INVOKE\",\n" +
+            "        \"type\": \"SUBFLOW\",\n" +
             "        \"wait-for-completion\": true,\n" +
             "        \"workflow-id\": \"abcde\",\n" +
             "        \"workflow-version\": \"1.0\"\n" +
@@ -88,13 +88,13 @@ public class ObjectMapperTest {
             "    ]\n" +
             "}";
 
-    private static final String testInvokeStateYaml =
+    private static final String testSubflowStateYaml =
             "name: test-wf\n" +
-                    "starts-at: invoke-state\n" +
+                    "starts-at: subflow-state\n" +
                     "states:\n" +
-                    "- name: invoke-state\n" +
+                    "- name: subflow-state\n" +
                     "  end: true\n" +
-                    "  type: INVOKE\n" +
+                    "  type: SUBFLOW\n" +
                     "  wait-for-completion: true\n" +
                     "  workflow-id: abcde\n" +
                     "  workflow-version: '1.0'\n";
@@ -275,10 +275,10 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void testReadJsonToWorkflowInvokeState() throws Exception {
+    public void testReadJsonToWorkflowSubflowState() throws Exception {
         JsonObjectMapper mapper = new JsonObjectMapper();
 
-        Workflow workflow = mapper.readValue(testInvokeState,
+        Workflow workflow = mapper.readValue(testSubflowState,
                                              Workflow.class);
 
         Assertions.assertNotNull(workflow);
@@ -287,18 +287,18 @@ public class ObjectMapperTest {
         Assertions.assertNotNull(workflow.getStates());
         Assertions.assertEquals(1,
                                 workflow.getStates().size());
-        Assertions.assertTrue(workflow.getStates().get(0) instanceof InvokeState);
-        InvokeState invokeState = (InvokeState) workflow.getStates().get(0);
-        Assertions.assertEquals("invoke-state",
-                                invokeState.getName());
+        Assertions.assertTrue(workflow.getStates().get(0) instanceof SubflowState);
+        SubflowState subflowState = (SubflowState) workflow.getStates().get(0);
+        Assertions.assertEquals("subflow-state",
+                                subflowState.getName());
         Assertions.assertEquals("abcde",
-                                invokeState.getWorkflowId());
+                                subflowState.getWorkflowId());
     }
 
     @Test
-    public void testReadYamlInvokeState() throws Exception {
+    public void testReadYamlSubflowState() throws Exception {
         YamlObjectMapper mapper = new YamlObjectMapper();
-        JsonNode node = mapper.readTree(testInvokeStateYaml);
+        JsonNode node = mapper.readTree(testSubflowStateYaml);
         Assertions.assertNotNull(node);
         Assertions.assertEquals("test-wf",
                                 node.get("name").textValue());
