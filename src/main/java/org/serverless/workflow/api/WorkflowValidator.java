@@ -26,6 +26,10 @@ public interface WorkflowValidator {
 
     WorkflowValidator setWorkflowManager(WorkflowManager workflowManager);
 
+    void setJson(String json);
+
+    void setYaml(String yaml);
+
     List<ValidationError> validate();
 
     boolean isValid();
